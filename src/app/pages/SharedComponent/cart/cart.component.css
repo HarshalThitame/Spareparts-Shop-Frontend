@@ -1,0 +1,58 @@
+body {
+  background-color: #f9f9f9;
+}
+
+.container {
+  border-top: lightcoral 1px solid;
+  border-bottom: lightskyblue 1px solid;
+  margin-top: 50px;
+  padding:20px 70px 20px 20px;
+  border-radius: 20px;
+}
+
+.cart-item {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cart-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.animated-button {
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 992px) {
+  .summary {
+    position: static;
+    width: 100%; /* Reset width for smaller screens */
+    margin-bottom: 20px;
+  }
+}
+

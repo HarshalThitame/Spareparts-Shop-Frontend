@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-md-9">
+      <div class="container-fluid mt-5">
+        <h6 class="mb-4 text-start">Manage Products</h6>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+          <!-- Add Product Button -->
+          <div class="mb-3">
+            <a routerLink="/admin/add-product" class="btn btn-info animated-button">Add New Product</a>
+          </div>
+
+          <!-- Search bar -->
+          <div class="input-group rounded search">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                   aria-describedby="search-addon" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
+            <span class="input-group-text border-0" id="search-addon">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Products Table with Fade-in Animation -->
+        <div class="table-responsive">
+          <table *ngIf="filteredProducts.length > 0; else noProductsTemplate" class="table table-bordered table-hover animated-table">
+            <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Part No.</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Stock Quantity</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of filteredProducts; let i = index" class="animated-row">
+              <td>{{ i + 1 }}</td>
+              <td>{{ product.partNumber }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.price | currency:'INR' }}</td>
+              <td>{{ product.stockQuantity }}</td>
+              <td>
+                <a [routerLink]="['/admin/edit-product', product.id]" class="btn btn-info btn-sm w-100 animated-button">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <!-- No Products Template -->
+          <ng-template #noProductsTemplate>
+            <div class="text-center mt-5">
+              <img src="assets/images/no-products.png" alt="No Products" class="img-fluid" style="max-width: 300px;" />
+              <h5 class="mt-3">No Products Available</h5>
+              <p>Please add some products to get started.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

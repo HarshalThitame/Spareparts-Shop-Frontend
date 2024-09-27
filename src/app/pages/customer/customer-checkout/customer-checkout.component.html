@@ -1,0 +1,66 @@
+<app-navbar/>
+<div class="checkout-container container-fluid">
+  <!-- Step Progress Bar -->
+  <div class="row">
+    <div class="col-12">
+      <div class="progressbar">
+        <div class="progress-step active">1. Order Summary</div>
+        <div class="progress-step">2. Shipping Info</div>
+        <div class="progress-step">3. Payment</div>
+        <div class="progress-step">4. Review & Confirm</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Summary Section -->
+  <div class="row">
+    <div class="col-lg-6 order-summary-section">
+      <h2>Order Summary</h2>
+      <div class="order-item">
+        <img src="product-image.jpg" alt="Product Image" class="order-item-img">
+        <div class="order-item-details">
+          <p class="product-name">Product Name</p>
+          <p class="product-quantity">Quantity: 2</p>
+          <p class="product-price">$100</p>
+        </div>
+      </div>
+      <div class="order-total">
+        <h4>Total: $200</h4>
+      </div>
+    </div>
+
+    <!-- Shipping Information Section -->
+    <div class="col-lg-6 shipping-section">
+      <h2>Shipping Information</h2>
+      <form [formGroup]="shippingForm" (ngSubmit)="onSubmitShipping()">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" formControlName="name" class="form-control" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" formControlName="address" class="form-control" placeholder="Enter your address">
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" formControlName="city" class="form-control" placeholder="City">
+        </div>
+        <div class="form-group">
+          <label for="zipcode">Zip Code</label>
+          <input type="text" id="zipcode" formControlName="zipcode" class="form-control" placeholder="Zip Code">
+        </div>
+        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <!-- Order Confirmation Section -->
+  <div class="row">
+    <div class="col-12 confirmation-section">
+      <h2>Review & Confirm</h2>
+      <button class="btn btn-info">Confirm Order</button>
+    </div>
+  </div>
+</div>

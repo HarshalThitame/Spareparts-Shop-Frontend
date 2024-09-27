@@ -1,0 +1,100 @@
+.container-fluid {
+  background-color: #f8f9fa; /* Light background color */
+}
+
+h6 {
+  color: #333; /* Darker text for headers */
+  font-weight: bold;
+}
+
+.form-group label {
+  color: #007bff; /* Blue color for labels */
+}
+
+.form-control {
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+.form-check-input {
+  margin-top: 0.3rem; /* Adjust checkbox alignment */
+}
+
+.card {
+  border: 1px solid #007bff; /* Blue border for the card */
+  border-radius: 0.5rem; /* Rounded corners for the card */
+  background-color: #ffffff; /* White background for card */
+}
+
+.card-body {
+  padding: 1.5rem; /* Spacing inside card body */
+}
+
+.btn-success {
+  background-color: #28a745; /* Green button */
+  border: none; /* Remove border */
+}
+
+.btn-success:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+.hero-section {
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.hero-section h2 {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.form-group {
+  transition: transform 0.2s;
+}
+
+.form-group:hover {
+  transform: scale(1.02);
+}
+.form-group label {
+  font-weight: bold;
+  color: #343a40; /* Dark color for labels */
+}
+
+.form-control {
+  border-radius: 0.5rem; /* Rounded borders */
+  border: 1px solid #ced4da; /* Lighter border */
+}
+
+.form-control:focus {
+  border-color: #80bdff; /* Focus border color */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Box shadow */
+}
+
+.btn-success {
+  background-color: #28a745; /* Success color */
+  border: none; /* Remove border */
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+.btn-success:hover {
+  background-color: #218838; /* Darker on hover */
+}
+
+.card {
+  border: 1px solid #ced4da; /* Card border */
+  border-radius: 0.5rem; /* Rounded corners */
+  margin-bottom: 1rem; /* Space between cards */
+}
+
+.card-body {
+  padding: 1.5rem; /* Padding inside cards */
+}

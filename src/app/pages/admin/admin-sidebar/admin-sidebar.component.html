@@ -1,0 +1,76 @@
+<button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+  Toggle Sidebar
+</button>
+
+<div class="collapse d-lg-block" id="sidebarMenu">
+  <div class="sidebar-container">
+    <ul class="nav flex-column sidebar-menu">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">
+          <i class="fas fa-home"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" [routerLink]="'/admin/add-product'">
+          <i class="fas fa-plus"></i> Add Product
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  (click)="toggleDropdown('manageDropdown')">
+          <i class="fas fa-box"></i> Manage
+          <i class="fas fa-caret-down" style="margin-left: auto;"></i>
+        </a>
+        <ul class="nav flex-column dropdown-menu" id="manageDropdown" style="display: none;">
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/manage-products'">
+              <i class="fas fa-box"></i> Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/manage-brands'">
+              <i class="fas fa-tags"></i> Brands
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/manage-categories'">
+              <i class="fas fa-tags"></i> Categories
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/manage-orders'">
+              <i class="fas fa-tags"></i> Orders
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  (click)="toggleDropdown('promotion')">
+          <i class="fas fa-bullhorn"></i> Promotion
+          <i class="fas fa-caret-down" style="margin-left: auto;"></i>
+        </a>
+        <ul class="nav flex-column dropdown-menu" id="promotion" style="display: none;">
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/promotion-discount'">
+              <i class="fas fa-percent"></i> Discount
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/promotion-offers'">
+              <i class="fas fa-gift"></i> Offers
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-user"></i> Account Settings
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()" href="#">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+<div class="container-fluid mt-4">
+  <!-- Search Bar -->
+  <header class="d-flex justify-content-between align-items-center mb-4">
+    <div class="input-group w-50 shadow-sm">
+      <input type="text" class="form-control rounded-start border-0" placeholder="Search for subcategories..." [(ngModel)]="searchTerm" (input)="filterCategories()">
+      <button class="btn btn-primary rounded-end" (click)="filterCategories()">Search</button>
+    </div>
+  </header>
+
+  <div class="row">
+    <!-- Filter Sidebar -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-4 bg-light rounded" style="max-height: 900px; overflow-y: auto;">
+        <h4 class="text-primary border-bottom pb-2">Categories</h4>
+        <div class="list-group">
+          <a *ngFor="let category of categories"
+             class="list-group-item list-group-item-action text-primary border-0 rounded mb-2"
+             [ngClass]="{'active-category': selectedCategory?.id === category.id}"
+             (click)="selectCategory(category)">
+            {{ category.name }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subcategory Grid -->
+    <div class="col-md-9">
+      <div class="row">
+        <!-- No Subcategories Found Section -->
+        <div *ngIf="filteredSubCategories.length === 0" class="text-center w-100 my-5">
+          <img src="assets/images/no-subcategories-found.png" alt="No Subcategories Found" class="img-fluid" style="max-width: 300px;">
+          <h3 class="text-muted mt-3">No Subcategories Found</h3>
+          <p class="text-secondary">Please try adjusting your filters or searching for a different subcategory.</p>
+        </div>
+
+        <div class="col-md-4" *ngFor="let subCat of subCategories">
+          <a (click)="gotoAllProducts(subCat.id)">
+            <div class="card text-center shadow-lg m-1 p-2">
+              <div class="card-header">
+                <img class="cat-img" src="{{subCat.subCategoryImage || NoImage}}">
+              </div>
+              <div class="card-body bg text-white">
+                <p class="cat-name mt-3 text-white">{{subCat.name}}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

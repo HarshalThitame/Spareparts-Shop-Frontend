@@ -1,0 +1,10 @@
+a{
+  text-decoration: none;
+}
+.cat-img{
+  height: 100px;
+  object-fit: contain;
+}
+.cat-name{
+  color: #358bb1;
+}

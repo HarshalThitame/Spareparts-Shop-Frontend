@@ -1,0 +1,88 @@
+/* General page styles */
+body {
+  background: #f4f4f9;
+  font-family: 'Roboto', sans-serif;
+}
+
+.offer-form-container {
+  background-color: white;
+  animation: fadeInUp 0.8s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Form Floating Labels */
+.form-floating input, .form-floating textarea {
+  padding: 1.5rem 0.75rem; /* More padding to prevent label overlap */
+  background: #f1f4f8;
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-floating input:focus, .form-floating textarea:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust label positions when typing */
+.form-floating input:not(:placeholder-shown) + label,
+.form-floating textarea:not(:placeholder-shown) + label {
+  transform: translateY(-1.5rem);
+  font-size: 0.875rem;
+  opacity: 1;
+}
+
+.form-floating label {
+  top: 0; /* Adjust label position */
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.form-floating input:focus + label, .form-floating textarea:focus + label {
+  opacity: 1;
+  color: #3498db;
+}
+
+/* Button styling */
+.btn-gradient {
+  background-image: linear-gradient(45deg, #3498db, #8e44ad);
+  border: none;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background-image: linear-gradient(45deg, #2980b9, #8e44ad);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.table td {
+  vertical-align: middle; /* Center the text in the cells */
+}
+
+.table th {
+  text-align: center; /* Center the header text */
+}
+
+.table td ul {
+  padding-left: 0; /* Remove default padding from the list */
+}
+
+/* Subtle animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,119 @@
+<app-navbar/>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-md-10">
+      <div class="container-fluid ">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="card mt-5 shadow-lg bg-white rounded">
+              <div class="card-body">
+                <h2 class="text-center" style="color: #4693e4">Manage Discounts</h2>
+                <p class="text-center text-muted">Apply discounts by product, category, brand, or mix options.</p>
+
+                <form [formGroup]="discountForm" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <!-- Discount Type -->
+                    <div class="col-md-6 mb-3">
+                      <label for="discountType" class="form-label">Discount Type</label>
+                      <select class="form-select" formControlName="discountType" id="discountType">
+                        <option value="" disabled>Select Discount Type</option>
+                        <option value="product">Product-wise</option>
+                        <option value="category">Category-wise</option>
+                        <option value="brand">Brand-wise</option>
+                        <option value="brand-category">Brand & Category</option>
+                        <option value="brand-model">Brand & Model</option>
+                      </select>
+                    </div>
+
+                    <!-- Product Selection with Search -->
+                    <div *ngIf="discountForm.get('discountType').value === 'product'" class="col-md-6 mb-3">
+                      <label for="product" class="form-label">Select Product</label>
+                      <!-- Dropdown for Products -->
+                      <select class="form-select" formControlName="product" id="product">
+                        <option value="" disabled>Select Product</option>
+                        <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+                      </select>
+                    </div>
+
+
+                    <!-- Category Selection -->
+                    <div *ngIf="discountForm.get('discountType').value === 'category'" class="col-md-6 mb-3">
+                      <label for="category" class="form-label">Select Category</label>
+                      <select class="form-select" formControlName="category" id="category">
+                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                      </select>
+                    </div>
+
+                    <!-- Brand Selection -->
+                    <div *ngIf="discountForm.get('discountType').value === 'brand'" class="col-md-6 mb-3">
+                      <label for="brand" class="form-label">Select Brand</label>
+                      <select class="form-select" formControlName="brand" id="brand">
+                        <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+                      </select>
+                    </div>
+
+                    <!-- Mixed Brand & Category Selection -->
+                    <div *ngIf="discountForm.get('discountType').value === 'brand-category'" class="col-md-6 mb-3">
+                      <label for="brand" class="form-label">Select Brand</label>
+                      <select class="form-select" formControlName="brand" id="brand">
+                        <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+                      </select>
+                    </div>
+                    <div *ngIf="discountForm.get('discountType').value === 'brand-category'" class="col-md-6 mb-3">
+                      <label for="category" class="form-label">Select Category</label>
+                      <select class="form-select" formControlName="category" id="category">
+                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                      </select>
+                    </div>
+
+                    <!-- Brand & Model -->
+                    <div *ngIf="discountForm.get('discountType').value === 'brand-model'" class="col-md-6 mb-3">
+                      <label for="brand" class="form-label">Select Brand</label>
+                      <select class="form-select" formControlName="brand" id="brand" (change)="onBrandChange()">
+                        <option value="" disabled>Select Brand</option>
+                        <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+                      </select>
+                    </div>
+                    <div *ngIf="discountForm.get('discountType').value === 'brand-model'" class="col-md-6 mb-3">
+                      <label for="model" class="form-label">Select Model</label>
+                      <select class="form-select" formControlName="model" id="model">
+                        <option value="" disabled>Select Model</option>
+                        <option *ngFor="let model of models" [value]="model.id">{{ model.name }}</option>
+                      </select>
+                    </div>
+
+                    <!-- Discount Value -->
+                    <div class="col-md-6 mb-3">
+                      <label for="customerDiscount" class="form-label">Discount for customer (%)</label>
+                      <input type="number" min="0" class="form-control" id="customerDiscount" formControlName="customerDiscount" placeholder="Enter discount value" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label for="retailerDiscount" class="form-label">Discount for Retailer (%)</label>
+                      <input type="number" min="0" class="form-control" id="retailerDiscount" formControlName="retailerDiscount" placeholder="Enter discount value" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="mechanicDiscount" class="form-label">Discount for Mechanic (%)</label>
+                      <input type="number" min="0" class="form-control" id="mechanicDiscount" formControlName="mechanicDiscount" placeholder="Enter discount value" />
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <div class="col-md-12 mt-3">
+                      <button type="submit"  class="btn btn-lg text-white btn-info bg w-100">Apply Discount</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+/* Sidebar Styling */
+.sidebar-container {
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(145deg, #5692dc, #97cee6);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 90px;
+  left: 0;
+  transition: transform 0.5s ease;
+}
+
+
+/* Dropdown Menu */
+.dropdown-menu {
+  border: 0;
+  display: none; /* Hidden by default */
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  border-radius: 5px;
+  padding: 0;
+  position: relative;
+}
+
+.dropdown-menu .nav-item {
+  background: linear-gradient(145deg, #77cee6, #497cbf);
+  padding: 10px 20px; /* Padding for dropdown items */
+}
+
+.dropdown-menu .nav-link {
+
+  color: white; /* Dropdown link color */
+}
+
+.dropdown-menu .nav-link:hover {
+
+  background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+}
+
+
+
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu .nav-item {
+  padding: 15px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-menu .nav-link {
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu .nav-link:hover {
+  background-color: #006bb3;
+  transform: translateX(5px);
+}
+
+.sidebar-menu .nav-link i {
+  margin-right: 10px;
+}
+
+.sidebar-menu .nav-link.active {
+  background-color: #004080;
+}
+
+/* Sidebar Animation */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Hover Effect for Links */
+.sidebar-menu .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-left: 4px solid #ffcc00;
+}
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .sidebar-menu .nav-item {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .sidebar-menu .nav-link {
+    padding: 15px;
+  }
+}

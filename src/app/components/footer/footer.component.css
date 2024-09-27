@@ -1,0 +1,43 @@
+.footer {
+  padding: 40px 0;
+  background-color: #343a40;
+}
+
+.footer-heading {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer a:hover {
+  color: #c06162; /* Change to your hover color */
+}
+
+.footer .list-inline-item {
+  margin: 0 10px;
+}
+
+.footer .list-inline-item a {
+  font-size: 1.5rem; /* Adjust icon size */
+}
+.footer a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer a:hover {
+  color: #c06162; /* Change to your hover color */
+}
+
+.footer .designer-link {
+  color: #c06162; /* Adjust designer link color */
+  font-weight: bold;
+}
+
+.footer .designer-link:hover {
+  text-decoration: underline; /* Add underline on hover */
+}

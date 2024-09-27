@@ -1,0 +1,71 @@
+<app-navbar/>
+<div class="container mt-5">
+  <h6 class="text-start mb-4">Your Shopping Cart (Total Items: {{ getTotalItems() }})</h6>
+
+  <!-- Empty Cart Message -->
+  <div *ngIf="cart.items.length === 0" class="empty-cart d-flex flex-column align-items-center justify-content-center text-center">
+    <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" alt="Empty Cart" class="img-fluid mb-3">
+    <h4>Your cart is empty!</h4>
+    <p>It looks like you haven't added anything to your cart yet.</p>
+    <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
+  </div>
+
+  <div *ngIf="cart.items.length > 0" class="row">
+    <div class="col-md-8">
+      <div class="row cart">
+        <div *ngFor="let item of cart.items" class="col-12 cart-item mb-3 p-3 shadow-sm rounded">
+          <div class="row align-items-center">
+            <div class="col-md-3 col-12">
+              <img [src]="item.product.images" alt="{{ item.product.name }}" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6 col-12">
+              <h5 class="font-weight-bold">{{ item.product.name }}</h5>
+              <p class="text-muted">Minimum order quantity: {{ item.product.moq }}</p>
+              <h4 class="text-success mt-2">
+                {{ getDiscountedPrice(item.product) | currency:'INR' }}
+                <small class="text-danger ms-2 h6">-{{ getDiscount(item.product) }}% Off</small>
+              </h4>
+              <small class="text-muted">Special offer for mechanics</small>
+              <p class="text-muted">Price: <span class="text-decoration-line-through">{{ item.product.price | currency:'INR' }}</span></p>
+            </div>
+            <div class="col-md-3 col-12 text-end">
+              <div class="quantity-selector d-flex align-items-center">
+                <button class="btn btn-outline-secondary" (click)="decreaseQuantity(item)">-</button>
+                <input type="number" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 80px;">
+                <button class="btn btn-outline-secondary" (click)="increaseQuantity(item)">+</button>
+              </div>
+              <p class="font-weight-bold">Total Price: {{ (getDiscountedPrice(item.product) * item.quantity) | currency:'INR' }}</p>
+              <button class="btn btn-danger mt-2" (click)="removeItem(item)">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <h5>Have a discount code?</h5>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Enter code">
+          <div class="input-group-append">
+            <button class="btn btn-primary">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="col-md-4">
+      <div class="summary card mb-3 p-3 shadow-sm rounded">
+        <h5 class="card-title">Cart Summary</h5>
+        <p>({{ getTotalItems() }} items)</p>
+        <p>Subtotal: <span id="subtotal">{{ cart.totalAmount | currency:'INR' }}</span></p>
+        <p>CGST: <span id="shipping">{{ 5 | currency:'INR' }}</span></p>
+        <p>SGST: <span id="tax">{{ 9 | currency:'INR' }}</span></p>
+        <p>Other Charges: <span id="other-charges">{{ 0 | currency:'INR' }}</span></p>
+        <p class="font-weight-bold">Total Price After Discounts: <span id="total">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>
+        <p class="text-success">Total Savings: <span id="savings">{{ getTotalSavings() | currency:'INR' }}</span></p>
+        <button [routerLink]="'/login'" class="btn btn-success btn-block animated-button">Login</button>
+        <button [routerLink]="'/'" class="btn btn-info btn-block mt-3 animated-button">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>

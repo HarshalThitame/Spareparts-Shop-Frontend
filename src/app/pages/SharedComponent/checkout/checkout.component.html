@@ -1,0 +1,121 @@
+<app-navbar *ngIf="user.userRole==='CUSTOMER'"/>
+<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"/>
+<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"/>
+<div class="checkout-container container-fluid">
+  <!-- Shipping Information Section -->
+  <div class="row mb-4">
+    <div class="col-lg-8 offset-lg-2 shipping-section card-3d p-4">
+      <h2 class="section-header">Shipping Information</h2>
+      <form [formGroup]="shippingForm" (ngSubmit)="onSubmitShipping()">
+        <div class="input-boxes-container">
+          <!-- Full Name Input -->
+          <div class="form-group">
+            <label for="recipientName">Recipient Name</label>
+            <input type="text" id="recipientName" formControlName="recipientName"
+                   class="form-control designed-input-box" placeholder="Enter the recipient's name" required>
+          </div>
+
+          <!-- Email Input -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" formControlName="email" class="form-control designed-input-box"
+                   placeholder="Enter your email" required>
+          </div>
+
+          <!-- Mobile Input -->
+          <div class="form-group">
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile" formControlName="mobile" class="form-control designed-input-box"
+                   placeholder="Enter your mobile number" required>
+          </div>
+
+          <!-- Address Line 1 Input -->
+          <div class="form-group">
+            <label for="addressLine1">Address Line 1</label>
+            <input type="text" id="addressLine1" formControlName="addressLine1" class="form-control designed-input-box"
+                   placeholder="Enter your address line 1" required>
+          </div>
+
+          <!-- Address Line 2 Input -->
+          <div class="form-group">
+            <label for="addressLine2">Address Line 2 (optional)</label>
+            <input type="text" id="addressLine2" formControlName="addressLine2" class="form-control designed-input-box"
+                   placeholder="Enter your address line 2 (optional)">
+          </div>
+
+          <!-- City Input -->
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" formControlName="city" class="form-control designed-input-box"
+                   placeholder="Enter your city" required>
+          </div>
+
+          <!-- State Input -->
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" formControlName="state" class="form-control designed-input-box"
+                   placeholder="Enter your state" required>
+          </div>
+
+          <!-- Zip Code Input -->
+          <div class="form-group">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" formControlName="postalCode" class="form-control designed-input-box"
+                   placeholder="Enter your postal code" required>
+          </div>
+
+          <!-- Country Input -->
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" formControlName="country" class="form-control designed-input-box"
+                   placeholder="Enter your country" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-blue-gradient" [disabled]="shippingForm.invalid">Proceed to Review</button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Saved Addresses Section -->
+  <div class="row mb-4">
+    <div class="col-lg-8 offset-lg-2 saved-addresses-section card-3d p-4">
+      <h2 class="section-header">Saved Addresses</h2>
+      <div class="saved-addresses">
+        <div *ngFor="let address of savedAddresses"
+             class="address-card d-flex align-items-center justify-content-between p-3 mb-3 border rounded clickable-card"
+             (click)="selectAddress(address)">
+          <label class="d-flex justify-content-between align-items-center w-100 mb-0">
+            <input type="radio" name="address" [value]="address" [(ngModel)]="selectedAddress" class="me-2"/>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ address.recipientName }}</h6>
+              <p class="mb-1">{{ address.addressLine1 }}, {{ address.addressLine2 }}, {{ address.city }}
+                , {{ address.state }}</p>
+              <p class="mb-1">{{ address.country }}</p>
+              <p class="mb-1">{{ address.postalCode }}</p>
+              <p class="text-muted mb-0">{{ address.email }}</p>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review & Confirm Section -->
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2 confirmation-section card-3d p-4">
+      <h2 class="section-header">Review & Confirm</h2>
+      <div class="form-group">
+        <label title="Priority Processing ,Special Requirements, Fast Delivery">
+          <input type="checkbox" (change)="onVorChange($event)" class="me-2"/>
+          Vor <br>
+          <small>
+            (A Vor order indicates a priority shipment, ensuring expedited processing and handling for urgent customer requests, which may incur additional charges.)
+          </small>
+        </label>
+      </div>
+      <button (click)="placeOrder()" class="btn btn-blue-gradient confirm-btn mt-4">Confirm Order</button>
+    </div>
+  </div>
+</div>

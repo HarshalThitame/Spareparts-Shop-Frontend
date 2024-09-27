@@ -1,0 +1,38 @@
+<app-mechanic-navbar/>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-center">
+      <h1 class="display-4 mb-4">Welcome to Mechanic Dashboard of Spare Parts Shop!</h1>
+      <p class="lead">Quality parts for all your automotive needs.</p>
+    </div>
+  </div>
+  <!--  Offer card-->
+
+  <app-offer/>
+  <app-dropdown-search/>
+ <app-shared-categories/>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3 class="text-center mb-4">Featured Products</h3>
+    </div>
+
+    <div class="col-md-2 mb-4" *ngFor="let product of products">
+      <div class="card h-100 product-card"
+           [routerLink]="['/mechanic/category/sub-category/sub-sub-category/product-details', product.id]">
+        <img [src]=" noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+        <div class="card-body bg text-white">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="text-white">Minimum order quantity: {{ product.moq }}</p>
+          <h6 class="text-white mt-2">
+            {{ getDiscountedPrice(product) | currency:'INR' }}
+            <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
+          </h6>
+          <small class="text-white">Special offer for mechanics</small>
+          <p class="text-white">Price: <span
+            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

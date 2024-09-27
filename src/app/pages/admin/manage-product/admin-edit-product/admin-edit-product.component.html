@@ -1,0 +1,214 @@
+<app-navbar/>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-md-10">
+      <div class="container-fluid mt-5">
+
+        <h6 class="mb-4 text-start text-primary">Edit Product</h6>
+
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="shadow p-4 bg-light rounded">
+          <div class="form-group mb-3">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Enter product name"
+                   required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" class="form-control"
+                      placeholder="Enter product description" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="price">Price</label>
+            <input type="number" id="price" formControlName="price" class="form-control" placeholder="Enter price"
+                   required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="partNumber">Part Number</label>
+            <input type="text" id="partNumber" formControlName="partNumber" class="form-control"
+                   placeholder="Enter unique part number" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="stockQuantity">Stock Quantity</label>
+            <input type="number" id="stockQuantity" formControlName="stockQuantity" class="form-control"
+                   placeholder="Enter stock quantity" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="binLocation">Bin Location</label>
+            <input type="text" id="binLocation" formControlName="binLocation" class="form-control"
+                   placeholder="Enter bin location" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="gst">GST %</label>
+            <input type="number" id="gst" formControlName="gst" class="form-control" placeholder="Enter GST" required>
+          </div>
+          <!-- Discount on Purchase Section -->
+          <div class="form-group mb-3">
+            <label for="discountOnPurchase">Discount on Purchase %</label>
+            <div class="row">
+              <div class="col-md-4">
+                <input type="number" id="discountOnPurchase" formControlName="discountOnPurchase" class="form-control"
+                       (input)="calculateDiscount('purchase')" placeholder="Enter discount on purchase" required>
+              </div>
+              <div class="col-md-4">
+                <label>Calculated Discount Amount (in ₹)</label>
+                <input type="number" [value]="discountAmounts.purchase" class="form-control"
+                       placeholder="Calculated discount amount" readonly/>
+              </div>
+              <div class="col-md-4">
+                <label>Discounted Price</label>
+                <input type="number" [value]="calculatedPrices.purchase" class="form-control"
+                       placeholder="Calculated discounted price" readonly/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discount to Counter Section -->
+          <div class="form-group mb-3">
+            <label for="discountToCounter">Discount to Counter %</label>
+            <div class="row">
+              <div class="col-md-4">
+                <input type="number" id="discountToCounter" formControlName="discountToCounter" class="form-control"
+                       (input)="calculateDiscount('counter')" placeholder="Enter discount to counter" required>
+              </div>
+              <div class="col-md-4">
+                <label>Calculated Discount Amount (in ₹)</label>
+                <input type="number" [value]="discountAmounts.counter" class="form-control"
+                       placeholder="Calculated discount amount" readonly/>
+              </div>
+              <div class="col-md-4">
+                <label>Discounted Price</label>
+                <input type="number" [value]="calculatedPrices.counter" class="form-control"
+                       placeholder="Calculated discounted price" readonly/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discount to Mechanics Section -->
+          <div class="form-group mb-3">
+            <label for="discountToMechanics">Discount to Mechanics %</label>
+            <div class="row">
+              <div class="col-md-4">
+                <input type="number" id="discountToMechanics" formControlName="discountToMechanics" class="form-control"
+                       (input)="calculateDiscount('mechanics')" placeholder="Enter discount to mechanics" required>
+              </div>
+              <div class="col-md-4">
+                <label>Calculated Discount Amount (in ₹)</label>
+                <input type="number" [value]="discountAmounts.mechanics" class="form-control"
+                       placeholder="Calculated discount amount" readonly/>
+              </div>
+              <div class="col-md-4">
+                <label>Discounted Price</label>
+                <input type="number" [value]="calculatedPrices.mechanics" class="form-control"
+                       placeholder="Calculated discounted price" readonly/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discount to Retailer Section -->
+          <div class="form-group mb-3">
+            <label for="discountToRetailer">Discount to Retailer %</label>
+            <div class="row">
+              <div class="col-md-4">
+                <input type="number" id="discountToRetailer" formControlName="discountToRetailer" class="form-control"
+                       (input)="calculateDiscount('retailer')" placeholder="Enter discount to retailer" required>
+              </div>
+              <div class="col-md-4">
+                <label>Calculated Discount Amount (in ₹)</label>
+                <input type="number" [value]="discountAmounts.retailer" class="form-control"
+                       placeholder="Calculated discount amount" readonly/>
+              </div>
+              <div class="col-md-4">
+                <label>Discounted Price</label>
+                <input type="number" [value]="calculatedPrices.retailer" class="form-control"
+                       placeholder="Calculated discounted price" readonly/>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label>Main Image</label>
+            <input type="file" (change)="onFileChange($event)" class="form-control-file" required>
+          </div>
+
+          <!-- Brands Section -->
+          <div class="form-group mb-3">
+            <label><i class="fas fa-people-arrows"></i> Brands</label>
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div *ngFor="let brand of brands">
+                      <div class="form-check">
+                        <input type="checkbox" (change)="onBrandChange($event, brand)" class="form-check-input"
+                               [checked]="isBrandSelected(brand.id)"/>
+                        <label class="form-check-label">{{ brand.name }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div *ngFor="let brand of brands">
+                      <div *ngIf="isBrandSelected(brand.id)">
+                        <label>Models for {{ brand.name }}</label>
+                        <div *ngFor="let model of brand.brandModels">
+                          <div class="form-check">
+                            <input type="checkbox" (change)="onModelChange($event, model, brand)"
+                                   class="form-check-input" [checked]="isModelSelected(model.id, brand.id)"/>
+                            <label class="form-check-label">{{ model.name }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Section -->
+          <div class="form-group mb-3">
+            <div class="card">
+              <div class="card-body">
+                <label><i class="fas fa-tags"></i> Categories</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div *ngFor="let cat of category">
+                      <div class="form-check">
+                        <input type="checkbox" [checked]="isCategorySelected(cat.id)" (change)="onCheckboxChange($event, cat)" class="form-check-input"/>
+                        <label class="form-check-label">{{ cat.name }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div *ngFor="let cat of selectedCategories">
+                      <div *ngFor="let sub of cat.subCategories">
+                        <div class="form-check">
+                          <input type="checkbox" [checked]="isSubCategorySelected(sub.id)" (change)="onCheckboxChange($event, cat, sub)"
+                                 class="form-check-input"/>
+                          <label class="form-check-label">{{ sub.name }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-success w-100">Add Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

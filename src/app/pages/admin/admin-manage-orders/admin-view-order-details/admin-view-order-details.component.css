@@ -1,0 +1,28 @@
+.card {
+  border-radius: 0.5rem;
+}
+
+.card-header {
+  /*background-color: #007bff;*/
+  color: white;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+.item-img{
+  height: 250px;
+  object-fit: contain;
+}
+.bg{
+  background: linear-gradient(145deg, #5692dc, #97cee6);
+}

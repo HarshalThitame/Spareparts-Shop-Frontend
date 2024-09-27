@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<div class="container-fluid mt-4">
+  <!-- Search Bar -->
+  <header class="d-flex justify-content-between align-items-center mb-4">
+    <div class="input-group w-50 shadow-sm">
+      <input type="text" class="form-control rounded-start border-0" placeholder="Search for products..." [(ngModel)]="searchTerm"
+             (input)="filterProducts()">
+      <button class="btn btn-primary rounded-end" (click)="filterProducts()">Search</button>
+    </div>
+  </header>
+
+  <div class="row">
+    <!-- Filter Sidebar -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-4 bg-light rounded" style="max-height: 900px; overflow-y: auto;">
+        <h4 class="text-primary border-bottom pb-2">Filters</h4>
+
+        <div class="row">
+          <!-- Sidebar for Categories -->
+          <div class="col-6" style="overflow-y: auto;">
+            <h6 class="text-secondary mb-3">Categories</h6>
+            <div class="list-group">
+              <a *ngFor="let category of categories"
+                 class="list-group-item list-group-item-action text-primary border-0 rounded mb-2"
+                 [ngClass]="{'active-category': selectedCategory === category}"
+                 (click)="selectCategory(category)">
+                {{ category.name }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Sidebar for Subcategories -->
+          <div class="col-6" style="overflow-y: auto;">
+            <div *ngIf="selectedCategory" class="list-group">
+              <h6 class="text-secondary mb-3">{{ selectedCategory.name }} Subcategories</h6>
+              <a *ngFor="let subcategory of selectedCategory.subCategories"
+                 class="list-group-item list-group-item-action text-primary border-0 rounded mb-2"
+                 [ngClass]="{'active-subcategory': selectedSubCategory === subcategory}"
+                 (click)="filterBySubCategory(subcategory); selectSubCategory(subcategory)">
+                {{ subcategory.name }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="mt-4">
+          <h5 class="text-secondary mb-3">Price Range</h5>
+          <input type="range" class="form-range" [(ngModel)]="priceRange" (change)="filterByPrice()" min="0" max="100000" step="1000">
+          <p class="text-secondary mt-2">₹{{ minPrice }} - ₹{{ maxPrice }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-sm-6 col-md-4 mb-4" *ngFor="let product of filteredProducts">
+          <div class="card shadow-sm h-100 border-0" [@bounceDrop]="bounceState">
+            <img [src]="product.mainImage || noImageURL" class="prod-img card-img-top" alt="{{ product.name }}">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div [routerLink]="'/retailer/category/sub-category/sub-sub-category/product-details/'+product.id">
+                <h6 class="card-title text-dark">{{ product.name }}</h6>
+                <div *ngFor="let brand of product.brands">
+                  <span class="btn btn-outline-secondary disabled btn-sm">{{ brand.name }}</span>
+                </div>
+                <h6 class="text-success mt-2">
+                  {{ calculateDiscountedPrice(product.price, product.discountOnPurchase+product.discountToRetailer) | currency:'INR' }}
+                  <small class="text-danger ms-2">-{{ product.discountOnPurchase+product.discountToRetailer }}% Off</small>
+                </h6>
+                <p class="card-text"><small class="text-muted">MRP: <span class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></small></p>
+              </div>
+              <div class="text-center mt-3">
+                <button class="btn btn-primary w-100" (click)="addToCart(product)">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,208 @@
+/* General Layout */
+.checkout-container {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Section Headers */
+.section-header {
+  color: #1e90ff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+/* Progress Bar */
+.progressbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.progress-step {
+  width: 49%;
+  text-align: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  position: relative;
+  font-weight: bold;
+  color: #666;
+  transition: 0.3s ease;
+}
+
+.progress-step.active {
+  background-color: #1e90ff;
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Design with 3D Effect */
+.card-3d {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.card-3d:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Styling */
+.form-group label {
+  color: #333;
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+}
+
+/* Blue Gradient Buttons */
+.btn-blue-gradient {
+  background: linear-gradient(to right, #1e90ff, #00bfff);
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-blue-gradient:hover {
+  background: linear-gradient(to right, #00bfff, #1e90ff);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Review Text */
+.review-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #555;
+  text-align: center;
+}
+
+/* Review & Confirm Button */
+.confirm-btn {
+  width: 100%;
+}
+
+/* General Layout for Form */
+.input-boxes-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Label Styling */
+.designed-input label {
+  color: #1e90ff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+}
+
+/* Designed Input Box */
+.designed-input-box {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Focus Effect */
+.designed-input-box:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+  background-color: #f0faff;
+  transform: translateY(-3px);
+}
+
+/* Input Box with 3D Hover Effect */
+.designed-input-box:hover {
+  border-color: #00bfff;
+  box-shadow: 0 0 15px rgba(30, 144, 255, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Placeholder Color */
+.designed-input-box::placeholder {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.saved-addresses-section {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.address-card {
+  background: #ffffff;
+  transition: box-shadow 0.3s ease;
+}
+
+.address-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .input-boxes-container {
+    padding: 15px;
+  }
+
+  .designed-input-box {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .section-header {
+    font-size: 1.5rem;
+  }
+
+  .progress-step {
+    font-size: 0.9rem;
+  }
+
+  .card-3d {
+    padding: 15px;
+  }
+}

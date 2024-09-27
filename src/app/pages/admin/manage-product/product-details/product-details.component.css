@@ -1,0 +1,33 @@
+.product-image {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+}
+
+.product-details {
+  margin-left: 20px;
+}
+
+.card {
+  border: 1px solid #ddd;
+}
+.return-card{
+  border-radius: 15px;
+  background: linear-gradient(145deg, #abebfd, #90c1fd);
+}
+.icon-img{
+  height: 40px;
+}
+h6{
+  font-size: 18px;
+}
+p{
+  color: #8dc9f3;
+}
+
+strong{
+  color: black;
+}
+
+

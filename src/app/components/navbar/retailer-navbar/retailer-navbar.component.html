@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="'/'">Retailer</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/" aria-current="page"><i class="fas fa-home"></i>&nbsp;Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about"><i class="fas fa-info-circle"></i>&nbsp;About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact"><i class="fas fa-phone"></i>&nbsp;Contact</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <div class="ms-3">
+        <button *ngIf="!isLoggedIn" class="btn btn-primary" [routerLink]="['/login']">Sign In</button>
+        <button *ngIf="!isLoggedIn" class="btn btn-secondary" [routerLink]="['/signup']">Sign Up</button>
+        <button *ngIf="isLoggedIn" [routerLink]="'/retailer/my-order'" class="btn btn-outline-secondary border-0"><i class="fas fa-shopping-cart"></i>&nbsp;My Orders</button>
+        <button *ngIf="isLoggedIn" (click)="openCart()" class="btn btn-outline-secondary border-0"><i class="fas fa-shopping-cart"></i>&nbsp;Cart</button>
+        <button *ngIf="isLoggedIn" class="btn btn-outline-secondary border-0"><i class="fas fa-user"></i>&nbsp;{{user.firstName}}</button>
+        <button *ngIf="isLoggedIn" (click)="logout()" class="btn btn-outline-secondary border-0">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>

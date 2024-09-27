@@ -1,0 +1,17 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #007bff;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.text-success {
+  color: #28a745;
+}

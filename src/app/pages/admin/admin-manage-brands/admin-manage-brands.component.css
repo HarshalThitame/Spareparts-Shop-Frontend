@@ -1,0 +1,65 @@
+.container {
+  background: linear-gradient(to right, #f0f4f8, #e0e8f5);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.category-card {
+  background-color: #ffffff; /* White background for the cards */
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ddd; /* Light border */
+}
+
+.category-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  border: none; /* Remove card borders for a cleaner look */
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.subcategory-item {
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.subcategory-item:hover {
+  color: #17a2b8; /* Bootstrap info color */
+}
+
+.btn {
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: #0056b3; /* Darker blue for hover effect */
+  color: white; /* Change text color on hover */
+}
+
+.btn i {
+  margin-right: 5px; /* Space between icon and text */
+}
+
+h4, h5 {
+  transition: color 0.3s;
+}
+
+h4:hover, h5:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.category-img {
+  height: 100px;
+  object-fit: contain; /* Maintain aspect ratio */
+}

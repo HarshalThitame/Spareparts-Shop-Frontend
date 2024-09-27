@@ -1,0 +1,68 @@
+<div class="invoice-container" id="invoice">
+  <!-- Header -->
+  <div class="invoice-header">
+    <h1>Invoice</h1>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Date: {{ order.createdAt | date: 'short' }}</p>
+  </div>
+
+  <!-- User Information -->
+  <div class="customer-info">
+    <h5>Customer Details</h5>
+    <p>Name: {{ order.user.firstName }}&nbsp;{{ order.user.lastName }}</p>
+    <p>Email: {{ order.user.email }}</p>
+<!--    <p>Shipping Address: {{ order.shippingAddress.addressLine1 }}, {{ order.shippingAddress.city }}, {{ order.shippingAddress.state }}, {{ order.shippingAddress.postalCode }}</p>-->
+  </div>
+
+  <!-- Order Items -->
+  <div class="order-items">
+    <h5>Order Items</h5>
+    <table>
+      <thead>
+      <tr>
+        <th>Sr No:</th>
+        <th>Part No</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>GST</th>
+        <th>Subtotal</th>
+        <th>Discount</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of order.orderItems;let i = index">
+        <td>{{i+1}}</td>
+        <td>{{item.product.partNumber}}</td>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.product.price | currency:'INR' }}</td>
+        <td>{{ item.product.gst }} %</td>
+        <td>{{ item.subtotal | currency:'INR' }}</td>
+        <td>{{ item.discountAmount}} </td>
+        <td>{{ item.totalPrice | currency:'INR' }}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{order.orderItems.length}}</td>
+        <td class="text-end" colspan="5">{{order.totalAmount | currency:'INR'}}</td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary -->
+  <div class="order-summary text-end">
+    <h5>Order Summary</h5>
+    <p>Subtotal: {{ getOrderSubtotal() | currency:'INR' }}</p>
+    <p>GST: {{ getOrderGst() | currency:'INR' }}</p>
+    <p>Shipping: {{ order.shippingCost | currency:'INR' }}</p>
+    <p>Discount: {{ order.discountAmount | currency:'INR' }}</p>
+    <p><strong>Total: {{ order.totalAmount | currency:'INR' }}</strong></p>
+  </div>
+
+  <!-- Print Button -->
+  <button (click)="printInvoice()">Print Invoice</button>
+</div>
