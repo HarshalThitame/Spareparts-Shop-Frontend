@@ -45,6 +45,11 @@ import {
 import {
   AdminEditOrderDetailsComponent
 } from "./pages/admin/admin-manage-orders/admin-edit-order-details/admin-edit-order-details.component";
+import {AdminEditProductComponent} from "./pages/admin/manage-product/admin-edit-product/admin-edit-product.component";
+import {PRINT_SCREEN} from "@angular/cdk/keycodes";
+import {OrderInvoiceComponent} from "./pages/SharedComponent/order-invoice/order-invoice.component";
+import {AdminDiscountComponent} from "./pages/admin/promotion/admin-discount/admin-discount.component";
+import {AdminOffersComponent} from "./pages/admin/promotion/admin-offers/admin-offers.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
@@ -100,8 +105,20 @@ const routes: Routes = [
         component: AdminEditOrderDetailsComponent
       },
       {
+        path: 'promotion-discount',
+        component: AdminDiscountComponent
+      },
+      {
+        path: 'promotion-offers',
+        component: AdminOffersComponent
+      },
+      {
         path: 'edit-product/:id',
-        component: ProductDetailsComponent
+        component: AdminEditProductComponent
+      },
+      {
+        path:'print-invoice',
+        component: OrderInvoiceComponent
       }
     ]
   }, {

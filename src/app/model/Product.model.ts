@@ -36,4 +36,5 @@ export interface Product {
   createdAt: string;                      // Creation timestamp in ISO string format
   updatedAt: string;                      // Update timestamp in ISO string format
   reviews?: Review[];                     // Array of reviews for the product
+  gst?:number
 }

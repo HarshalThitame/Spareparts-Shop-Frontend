@@ -15,7 +15,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import {AdminDashboardComponent} from "./pages/admin/admin-dashboard/admin-dashboard.component";
 import { AdminSidebarComponent } from './pages/admin/admin-sidebar/admin-sidebar.component';
 import { AddProductComponent } from './pages/admin/add-product/add-product.component';
-import {MatButton} from "@angular/material/button";
+import {MatAnchor, MatButton} from "@angular/material/button";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import { ManageProductComponent } from './pages/admin/manage-product/manage-product.component';
 import { ProductDetailsComponent } from './pages/admin/manage-product/product-details/product-details.component';
@@ -41,7 +41,14 @@ import { CustomerAllProductsComponent } from './pages/customer/customer-all-prod
 import { MechanicAllProductsComponent } from './pages/mecahnic/mechanic-all-products/mechanic-all-products.component';
 import { RetailerAllProductsComponent } from './pages/retailer/retailer-all-products/retailer-all-products.component';
 import { FooterComponent } from './components/footer/footer.component';
-import {MatCard, MatCardActions, MatCardFooter, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {
+  MatCard,
+  MatCardActions, MatCardContent,
+  MatCardFooter,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle
+} from "@angular/material/card";
 import { GeneralCartComponent } from './components/general-cart/general-cart.component';
 import { DropdownSearchComponent } from './pages/SharedComponent/dropdown-search/dropdown-search.component';
 import { CustomerCheckoutComponent } from './pages/customer/customer-checkout/customer-checkout.component';
@@ -51,6 +58,23 @@ import { MyOrderDetailsComponent } from './pages/SharedComponent/my-orders/my-or
 import { AdminManageOrdersComponent } from './pages/admin/admin-manage-orders/admin-manage-orders.component';
 import { AdminViewOrderDetailsComponent } from './pages/admin/admin-manage-orders/admin-view-order-details/admin-view-order-details.component';
 import { AdminEditOrderDetailsComponent } from './pages/admin/admin-manage-orders/admin-edit-order-details/admin-edit-order-details.component';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import {MatIcon} from "@angular/material/icon";
+import { AdminEditProductComponent } from './pages/admin/manage-product/admin-edit-product/admin-edit-product.component';
+import { OrderInvoiceComponent } from './pages/SharedComponent/order-invoice/order-invoice.component';
+import { AdminDiscountComponent } from './pages/admin/promotion/admin-discount/admin-discount.component';
+import { AdminOffersComponent } from './pages/admin/promotion/admin-offers/admin-offers.component';
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {MatSelect} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -96,6 +120,10 @@ import { AdminEditOrderDetailsComponent } from './pages/admin/admin-manage-order
     AdminManageOrdersComponent,
     AdminViewOrderDetailsComponent,
     AdminEditOrderDetailsComponent,
+    AdminEditProductComponent,
+    OrderInvoiceComponent,
+    AdminDiscountComponent,
+    AdminOffersComponent,
   ],
   imports: [
     AppRoutingModule, // Ensure your routing module is included here
@@ -112,6 +140,25 @@ import { AdminEditOrderDetailsComponent } from './pages/admin/admin-manage-order
     MatCard,
     MatCardActions,
     MatCardFooter,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatIcon,
+    MatAnchor,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatRow,
+    MatRowDef,
+    MatAutocomplete,
+    MatOption,
+    MatAutocompleteTrigger,
+    NgSelectComponent,
+    MatSelect,
+    MatCardHeader,
+    MatCardContent,
     // Include HttpClientModule here
     // Add other modules here
   ],
