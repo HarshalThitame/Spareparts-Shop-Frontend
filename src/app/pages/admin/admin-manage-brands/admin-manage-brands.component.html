@@ -1,11 +1,11 @@
-<app-navbar/>
+<app-navbar />
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 col-12">
       <app-admin-sidebar></app-admin-sidebar>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 col-12">
       <div class="container-fluid">
         <h5 class="text-start mb-4 text-primary">Manage Brands</h5>
 
@@ -31,7 +31,7 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-between">
+          <div class="d-flex flex-column flex-md-row justify-content-between">
             <button type="button" class="mt-2 btn btn-outline-secondary" (click)="addBrandModel()">Add Model</button>
             <button type="submit" class="btn btn-primary mt-3">{{ editingBrandId ? 'Update Brand' : 'Add Brand' }}</button>
           </div>
@@ -40,14 +40,14 @@
         <div class="mt-4">
           <h3 class="text-center text-secondary">Existing Brands</h3>
           <div class="row">
-            <div *ngFor="let brand of brands" class="col-md-3 mb-4">
+            <div *ngFor="let brand of brands" class="col-md-3 col-6 mb-4">
               <div class="brand-card text-center p-3 shadow-lg rounded">
                 <h6>{{ brand.name }}</h6>
                 <div class="d-flex justify-content-around">
-                  <button type="button" class="btn btn-outline-info" (click)="editBrand(brand)">
+                  <button type="button" class="btn btn-outline-info action-btn" (click)="editBrand(brand)">
                     <span class="material-symbols-outlined">edit</span>
                   </button>
-                  <button type="button" class="btn btn-outline-danger" (click)="deleteBrand(brand.id)">
+                  <button type="button" class="btn btn-outline-danger action-btn" (click)="deleteBrand(brand.id)">
                     <span class="material-symbols-outlined">delete</span>
                   </button>
                 </div>

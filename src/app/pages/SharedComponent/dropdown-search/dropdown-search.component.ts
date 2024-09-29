@@ -137,16 +137,20 @@ export class DropdownSearchComponent implements OnInit {
 
   SearchByDropdown() {
 
-    const allId = this.selectedBrand.id + '-' + this.selectedModel.id + '-' + this.selectedCategory.id;
-    if (this.user.userRole === "CUSTOMER")
-      this._router.navigate(['/category/sub-category/all-products/', allId])
-    else if (this.user.userRole === "RETAILER")
-      this._router.navigate(['/retailer/category/sub-category/all-products/', allId])
-    else if (this.user.userRole === "MECHANIC")
-      this._router.navigate(['/mechanic/category/sub-category/all-products/', allId])
-    else
-      this._router.navigate(['/category/sub-category/all-products/', allId])
+    if (this.selectedBrand.id!=0 || this.selectedModel.id!=0 || this.selectedCategory.id!=0){
+      const allId = this.selectedBrand.id + '-' + this.selectedModel.id + '-' + this.selectedCategory.id;
+      if (this.user.userRole === "CUSTOMER")
+        this._router.navigate(['/category/sub-category/all-products/', allId])
+      else if (this.user.userRole === "RETAILER")
+        this._router.navigate(['/retailer/category/sub-category/all-products/', allId])
+      else if (this.user.userRole === "MECHANIC")
+        this._router.navigate(['/mechanic/category/sub-category/all-products/', allId])
+      else
+        this._router.navigate(['/category/sub-category/all-products/', allId])
 
+    }else {
+      this._snackBar.open("Please Select any one option","",{duration:3000})
+    }
 
   }
 }

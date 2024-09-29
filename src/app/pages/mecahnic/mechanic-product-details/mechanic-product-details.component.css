@@ -39,3 +39,112 @@ strong{
 button {
   margin: 20px;
 }
+
+/* Adjustments for tablet screens and smaller */
+@media (max-width: 768px) {
+  .img-home {
+    height: 150px; /* Reduce image height */
+  }
+
+  h2 {
+    font: 400 1.4rem / 1.25rem Roboto, sans-serif !important;
+    letter-spacing: 0;
+    margin: 0 0 .5em;
+  }
+
+  h3,h4 {
+    font-size: 1.2em;
+  }
+
+  .prod-img {
+    height: 80px !important;
+    object-fit: contain !important;
+  }
+
+  .card-body {
+    padding: 5px !important;
+    border-spacing: 10px;
+  }
+
+  h5,h6, button,li {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem!important;
+  }
+
+  p{
+    font-size: 0.7em;
+    line-height: 1.25rem!important;
+  }
+  small,span{
+    font-size: 1em;
+  }
+
+  .animated-search {
+    width: 100%; /* Full width for smaller screens */
+    padding: 10px 20px; /* Adjust padding */
+  }
+
+  .btn-primary {
+    width: 35px; /* Smaller button */
+    height: 35px; /* Smaller button */
+  }
+
+  .product-card {
+    margin-bottom: 15px; /* Reduce spacing between cards */
+  }
+
+  .feature-img {
+    height: 150px; /* Reduce image size */
+  }
+
+  .card-title {
+    font-size: 1rem; /* Adjust title font size */
+  }
+
+  .card-body {
+    font-size: 0.9rem; /* Adjust pricing font */
+  }
+
+  .return-card{
+    padding: 20px!important;
+    margin: 0!important;
+  }
+}
+
+/* Adjustments for mobile phones */
+@media (max-width: 576px) {
+  .img-home {
+    height: 120px; /* Further reduce image height */
+  }
+
+  .search-wrapper {
+    width: 100%; /* Full width for mobile screens */
+  }
+
+  h1 {
+    font-size: 28px; /* Smaller font size for h1 */
+  }
+
+  .card-title {
+    font-size: 0.9rem; /* Smaller title */
+  }
+
+  .search-wrapper {
+    max-width: 100%; /* Ensure search bar takes full width */
+  }
+
+  .animated-search {
+    padding: 8px 20px; /* Adjust padding */
+  }
+
+  .product-card {
+    margin-bottom: 10px; /* Further reduce spacing between cards */
+  }
+
+  .card-body h6 {
+    font-size: 0.8rem; /* Smaller font for pricing */
+  }
+}
+
+
+

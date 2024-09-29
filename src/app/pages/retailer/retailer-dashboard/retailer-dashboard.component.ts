@@ -8,6 +8,7 @@ import {ProductService} from "../../../service/product.service";
 import {CategoryService} from "../../../service/category.service";
 import {InitializerService} from "../../../model/InitializerService/initializer.service";
 import NoImage from "../../../service/helper/noImage";
+import noImage from "../../../service/helper/noImage";
 
 @Component({
   selector: 'app-retailer-dashboard',

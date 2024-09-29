@@ -1,2 +1,24 @@
-<app-navbar/>
-<app-admin-sidebar/>
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-lg-9">
+      <div class="container-fluid p-4 dashboard-container">
+        <div class="row">
+          <!-- Sales Overview -->
+          <div class="col-md-12 mb-4">
+            <app-admin-sales-overview></app-admin-sales-overview>
+          </div>
+
+          <div class="col-md-12 mb-4">
+            <app-admin-inventory-management></app-admin-inventory-management>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

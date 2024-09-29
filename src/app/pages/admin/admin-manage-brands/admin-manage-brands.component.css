@@ -1,10 +1,10 @@
-.container {
+.container-fluid {
   background: linear-gradient(to right, #f0f4f8, #e0e8f5);
   border-radius: 10px;
   padding: 20px;
 }
 
-.category-card {
+.brand-card {
   background-color: #ffffff; /* White background for the cards */
   cursor: pointer;
   border-radius: 8px;
@@ -12,7 +12,7 @@
   border: 1px solid #ddd; /* Light border */
 }
 
-.category-card:hover {
+.brand-card:hover {
   transform: scale(1.05); /* Scale effect on hover */
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
@@ -62,4 +62,70 @@ h4:hover, h5:hover {
 .category-img {
   height: 100px;
   object-fit: contain; /* Maintain aspect ratio */
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  h5 {
+    font-size: 1.25rem; /* Smaller font size */
+  }
+
+  h6 {
+    font-size: 1rem; /* Adjusted size */
+  }
+}
+
+@media (max-width: 992px) {
+  .container-fluid {
+    padding: 10px; /* Adjust container padding */
+  }
+  button,label,input,.form-group {
+    font-size: 0.8rem;
+  }
+
+  h3{
+    font-size: 1.2em;
+  }
+
+  h6{
+    font-size: 1em;
+  }
+  .action-btn,span{
+    margin: 5px;
+    font-size: 1em;
+    border:0;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 10px; /* Adjust container padding */
+  }
+  button,label,input,.form-group {
+    font-size: 0.8rem;
+  }
+
+  h3{
+    font-size: 1.2em;
+  }
+
+  h6{
+    font-size: 1em;
+  }
+  .action-btn,span{
+    margin: 5px;
+    font-size: 1em;
+    border:0;
+  }
+}
+
+@media (max-width: 576px) {
+  h5 {
+    font-size: 1.1rem; /* Further reduced font size */
+  }
+
+  .form-control {
+    font-size: 0.85rem; /* Smaller font for inputs */
+  }
 }

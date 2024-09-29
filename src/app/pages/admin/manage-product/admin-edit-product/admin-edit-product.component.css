@@ -98,3 +98,87 @@ h6 {
 .card-body {
   padding: 1.5rem; /* Padding inside cards */
 }
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .form-group {
+    margin-bottom: 1.5rem; /* Increased space between form groups */
+  }
+}
+
+@media (max-width: 992px) {
+  .card {
+    margin-bottom: 1rem; /* Space between cards */
+  }
+
+  .form-group label {
+    font-weight: bold;
+    color: #343a40; /* Dark color for labels */
+  }
+
+  .form-control {
+    border: 1px solid #ced4da; /* Lighter border */
+  }
+
+  .form-control:focus {
+    border-color: #80bdff; /* Focus border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Box shadow */
+  }
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 0 15px; /* Padding for small screens */
+    margin: 0!important;
+  }
+
+  .form-group {
+    margin-bottom: 0.8rem; /* Spacing between form groups */
+  }
+  label.form-check-label{
+    font-size: 0.8rem;
+  }
+
+  .card-body {
+    padding: 1rem; /* Reduced padding inside cards */
+  }
+
+  .btn-success {
+    width: 100%; /* Full-width button */
+  }
+
+  .col-md-2,
+  .col-md-10 {
+    flex: 0 0 100%; /* Stack on small screens */
+    max-width: 100%; /* Stack on small screens */
+  }
+
+  h6 {
+    font-size: 1rem; /* Reduced size for subheading */
+  }
+}
+
+@media (max-width: 576px) {
+  h3 {
+    font-size: 1.3rem; /* Further reduce heading size for small screens */
+  }
+  label{
+    font-size: 0.7rem;
+  }
+
+  h6 {
+    font-size: 0.9rem; /* Further reduced size for subheading */
+  }
+
+  .form-group {
+    margin-bottom: 0.5rem; /* Adjust spacing */
+  }
+
+  .form-control {
+    font-size: 0.85rem; /* Smaller font for inputs */
+  }
+
+  .form-check-label {
+    font-size: 0.85rem; /* Smaller font for checkboxes */
+  }
+}

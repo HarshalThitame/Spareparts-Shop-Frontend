@@ -1,13 +1,5 @@
 <app-navbar></app-navbar>
 <div class="container-fluid mt-4">
-  <!-- Search Bar -->
-  <header class="d-flex justify-content-between align-items-center mb-4">
-    <div class="input-group w-50 shadow-sm">
-      <input type="text" class="form-control rounded-start border-0" placeholder="Search for subcategories..." [(ngModel)]="searchTerm" (input)="filterCategories()">
-      <button class="btn btn-primary rounded-end" (click)="filterCategories()">Search</button>
-    </div>
-  </header>
-
   <div class="row">
     <!-- Filter Sidebar -->
     <div class="col-md-3">
@@ -26,6 +18,13 @@
 
     <!-- Subcategory Grid -->
     <div class="col-md-9">
+      <!-- Search Bar -->
+      <header class="d-flex justify-content-between align-items-center mb-4">
+        <div class="input-group w-50 shadow-sm search">
+          <input type="text" class="form-control rounded-start border-0" placeholder="Search for subcategories..." [(ngModel)]="searchTerm" (input)="filterCategories()">
+          <button class="btn btn-primary rounded-end" (click)="filterCategories()"><i class="fas fa-search"></i></button>
+        </div>
+      </header>
       <div class="row">
         <!-- No Subcategories Found Section -->
         <div *ngIf="filteredSubCategories.length === 0" class="text-center w-100 my-5">
@@ -34,9 +33,9 @@
           <p class="text-secondary">Please try adjusting your filters or searching for a different subcategory.</p>
         </div>
 
-        <div class="col-md-4" *ngFor="let subCat of subCategories">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let subCat of subCategories">
           <a (click)="gotoAllProducts(subCat.id)">
-            <div class="card text-center shadow-lg m-1 p-2">
+            <div class="card cat-card text-center shadow-lg m-1 p-2" [@bounceDrop]="bounceState">
               <div class="card-header">
                 <img class="cat-img" src="{{subCat.subCategoryImage || NoImage}}">
               </div>

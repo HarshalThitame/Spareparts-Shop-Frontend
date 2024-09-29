@@ -91,32 +91,35 @@
       <div class="container mt-5">
         <h2 class="text-center mb-4">Activated Offers</h2>
 
-        <table class="table table-bordered table-hover shadow-lg">
-          <thead class="thead-light">
-          <tr>
-            <th scope="col">Offer Title</th>
-            <th scope="col">Discount (%)</th>
-            <th scope="col">Description</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Products Included</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let offer of activatedOffers">
-            <td>{{ offer.title }}</td>
-            <td>{{ offer.discount }}</td>
-            <td>{{ offer.description }}</td>
-            <td>{{ offer.startDate | date:'short' }}</td>
-            <td>{{ offer.endDate | date:'short' }}</td>
-            <td>
-              <ul class="list-unstyled mb-0">
-                <li *ngFor="let product of offer.products">{{ product.name }} - {{ product.price | currency }}</li>
-              </ul>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <!-- Add table-responsive class for responsiveness -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover shadow-lg">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Offer Title</th>
+              <th scope="col">Discount (%)</th>
+              <th scope="col">Description</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Products Included</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let offer of activatedOffers">
+              <td>{{ offer.title }}</td>
+              <td>{{ offer.discount }}</td>
+              <td>{{ offer.description }}</td>
+              <td>{{ offer.startDate | date:'short' }}</td>
+              <td>{{ offer.endDate | date:'short' }}</td>
+              <td>
+                <ul class="list-unstyled mb-0">
+                  <li *ngFor="let product of offer.products">{{ product.name }} - {{ product.price | currency:'INR' }}</li>
+                </ul>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

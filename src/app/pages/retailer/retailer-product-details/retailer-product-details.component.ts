@@ -27,32 +27,6 @@ export class RetailerProductDetailsComponent implements OnInit {
   quantity = 1;
 
   stock = 10;
-  compatibilityData = [
-    {
-      model: 'CIAZ 1ST GEN 1.3L VDI',
-      year: '07.2014 - 07.2015',
-      engine: '1.3 L',
-      power: '88 h.p.',
-      fuelType: 'Diesel',
-      engineType: 'D13A'
-    },
-    {
-      model: 'CIAZ 1ST GEN 1.4L VXI',
-      year: '07.2014 - 07.2018',
-      engine: '1.4 L',
-      power: '91 h.p.',
-      fuelType: 'Petrol',
-      engineType: 'K14B'
-    },
-    {
-      model: 'CIAZ 1ST GEN 1.4L VXI AT',
-      year: '07.2014 - 07.2018',
-      engine: '1.4 L',
-      power: '91 h.p.',
-      fuelType: 'Petrol',
-      engineType: 'K14B'
-    },
-  ];
 
   constructor(private _loginService: LoginService,
               private _router: Router,

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {LoginService} from "../../../service/login.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../../model/User.model";
@@ -13,13 +13,25 @@ import Swal from 'sweetalert2';
 import {SubCategory} from "../../../model/SubCategory.model";
 import {Cart} from "../../../model/Cart.model";
 import {ProductService} from "../../../service/product.service";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-customer-all-products',
   templateUrl: './customer-all-products.component.html',
-  styleUrl: './customer-all-products.component.css'
+  styleUrl: './customer-all-products.component.css',
+  animations: [
+    trigger('bounceDrop', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-50px) scale(0.8)' }),
+        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(-10px)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class CustomerAllProductsComponent implements OnInit {
+  bounceState: string='';
   user: User;
   products: Product[] = [];
   isLoggedIn = false;
@@ -33,6 +45,23 @@ export class CustomerAllProductsComponent implements OnInit {
   maxPrice: number = 100000; // Maximum price
   selectedCategory: Category;
   selectedSubCategory: SubCategory; // Add this line in your component class
+  isSidebarVisible = true;
+  isMobile: boolean =false;
+  isPc: boolean = false;
+
+
+  checkIfMobile(width: number) {
+    this.isMobile = width < 768; // Set your breakpoint
+    this.isPc = width > 768; // Set your breakpoint
+    if (this.isMobile) {
+      this.isSidebarVisible = false; // Show sidebar for PC
+    }
+    if(this.isPc){
+      this.isSidebarVisible = true
+    }
+  }
+
+
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -49,7 +78,9 @@ export class CustomerAllProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bounceState = 'in'
     this.id = this._route.snapshot.paramMap.get('id');
+    this.checkIfMobile(window.innerWidth)
     this.loadUser();
     this.loadAllProductsOfSubCategory(this.id);
     this.loadAllCategories();
@@ -210,5 +241,10 @@ export class CustomerAllProductsComponent implements OnInit {
     return mrp - (mrp * discount / 100);
   }
 
+
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
+
+  }
   protected readonly noImageURL = noImageURL;
 }

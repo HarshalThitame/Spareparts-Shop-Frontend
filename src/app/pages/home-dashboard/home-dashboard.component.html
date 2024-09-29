@@ -52,13 +52,14 @@
       <h3 class="text-center mb-4">Featured Products</h3>
     </div>
 
-    <div class="col-md-2 mb-4" *ngFor="let product of products">
-      <div class="card h-100 product-card"
+    <!-- Adjusting for different screen sizes -->
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of products">
+      <div class="card h-100 product-card" [@bounceDrop]="bounceState"
            [routerLink]="['/category/sub-category/sub-sub-category/product-details', product.id]">
-        <img [src]=" noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+        <img [src]="noImage" class="card-img-top feature-img" alt="{{ product.name }}">
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
-          <p class="text-white">Minimum order quantity: {{ product.moq }}</p>
+          <p class="text-white">MOQ: {{ product.moq }}</p>
           <h6 class="text-white mt-2">
             {{ getDiscountedPrice(product) | currency:'INR' }}
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>

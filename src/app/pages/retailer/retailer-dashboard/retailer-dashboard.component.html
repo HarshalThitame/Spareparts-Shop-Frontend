@@ -13,20 +13,26 @@
   <app-dropdown-search/>
   <app-shared-categories/>
 
-  <div class="row">
-    <div class="col-md-2 mb-4" *ngFor="let product of products">
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3 class="text-center mb-4">Featured Products</h3>
+    </div>
+
+    <!-- Adjusting for different screen sizes -->
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of products">
       <div class="card h-100 product-card"
            [routerLink]="['/retailer/category/sub-category/sub-sub-category/product-details', product.id]">
-        <img [src]=" noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+        <img [src]="noImage" class="card-img-top feature-img" alt="{{ product.name }}">
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
-          <p class="text-white">Minimum order quantity: {{ product.moq }}</p>
+          <p class="text-white">MOQ: {{ product.moq }}</p>
           <h6 class="text-white mt-2">
             {{ getDiscountedPrice(product) | currency:'INR' }}
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
           </h6>
           <small class="text-white">Special offer for mechanics</small>
-          <p class="text-white">Price: <span class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
+          <p class="text-white">Price: <span
+            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
         </div>
       </div>
     </div>

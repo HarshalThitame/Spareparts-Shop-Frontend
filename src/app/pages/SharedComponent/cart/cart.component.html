@@ -14,7 +14,7 @@
       <div class="row cart">
         <div *ngFor="let item of cart.items" class="col-12 cart-item mb-4 p-4 shadow-sm rounded border border-light">
           <div class="row align-items-center">
-            <div class="col-md-4 col-12">
+            <div class="col-md-4 col-12 mb-3 mb-md-0">
               <img [src]="item.product.images" alt="{{ item.product.name }}" class="img-fluid rounded">
             </div>
             <div class="col-md-6 col-12">
@@ -24,10 +24,9 @@
                 {{ getDiscountedPrice(item.product) | currency:'INR' }}
                 <small class="text-danger ms-2 h6">-{{ getDiscount(item.product) }}% Off</small>
               </h4>
-              <small class="text-muted">Special offer for mechanics</small>
               <p class="text-muted">Price: <span class="text-decoration-line-through">{{ item.product.price | currency:'INR' }}</span></p>
             </div>
-            <div class="col-md-2 col-12 text-end">
+            <div class="col-md-2 col-12 text-md-end text-center">
               <div class="quantity-selector d-flex align-items-center justify-content-between">
                 <button class="btn btn-outline-secondary" (click)="decreaseQuantity(item)">-</button>
                 <input type="number" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 60px; text-align: center;">
@@ -40,15 +39,7 @@
         </div>
       </div>
 
-      <div class="mb-4">
-        <h5 class="font-weight-bold text-secondary">Have a discount code?</h5>
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Enter code" aria-label="Discount Code">
-          <div class="input-group-append">
-            <button class="btn btn-primary">Apply</button>
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <!-- Summary Section -->
@@ -58,11 +49,10 @@
         <p>({{ getTotalItems() }} items)</p>
         <hr>
         <p>Subtotal: <span class="font-weight-bold">{{ cart.totalAmount | currency:'INR' }}</span></p>
-        <p>CGST: <span class="font-weight-bold">{{ 5 | currency:'INR' }}</span></p>
-        <p>SGST: <span class="font-weight-bold">{{ 9 | currency:'INR' }}</span></p>
-        <p>Other Charges: <span class="font-weight-bold">{{ 0 | currency:'INR' }}</span></p>
+        <p>GST: <span class="font-weight-bold">{{ getGst() | currency:'INR' }}</span></p>
+        <p class="text-success font-weight-bold">Total Discount: <span id="savings">-{{ getTotalSavings() | currency:'INR' }}</span></p>
         <p class="font-weight-bold text-success">Total Price After Discounts: <span class="font-weight-bold">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>
-        <p class="text-success font-weight-bold">Total Savings: <span id="savings">{{ getTotalSavings() | currency:'INR' }}</span></p>
+        <p class="font-weight-bold text-success">Total : <span class="font-weight-bold">{{ getTotal() | currency:'INR' }}</span></p>
         <button (click)="openCheckOut()" class="btn btn-success btn-block animated-button">Proceed to Checkout</button>
         <button [routerLink]="'/'" class="btn btn-info btn-block mt-3 animated-button">Continue Shopping</button>
       </div>

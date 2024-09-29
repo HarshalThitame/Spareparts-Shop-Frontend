@@ -3,16 +3,17 @@
   <h3>Search Parts</h3>
   <nav>
     <ul class="menu">
-      <li class="dropdown dropdown-6">
+      <li class="dropdown dropdown-6" role="combobox" aria-expanded="false" aria-haspopup="true">
         Brand: <span *ngIf="selectedBrand">{{ selectedBrand.name }}</span>
-        <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
-          <li (click)="onBrandSelect(null)">Select</li> <!-- Default Option -->
+        <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6" role="listbox">
+          <li role="option" (click)="onBrandSelect(null)">Select</li> <!-- Default Option -->
           <li *ngFor="let brand of brands" class="dropdown_item-1"
-              (click)="onBrandSelect(brand)">
+              (click)="onBrandSelect(brand)" role="option">
             {{ brand.name }}
           </li>
         </ul>
       </li>
+
       <li class="dropdown dropdown-7">
         Model No: <span *ngIf="selectedModel"> {{ selectedModel.name }}</span>
         <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-7">
@@ -26,7 +27,7 @@
       <li class="dropdown dropdown-8">
         Category: <span *ngIf="selectedCategory"> {{ selectedCategory.name }}</span>
         <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-8">
-          <li (click)="onCategorySelect(null)">Select</li> <!-- Default Option -->
+          <li (click)="onCategorySelect(null)" >Select</li> <!-- Default Option -->
           <li *ngFor="let cat of categories" class="dropdown_item"
               (click)="onCategorySelect(cat)">
             {{ cat.name }}
@@ -34,8 +35,8 @@
         </ul>
       </li>
 
-      <button class="text-white btn btn-outline-secondary">
-        <span class="material-symbols-outlined" (click)="SearchByDropdown()">search</span>
+      <button class="text-white btn btn-outline-secondary" (click)="SearchByDropdown()">
+        <span class="material-symbols-outlined">search</span>
       </button>
     </ul>
   </nav>

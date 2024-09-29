@@ -9,6 +9,8 @@ import {OrderItem} from "../../../../model/OrderItem.model";
 import {Product} from "../../../../model/Product.model";
 import {AdminProductService} from "../../../../service/AdminService/admin-product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import Swal from "sweetalert2";
+import {OrderStatus} from "../../../../model/OrderStatus.model";
 
 @Component({
   selector: 'app-admin-edit-order-details',
@@ -20,6 +22,8 @@ export class AdminEditOrderDetailsComponent implements OnInit {
   order: Order;
   user: User;
   id: any;
+  statuses = Object.values(OrderStatus); // Get enum values as an array
+
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -71,8 +75,9 @@ export class AdminEditOrderDetailsComponent implements OnInit {
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
   }
-  calculateDiscount(mrp:any,discount:any){
-    return (mrp*discount)/100
+
+  calculateDiscount(mrp: any, discount: any) {
+    return (mrp * discount) / 100
   }
 
   updateSubtotal(item: OrderItem) {
@@ -82,7 +87,7 @@ export class AdminEditOrderDetailsComponent implements OnInit {
       item.quantity = item.product.stockQuantity; // Reset quantity to stock quantity
     } else {
 
-      if(item.quantity == 0 || item.quantity == null){
+      if (item.quantity == 0 || item.quantity == null) {
         item.quantity = 1;
       }
 
@@ -117,10 +122,47 @@ export class AdminEditOrderDetailsComponent implements OnInit {
 
   addNoteToOrder() {
     console.log(this.order.notes)
-    this._adminOrderService.updateOrder(this.order).subscribe(data=>{
+    this._adminOrderService.updateOrder(this.order).subscribe(data => {
       console.log(data)
-    },error => {
+    }, error => {
       console.log(error)
     })
+  }
+
+  onStatusChange(event: any) {
+    this.order.status = event.target.value
+    this._adminOrderService.updateOrder(this.order).subscribe(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Order Status Updated',
+          text: `Order status has been updated to: ${this.order.status}`,
+          confirmButtonText: 'OK',
+        });
+      },
+      error => {
+        this._snackBar.open("Something went Wrong !!!", "", {duration: 3000})
+      })
+
+  }
+
+  getStatusClass(status: OrderStatus): string {
+    switch (status) {
+      case OrderStatus.PENDING:
+        return 'alert-warning'; // Yellow
+      case OrderStatus.CONFIRMED:
+        return 'alert-info'; // Light blue
+      case OrderStatus.UNPAID:
+        return 'alert-primary'; // Blue
+      case OrderStatus.PAID:
+        return 'alert-success'; // Green
+      case OrderStatus.REJECTED:
+        return 'alert-danger'; // Red
+      case OrderStatus.RETURNED:
+        return 'alert-danger'; // Red
+      case OrderStatus.CANCELLED:
+        return 'alert-danger'; // Red
+      default:
+        return '';
+    }
   }
 }

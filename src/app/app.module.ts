@@ -2,7 +2,8 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import {HttpClientModule, provideHttpClient} from '@angular/common/http'; // Import HttpClientModule
 
-import { AppComponent } from './app.component';
+import
+{ AppComponent } from './app.component';
 import {LoginComponent} from "./components/login/login.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app.routes";
@@ -75,6 +76,8 @@ import { AdminOffersComponent } from './pages/admin/promotion/admin-offers/admin
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {MatSelect} from "@angular/material/select";
+import { AdminSalesOverviewComponent } from './pages/admin/admin-dashboard/admin-sales-overview/admin-sales-overview.component';
+import { AdminInventoryManagementComponent } from './pages/admin/admin-dashboard/admin-inventory-management/admin-inventory-management.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +127,8 @@ import {MatSelect} from "@angular/material/select";
     OrderInvoiceComponent,
     AdminDiscountComponent,
     AdminOffersComponent,
+    AdminSalesOverviewComponent,
+    AdminInventoryManagementComponent,
   ],
   imports: [
     AppRoutingModule, // Ensure your routing module is included here

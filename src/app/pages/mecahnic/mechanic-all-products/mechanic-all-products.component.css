@@ -4,6 +4,9 @@ p{
 h6{
   font-size: 18px;
 }
+a{
+  font-size: 1em!important;
+}
 /* Scrollbar styling */
 .list-group {
   overflow-y: auto;
@@ -117,3 +120,118 @@ h6{
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
+/* Adjustments for tablet screens and smaller */
+@media (max-width: 768px) {
+  .img-home {
+    height: 150px; /* Reduce image height */
+  }
+
+  h1 {
+    font-size: 36px; /* Smaller font size for h1 */
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  .prod-img {
+    height: 80px !important;
+    object-fit: contain !important;
+  }
+
+  .card-body {
+    padding: 5px !important;
+    border-spacing: 10px;
+  }
+
+  h5,h6, button {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem!important;
+  }
+
+  p{
+    font-size: 0.7em;
+    line-height: 1.25rem!important;
+  }
+  small,span{
+    font-size: 1em;
+  }
+
+  .animated-search {
+    width: 100%; /* Full width for smaller screens */
+    padding: 10px 20px; /* Adjust padding */
+  }
+
+  .btn-primary {
+    width: 35px; /* Smaller button */
+    height: 35px; /* Smaller button */
+  }
+
+  .product-card {
+    margin-bottom: 15px; /* Reduce spacing between cards */
+  }
+
+  .feature-img {
+    height: 150px; /* Reduce image size */
+  }
+
+  .card-title {
+    font-size: 1rem; /* Adjust title font size */
+  }
+
+  .card-body {
+    font-size: 0.9rem; /* Adjust pricing font */
+  }
+}
+
+/* Adjustments for mobile phones */
+@media (max-width: 576px) {
+  .img-home {
+    height: 120px; /* Further reduce image height */
+  }
+
+  .search-wrapper {
+    width: 100%; /* Full width for mobile screens */
+  }
+
+  h1 {
+    font-size: 28px; /* Smaller font size for h1 */
+  }
+
+  .card-title {
+    font-size: 0.9rem; /* Smaller title */
+  }
+
+  .search-wrapper {
+    max-width: 100%; /* Ensure search bar takes full width */
+  }
+
+  .animated-search {
+    padding: 8px 20px; /* Adjust padding */
+  }
+
+  .product-card {
+    margin-bottom: 10px; /* Further reduce spacing between cards */
+  }
+
+  .card-body h6 {
+    font-size: 0.8rem; /* Smaller font for pricing */
+  }
+}
+
+/* Larger screens adjustments */
+@media (min-width: 1200px) {
+  .img-home {
+    height: 250px; /* Increase image height */
+  }
+
+  h1 {
+    font-size: 56px; /* Larger font size */
+  }
+
+  .card-body h6 {
+    font-size: 1.2rem; /* Larger pricing font */
+  }
+}
+

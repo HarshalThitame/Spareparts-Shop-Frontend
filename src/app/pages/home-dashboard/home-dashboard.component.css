@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Sen&display=swap");
 
-a{
+a {
   text-decoration: none;
 }
+
 .offer-card {
   background-color: #007bff; /* Change to your preferred color */
   border-radius: 8px;
@@ -43,6 +44,7 @@ h1 {
   color: #007bff;
   font-weight: bold;
 }
+
 .card {
   transition: transform 0.5s ease;
 }
@@ -58,6 +60,7 @@ body {
   font-family: 'Sen', serif;
   margin-bottom: 200px;
 }
+
 h1 {
   font-size: 48px;
   text-align: center;
@@ -127,22 +130,34 @@ h1 {
 
 /* Example for keyframes grouping */
 @keyframes growDown {
-  0% { transform: scaleY(0); }
-  80% { transform: scaleY(1.1); }
-  100% { transform: scaleY(1); }
+  0% {
+    transform: scaleY(0);
+  }
+  80% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 @keyframes rotateMenu {
-  0% { transform: rotateX(-90deg); }
-  70% { transform: rotateX(20deg); }
-  100% { transform: rotateX(0deg); }
+  0% {
+    transform: rotateX(-90deg);
+  }
+  70% {
+    transform: rotateX(20deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
 }
+
 .card-home {
   position: relative; /* Set the card position to relative for absolute positioning inside */
   background: linear-gradient(135deg, #4A90E2, #007bff); /* Gradient from light blue to blue */
   color: white; /* Text color for contrast */
 }
-
 
 
 .search-wrapper {
@@ -178,21 +193,137 @@ h1 {
   height: 40px; /* Fixed height */
   border: none; /* Remove border */
 }
-.img-home{
+
+.img-home {
   height: 200px;
   object-fit: contain;
 }
-mat-card{
+
+mat-card {
   margin-top: 20px;
   background: none;
-  border:none;
+  border: none;
 }
-mat-card-title{
+
+mat-card-title {
   font-size: 4rem;
 }
 
-mat-card-subtitle{
+mat-card-subtitle {
   color: white;
   margin-top: 20px;
 }
 
+/* Adjustments for tablet screens and smaller */
+@media (max-width: 768px) {
+  .img-home {
+    height: 150px; /* Reduce image height */
+  }
+
+  h1 {
+    font-size: 36px; /* Smaller font size for h1 */
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  .feature-img {
+    height: 80px !important;
+    object-fit: contain !important;
+  }
+
+  .card-body {
+    padding: 5px !important;
+    border-spacing: 10px;
+  }
+
+  h5 {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem!important;
+  }
+
+  p{
+    font-size: 0.7em;
+    line-height: 1.25rem!important;
+  }
+  small{
+    font-size: 0.6em;
+  }
+
+  .animated-search {
+    width: 100%; /* Full width for smaller screens */
+    padding: 10px 20px; /* Adjust padding */
+  }
+
+  .btn-primary {
+    width: 35px; /* Smaller button */
+    height: 35px; /* Smaller button */
+  }
+
+  .product-card {
+    margin-bottom: 15px; /* Reduce spacing between cards */
+  }
+
+  .feature-img {
+    height: 150px; /* Reduce image size */
+  }
+
+  .card-title {
+    font-size: 1rem; /* Adjust title font size */
+  }
+
+  .card-body h6 {
+    font-size: 0.9rem; /* Adjust pricing font */
+  }
+}
+
+/* Adjustments for mobile phones */
+@media (max-width: 576px) {
+  .img-home {
+    height: 120px; /* Further reduce image height */
+  }
+
+  .search-wrapper {
+    width: 100%; /* Full width for mobile screens */
+  }
+
+  h1 {
+    font-size: 28px; /* Smaller font size for h1 */
+  }
+
+  .card-title {
+    font-size: 0.9rem; /* Smaller title */
+  }
+
+  .search-wrapper {
+    max-width: 100%; /* Ensure search bar takes full width */
+  }
+
+  .animated-search {
+    padding: 8px 20px; /* Adjust padding */
+  }
+
+  .product-card {
+    margin-bottom: 10px; /* Further reduce spacing between cards */
+  }
+
+  .card-body h6 {
+    font-size: 0.8rem; /* Smaller font for pricing */
+  }
+}
+
+/* Larger screens adjustments */
+@media (min-width: 1200px) {
+  .img-home {
+    height: 250px; /* Increase image height */
+  }
+
+  h1 {
+    font-size: 56px; /* Larger font size */
+  }
+
+  .card-body h6 {
+    font-size: 1.2rem; /* Larger pricing font */
+  }
+}

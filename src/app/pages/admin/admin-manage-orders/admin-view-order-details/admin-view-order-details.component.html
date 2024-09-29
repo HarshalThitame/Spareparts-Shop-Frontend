@@ -2,12 +2,15 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 d-md-block">
       <app-admin-sidebar></app-admin-sidebar>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
+      <div *ngIf="order.isVor" class="card bg-danger-subtle mt-2 p-2">
+        <h6>This is VOR order.</h6>
+      </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-lg-8 col-md-7">
           <div class="card mt-3">
             <div class="card-header bg">
               <h5>Order Details</h5>
@@ -16,7 +19,7 @@
               <h6>Product Details:</h6>
               <div *ngFor="let item of order.orderItems">
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-8">
                     <h6>{{ item.product.name }}</h6>
                     <p><strong>Price:</strong> {{ item.price | currency : 'INR' }}</p>
                     <p><strong>Quantity:</strong> {{ item.quantity }}</p>
@@ -24,7 +27,7 @@
                     <p><strong>Discount:</strong> {{ item.discountAmount | currency : 'INR' }}</p>
                     <p><strong>Total Price:</strong> {{ item.totalPrice | currency : 'INR' }}</p>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-4 text-center">
                     <img [src]="item.product.mainImage || NoImage" alt="{{ item.product.name }}"
                          class="img-fluid mb-2 item-img"/>
                   </div>
@@ -37,14 +40,13 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-5">
           <!-- User Details Card -->
           <div class="card mt-3">
             <div class="card-header bg">
               <h5>User Details</h5>
             </div>
             <div class="card-body">
-
               <p><strong>Name:</strong> {{ order.user.firstName }} {{ order.user.lastName }}</p>
               <p><strong>Email:</strong> {{ order.user.email }}</p>
               <p><strong>Mobile:</strong> {{ order.user.mobile }}</p>
@@ -60,17 +62,33 @@
             <div class="card-body">
               <p>Delivery Address: demo</p>
               <p>Order Date: {{ order.createdAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
-              <p>Status: {{ order.status }}</p>
-              <button class="btn btn-primary">Print Order</button>
+
+
+              <!-- order.component.html -->
+              <div class="mb-3">
+                <label for="status" class="form-label">Change Status:</label>
+                <select id="status" class="form-select" [(ngModel)]="order.status" (change)="onStatusChange($event)">
+                  <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+                </select>
+              </div>
+
+              <!-- Status Display -->
+              <div class="alert" [ngClass]="getStatusClass(order.status)">
+                Current Status: <strong>{{ order.status }}</strong>
+              </div>
+
+
+
+
+              <button class="btn btn-primary w-100" (click)="printOrder()">Print Order</button>
             </div>
           </div>
+          <a class="d-block text-center mt-3" [routerLink]="'/admin/manage-orders/edit-order-details/'+order.id">Want to update order?</a>
+          <button class="btn btn-outline-secondary m-2 w-100" (click)="markAsUnread()">Mark as unread</button>
         </div>
       </div>
-      <a [routerLink]="'/admin/manage-orders/edit-order-details/'+order.id">Want to update order?</a>
 
-<app-order-invoice [order]="order"></app-order-invoice>
+      <app-order-invoice style="display: none" [order]="order"></app-order-invoice>
     </div>
   </div>
 </div>
-
-

@@ -1,3 +1,4 @@
+/* Base Styles */
 .container-fluid {
   background-color: #f8f9fa; /* Light background color */
 }
@@ -11,6 +12,7 @@ h6 {
   color: #007bff; /* Blue color for labels */
 }
 
+/* Form Controls */
 .form-control {
   border-radius: 0.5rem; /* Rounded corners */
 }
@@ -19,6 +21,7 @@ h6 {
   margin-top: 0.3rem; /* Adjust checkbox alignment */
 }
 
+/* Card Styles */
 .card {
   border: 1px solid #007bff; /* Blue border for the card */
   border-radius: 0.5rem; /* Rounded corners for the card */
@@ -29,6 +32,7 @@ h6 {
   padding: 1.5rem; /* Spacing inside card body */
 }
 
+/* Button Styles */
 .btn-success {
   background-color: #28a745; /* Green button */
   border: none; /* Remove border */
@@ -37,6 +41,8 @@ h6 {
 .btn-success:hover {
   background-color: #218838; /* Darker green on hover */
 }
+
+/* Hero Section */
 .hero-section {
   background: linear-gradient(135deg, #007bff, #6610f2);
   padding: 20px;
@@ -48,6 +54,7 @@ h6 {
   animation: fadeIn 1s ease-in-out;
 }
 
+/* Fade In Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -57,44 +64,96 @@ h6 {
   }
 }
 
+/* Form Group Hover Effect */
 .form-group {
   transition: transform 0.2s;
 }
 
 .form-group:hover {
-  transform: scale(1.02);
-}
-.form-group label {
-  font-weight: bold;
-  color: #343a40; /* Dark color for labels */
+  transform: scale(1.01);
 }
 
-.form-control {
-  border-radius: 0.5rem; /* Rounded borders */
-  border: 1px solid #ced4da; /* Lighter border */
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .form-group {
+    margin-bottom: 1.5rem; /* Increased space between form groups */
+  }
 }
 
-.form-control:focus {
-  border-color: #80bdff; /* Focus border color */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Box shadow */
+@media (max-width: 992px) {
+  .card {
+    margin-bottom: 1rem; /* Space between cards */
+  }
+
+  .form-group label {
+    font-weight: bold;
+    color: #343a40; /* Dark color for labels */
+  }
+
+  .form-control {
+    border: 1px solid #ced4da; /* Lighter border */
+  }
+
+  .form-control:focus {
+    border-color: #80bdff; /* Focus border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Box shadow */
+  }
 }
 
-.btn-success {
-  background-color: #28a745; /* Success color */
-  border: none; /* Remove border */
-  border-radius: 0.5rem; /* Rounded corners */
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 0 15px; /* Padding for small screens */
+  }
+  label{
+    font-size: 0.8rem;
+  }
+
+
+  .form-group {
+    margin-bottom: 1rem; /* Spacing between form groups */
+  }
+
+  .card-body {
+    padding: 1rem; /* Reduced padding inside cards */
+  }
+
+  .btn-success {
+    width: 100%; /* Full-width button */
+  }
+
+  .col-md-2,
+  .col-md-10 {
+    flex: 0 0 100%; /* Stack on small screens */
+    max-width: 100%; /* Stack on small screens */
+  }
+
+  h6 {
+    font-size: 1rem; /* Reduced size for subheading */
+  }
 }
 
-.btn-success:hover {
-  background-color: #218838; /* Darker on hover */
-}
+@media (max-width: 576px) {
+  h3 {
+    font-size: 1.3rem; /* Further reduce heading size for small screens */
+  }
+  label{
+    font-size: 0.7rem;
+  }
 
-.card {
-  border: 1px solid #ced4da; /* Card border */
-  border-radius: 0.5rem; /* Rounded corners */
-  margin-bottom: 1rem; /* Space between cards */
-}
 
-.card-body {
-  padding: 1.5rem; /* Padding inside cards */
+  h6 {
+    font-size: 0.9rem; /* Further reduced size for subheading */
+  }
+
+  .form-group {
+    margin-bottom: 0.5rem; /* Adjust spacing */
+  }
+
+  .form-control {
+    font-size: 0.85rem; /* Smaller font for inputs */
+  }
+
+  .form-check-label {
+    font-size: 0.85rem; /* Smaller font for checkboxes */
+  }
 }

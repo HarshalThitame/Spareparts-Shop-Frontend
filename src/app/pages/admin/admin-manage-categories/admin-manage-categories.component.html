@@ -1,4 +1,4 @@
-<app-navbar/>
+<app-navbar />
 
 <div class="container-fluid">
   <div class="row">
@@ -11,8 +11,7 @@
 
         <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()"
               class="shadow-lg p-4 rounded bg-white border border-light">
-          <h6
-            class="text-secondary text-start mb-4">{{ editingCategoryId ? 'Edit Category' : 'Add New Category' }}</h6>
+          <h6 class="text-secondary text-start mb-4">{{ editingCategoryId ? 'Edit Category' : 'Add New Category' }}</h6>
           <div class="form-group">
             <label for="categoryName">Category Name</label>
             <input type="text" formControlName="name" id="categoryName" class="form-control"
@@ -31,7 +30,7 @@
 
           <div formArrayName="subcategories">
             <div *ngFor="let sub of subcategories.controls; let i = index" [formGroupName]="i" class="mb-3">
-              <h5 class="text-info">Subcategory {{ i + 1 }}</h5>
+              <h6 class="text-info">Subcategory {{ i + 1 }}</h6>
               <input type="hidden" formControlName="id"> <!-- Hidden input for subcategory ID -->
               <div class="form-group">
                 <label for="subCategoryName">Subcategory Name</label>
@@ -43,32 +42,30 @@
                 <textarea formControlName="description" id="subCategoryDescription" class="form-control"
                           placeholder="Enter a brief description"></textarea>
               </div>
-              <button type="button" class="btn btn-danger" (click)="removeSubCategory(i,sub)">Remove Subcategory</button>
+              <button type="button" class="btn btn-danger" (click)="removeSubCategory(i, sub)">Remove Subcategory</button>
             </div>
           </div>
 
-          <div class="d-flex justify-content-between">
+          <div class="d-flex flex-column flex-md-row justify-content-between">
             <button type="button" class="mt-2 btn btn-outline-secondary" (click)="addSubCategory()">Add Subcategory</button>
-            <button type="submit"
-                    class=" btn btn-primary mt-3">{{ editingCategoryId ? 'Update Category' : 'Add Category' }}
-            </button>
+            <button type="submit" class="btn btn-primary mt-3">{{ editingCategoryId ? 'Update Category' : 'Add Category' }}</button>
           </div>
         </form>
 
         <div class="mt-4">
           <h3 class="text-center text-secondary">Existing Categories</h3>
           <div class="row">
-            <div *ngFor="let category of categories" class="col-md-3 mb-4">
+            <div *ngFor="let category of categories" class="col-6 col-md-4 col-lg-3 mb-4">
               <div class="category-card text-center p-3 shadow-lg rounded">
                 <div (click)="scrollToCategory(category.id)" class="card-header">
                   <img class="category-img" [src]="category.categoryImage" alt="">
                 </div>
                 <h6 (click)="scrollToCategory(category.id)" class="category-title text-success">{{ category.name }}</h6>
                 <div class="d-flex justify-content-around">
-                  <button type="button" class="btn btn-outline-info" (click)="editCategory(category)">
+                  <button type="button" class="btn btn-outline-info action-btn" (click)="editCategory(category)">
                     <span class="material-symbols-outlined">edit</span>
                   </button>
-                  <button type="button" class="btn btn-outline-danger" (click)="deleteCategory(category.id)">
+                  <button type="button" class="btn btn-outline-danger action-btn" (click)="deleteCategory(category.id)">
                     <span class="material-symbols-outlined">delete</span>
                   </button>
                 </div>
@@ -77,30 +74,27 @@
           </div>
         </div>
         <div *ngFor="let category of categories" id="subcategories-{{ category.id }}" class="mt-5">
-          <h4 class="text-success text-center">{{ category.name }} Subcategories</h4>
+          <h3 class="text-success text-center">{{ category.name }} Subcategories</h3>
           <div class="card mb-4 shadow-lg">
             <div class="card-body">
               <ul class="list-unstyled">
-                  <li *ngFor="let sub of category.subCategories || []" class="subcategory-item">
-                <div class="d-flex justify-content-between">
-                 <div class="">
-                   {{ sub.name }}
-                   - {{ sub.description }}
-                 </div>
-                  <div class="">
-                    <button type="button" class="btn btn-outline-danger" (click)="deleteSubCategory(sub.id)">
-                      <span class="material-symbols-outlined">delete</span>
-                    </button>
+                <li *ngFor="let sub of category.subCategories || []" class="subcategory-item">
+                  <div class="d-flex justify-content-between">
+                    <div class="">
+                      {{ sub.name }} - {{ sub.description }}
+                    </div>
+                    <div class="">
+                      <button type="button" class="btn btn-outline-danger action-btn" (click)="deleteSubCategory(sub.id)">
+                        <span class="material-symbols-outlined">delete</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                    <hr>
-                  </li>
+                  <hr>
+                </li>
               </ul>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </div>

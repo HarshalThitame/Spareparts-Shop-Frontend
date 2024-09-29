@@ -729,3 +729,27 @@ nav {
 }
 
 
+/* Media Queries */
+@media (max-width: 768px) {
+
+
+
+  .dropdown_menu {
+    width: auto; /* Auto width */
+    display: none; /* Hide by default */
+  }
+
+  .dropdown:hover .dropdown_menu {
+    display: block; /* Show on hover */
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-container h3 {
+    font-size: 20px; /* Smaller title font */
+  }
+
+  .dropdown {
+    padding: 8px; /* Smaller padding */
+  }
+}

@@ -28,10 +28,19 @@ import {MatSnackBar} from "@angular/material/snack-bar";
       transition(':leave', [
         animate('0.5s ease-out', style({opacity: 0, transform: 'translateX(100%)'}))
       ])
-    ])
+    ]),
+    trigger('bounceDrop', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-50px) scale(0.8)' }),
+        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(-10px)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
   ]
 })
 export class HomeDashboardComponent implements OnInit {
+  bounceState: string='';
   user: User;
   categories: Category[] = [];
   products: Product[] = [];
@@ -64,6 +73,7 @@ export class HomeDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bounceState = 'in'
     this.loadUser();
     this.loadCategories();
     this.loadAllProducts()

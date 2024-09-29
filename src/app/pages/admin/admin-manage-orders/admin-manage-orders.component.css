@@ -1,10 +1,30 @@
-/* General styling */
 .container-fluid {
   min-height: 100vh;
 }
 
+/* Table styling */
+.table {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.table:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
 .table th, .table td {
   vertical-align: middle;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  transition: background-color 0.3s ease;
+}
+
+.table th {
+  background-color: #f8f9fa;
+}
+
+.table td:hover {
+  background-color: rgba(108, 117, 125, 0.1);
 }
 
 .text-center {
@@ -12,55 +32,74 @@
   color: #6c757d;
 }
 
-.img-fluid {
-  max-width: 100%;
-  height: auto;
+/* Responsive search and filter section */
+.search {
+  width: 100%;
 }
 
-.mat-header-cell, .mat-cell {
-  text-align: center;
-}
-
-/* Responsive Styles for Smaller Screens */
 @media (max-width: 768px) {
-  /* Hide unnecessary columns on small screens */
-  .mat-column-id,
-  .mat-column-customerType,
-  .mat-column-orderItems {
+  .d-md-none {
     display: none;
   }
 
-  /* Reduce padding and margins */
-  .container-fluid {
-    padding: 0 5px;
+  /* Stack filters and search on smaller screens */
+  .search, .form-select, input[type="date"] {
+    width: 100%;
+    margin-bottom: 10px;
   }
 
-  /* Reduce font sizes */
-  .mat-header-cell, .mat-cell {
-    font-size: 12px;
+  input, select {
+    font-size: 0.8em;
+  }
+
+  .container-fluid {
+    margin: 0!important;
+  }
+
+  h6 {
+    font-size: 1.2em;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: black;
+  }
+
+  .dlt {
+    color: #dc0000;
+  }
+
+  .container-fluid {
+    padding: 0 10px;
   }
 
   .btn {
     padding: 5px 10px;
     font-size: 12px;
   }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .table th, .table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  /* Hide unnecessary columns on smaller screens */
+  th:nth-child(1), td:nth-child(1), /* ID */
+  th:nth-child(6), td:nth-child(6) /* Order Items */
+  {
+    display: none;
+  }
 }
 
-/* For phones, even more minimal */
 @media (max-width: 576px) {
-  .mat-header-cell, .mat-cell {
+  /* Further reduce font size and padding */
+  .table th, .table td {
     font-size: 10px;
-    padding: 5px;
-  }
-
-  /* Center search bar */
-  .search {
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  /* Hide more columns if necessary */
-  .mat-column-status {
-    display: none;
+    padding: 8px;
   }
 }

@@ -9,13 +9,25 @@ import { CustomerCategoryService } from "../../../service/customerService/custom
 import NoImage from "../../../service/helper/noImage";
 import {User} from "../../../model/User.model";
 import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-shared-sub-categories',
   templateUrl: './shared-sub-categories.component.html',
-  styleUrls: ['./shared-sub-categories.component.css'] // Corrected to styleUrls
+  styleUrls: ['./shared-sub-categories.component.css',], // Corrected to styleUrls
+  animations: [
+    trigger('bounceDrop', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-50px) scale(0.8)' }),
+        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(-10px)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class SharedSubCategoriesComponent implements OnInit {
+  bounceState: string='';
   user: User;
   subCategories: SubCategory[] = [];
   id: any;
@@ -36,6 +48,7 @@ export class SharedSubCategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bounceState = 'in'
     this.id = this._route.snapshot.paramMap.get('id');
     this.loadUser();
     this.loadSubCategories(this.id);

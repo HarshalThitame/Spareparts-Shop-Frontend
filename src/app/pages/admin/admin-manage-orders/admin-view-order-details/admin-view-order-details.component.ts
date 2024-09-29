@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Order} from "../../../../model/Order.model";
 import {User} from "../../../../model/User.model";
 import {LoginService} from "../../../../service/login.service";
@@ -6,6 +6,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AdminOrderService} from "../../../../service/AdminService/admin-order.service";
 import {InitializerService} from "../../../../model/InitializerService/initializer.service";
 import NoImage from "../../../../service/helper/noImage";
+import {OrderInvoiceComponent} from "../../../SharedComponent/order-invoice/order-invoice.component";
+import {OrderStatus} from "../../../../model/OrderStatus.model";
+import Swal from "sweetalert2";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-admin-view-order-details',
@@ -13,15 +17,21 @@ import NoImage from "../../../../service/helper/noImage";
   styleUrl: './admin-view-order-details.component.css'
 })
 export class AdminViewOrderDetailsComponent implements OnInit {
+  @ViewChild(OrderInvoiceComponent) orderInvoiceComponent!: OrderInvoiceComponent; // Reference to the child component
+
   searchTerm: string = '';
   order: Order; // Replace with your order data model
   user: User;
   id: any;
 
+  statuses = Object.values(OrderStatus); // Get enum values as an array
+
+
   constructor(private _loginService: LoginService,
               private _router: Router,
               private _adminOrderService: AdminOrderService,
               private _initializerService: InitializerService,
+              private _snackBar: MatSnackBar,
               private _route: ActivatedRoute) {
     this.user = _initializerService.initializeUser();
     this.order = _initializerService.initializeOrder();
@@ -58,4 +68,52 @@ export class AdminViewOrderDetailsComponent implements OnInit {
   }
 
   protected readonly NoImage = NoImage;
+
+  printOrder() {
+    this.orderInvoiceComponent.printInvoice(); // Call the printInvoice method from the child component
+  }
+
+  markAsUnread() {
+    this._adminOrderService.markedAsUnViewed(this.id).subscribe(()=>{
+      this._router.navigate(['/admin/manage-orders'])
+    },error=>{
+      console.log(error)
+    })
+  }
+
+  onStatusChange(event: any) {
+    this.order.status = event.target.value
+    this._adminOrderService.updateOrder(this.order).subscribe(()=>{
+      Swal.fire({
+        icon: 'success',
+        title: 'Order Status Updated',
+        text: `Order status has been updated to: ${this.order.status}`,
+        confirmButtonText: 'OK',
+      });
+    },
+      error => {
+      this._snackBar.open("Something went Wrong !!!","",{duration:3000})
+      })
+
+  }
+  getStatusClass(status: OrderStatus): string {
+    switch (status) {
+      case OrderStatus.PENDING:
+        return 'alert-warning'; // Yellow
+      case OrderStatus.CONFIRMED:
+        return 'alert-info'; // Light blue
+      case OrderStatus.UNPAID:
+        return 'alert-primary'; // Blue
+      case OrderStatus.PAID:
+        return 'alert-success'; // Green
+      case OrderStatus.REJECTED:
+        return 'alert-danger'; // Red
+      case OrderStatus.RETURNED:
+        return 'alert-danger'; // Red
+      case OrderStatus.CANCELLED:
+        return 'alert-danger'; // Red
+      default:
+        return '';
+    }
+  }
 }

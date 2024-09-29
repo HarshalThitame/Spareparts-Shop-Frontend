@@ -11,13 +11,25 @@ import {InitializerService} from "../../../model/InitializerService/initializer.
 import {SharedDataService} from "../../../service/SharedData/shared-data.service";
 import Swal from "sweetalert2";
 import noImageURL from '../../../service/helper/noImage';
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-mechanic-all-products',
   templateUrl: './mechanic-all-products.component.html',
-  styleUrl: './mechanic-all-products.component.css'
+  styleUrl: './mechanic-all-products.component.css',
+  animations: [
+    trigger('bounceDrop', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-50px) scale(0.8)' }),
+        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(-10px)' })),
+        animate('0.2s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class MechanicAllProductsComponent implements OnInit {
+  bounceState: string='';
   user: User;
   products: Product[] = [];
   isLoggedIn = false;
@@ -31,6 +43,21 @@ export class MechanicAllProductsComponent implements OnInit {
   maxPrice: number = 100000; // Maximum price
   selectedCategory: Category;
   selectedSubCategory: SubCategory; // Add this line in your component class
+  isSidebarVisible = true;
+  isMobile: boolean =false;
+  isPc: boolean = false;
+
+
+  checkIfMobile(width: number) {
+    this.isMobile = width < 768; // Set your breakpoint
+    this.isPc = width > 768; // Set your breakpoint
+    if (this.isMobile) {
+      this.isSidebarVisible = false; // Show sidebar for PC
+    }
+    if(this.isPc){
+      this.isSidebarVisible = true
+    }
+  }
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -46,8 +73,9 @@ export class MechanicAllProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bounceState = 'in'
     this.id = this._route.snapshot.paramMap.get('id');
-
+    this.checkIfMobile(window.innerWidth)
     this.loadUser();
     this.loadAllProductsOfSubCategory(this.id);
     this.loadAllCategories();
@@ -150,6 +178,8 @@ export class MechanicAllProductsComponent implements OnInit {
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
   }
-
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
+  }
   protected readonly noImageURL = noImageURL;
 }

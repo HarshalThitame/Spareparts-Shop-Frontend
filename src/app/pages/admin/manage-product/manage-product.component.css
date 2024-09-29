@@ -71,7 +71,22 @@
     display: none;
   }
 
-  /* Reduce padding and font size */
+  h6{
+    font-size: 1rem;
+  }
+  a,btn{
+    font-size: 0.6rem;
+  }
+  .container-fluid ,h6,mb-3,a,.search{
+    margin: 0!important;
+    /*padding: 0!important;*/
+  }
+
+  .add-new{
+    display: none;
+  }
+
+    /* Reduce padding and font size */
   .table th, .table td {
     font-size: 12px;
     padding: 5px;

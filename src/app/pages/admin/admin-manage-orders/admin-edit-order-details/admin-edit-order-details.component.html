@@ -81,7 +81,20 @@
               <p>Delivery Address: demo</p>
               <p>Order Date: {{ order.createdAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
               <p>Last Updated On: {{ order.updatedAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
-              <p>Status: {{ order.status }}</p>
+              <!-- order.component.html -->
+              <div class="mb-3">
+                <label for="status" class="form-label">Change Status:</label>
+                <select id="status" class="form-select" [(ngModel)]="order.status" (change)="onStatusChange($event)">
+                  <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+                </select>
+              </div>
+
+              <!-- Status Display -->
+              <div class="alert" [ngClass]="getStatusClass(order.status)">
+                Current Status: <strong>{{ order.status }}</strong>
+              </div>
+
+
               <button class="btn btn-primary">Print Order</button>
             </div>
           </div>
@@ -91,7 +104,7 @@
   <textarea [(ngModel)]="order.notes" rows="5" class="form-control" aria-label="Notes" aria-describedby="notes">
   </textarea>
         </div>
-        <button class="btn bg m-3 text-white" style="width: 10%;" (click)="addNoteToOrder()">Submit Note</button>
+        <button class="btn bg m-3 text-white note-btn" style="width: 10%;" (click)="addNoteToOrder()">Submit Note</button>
       </div>
     </div>
   </div>

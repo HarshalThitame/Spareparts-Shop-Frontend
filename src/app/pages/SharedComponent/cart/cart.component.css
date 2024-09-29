@@ -6,7 +6,7 @@ body {
   border-top: lightcoral 1px solid;
   border-bottom: lightskyblue 1px solid;
   margin-top: 50px;
-  padding:20px 70px 20px 20px;
+  padding: 20px 30px;
   border-radius: 20px;
 }
 
@@ -48,11 +48,25 @@ body {
   }
 }
 
+/* Font size adjustment */
+h6, h4, h5, p, button {
+  font-size: 50%; /* Reduce font size by 50% */
+}
+
 @media (max-width: 992px) {
   .summary {
     position: static;
-    width: 100%; /* Reset width for smaller screens */
+    width: 100%;
     margin-bottom: 20px;
   }
-}
 
+  .cart-item {
+    padding: 15px;
+  }
+
+  /* Adjust any specific styles for smaller screens if necessary */
+  h1, h2, h3, h6, h4, h5, p, button,span,small {
+    font-size: 80%; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+}

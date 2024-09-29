@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Order} from "../../../model/Order.model";
+import {SharedDataService} from "../../../service/SharedData/shared-data.service";
 
 @Component({
   selector: 'app-order-invoice',

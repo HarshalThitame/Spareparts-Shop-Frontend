@@ -7,10 +7,8 @@
 /* Section Headers */
 .section-header {
   color: #1e90ff;
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-transform: uppercase;
+  font-weight: 500;
+
 }
 
 /* Progress Bar */
@@ -168,11 +166,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.section-header {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
+
 
 input[type="checkbox"] {
   width: 20px;
@@ -204,5 +198,11 @@ input[type="checkbox"] {
 
   .card-3d {
     padding: 15px;
+  }
+
+  /* Adjust any specific styles for smaller screens if necessary */
+  h1, h2, h3, h6, h4, h5, p, button,span,small {
+    font-size: 70%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
   }
 }

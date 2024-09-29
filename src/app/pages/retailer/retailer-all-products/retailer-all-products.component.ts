@@ -45,7 +45,21 @@ export class RetailerAllProductsComponent  implements OnInit {
   maxPrice: number = 100000; // Maximum price
   selectedCategory: Category ;
   selectedSubCategory: SubCategory; // Add this line in your component class
+  isSidebarVisible = true;
+  isMobile: boolean =false;
+  isPc: boolean = false;
 
+
+  checkIfMobile(width: number) {
+    this.isMobile = width < 768; // Set your breakpoint
+    this.isPc = width > 768; // Set your breakpoint
+    if (this.isMobile) {
+      this.isSidebarVisible = false; // Show sidebar for PC
+    }
+    if(this.isPc){
+      this.isSidebarVisible = true
+    }
+  }
   constructor(private _loginService: LoginService,
               private _router: Router,
               private _customerCategoryService: CustomerCategoryService,
@@ -61,6 +75,7 @@ export class RetailerAllProductsComponent  implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkIfMobile(window.innerWidth)
     this.bounceState = 'in'
     this.id = this._route.snapshot.paramMap.get('id');
 
@@ -167,5 +182,8 @@ export class RetailerAllProductsComponent  implements OnInit {
     return mrp - (mrp * discount / 100);
   }
 
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
+  }
   protected readonly noImageURL = noImageURL;
 }
