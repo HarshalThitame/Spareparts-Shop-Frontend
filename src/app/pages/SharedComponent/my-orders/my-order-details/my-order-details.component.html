@@ -44,9 +44,9 @@
           <td>{{ item.product.name }}</td>
           <td>{{ item.quantity }}</td>
           <td>{{ item.price | currency:'INR' }}</td>
-          <td>{{ item.product.gst }}</td>
+          <td>{{ item.gst }}</td>
           <td>{{ (item.subtotal) | currency:'INR' }}</td>
-          <td>{{ getDiscount(item.product.price , item.product.discountOnPurchase,item.quantity) | currency:'INR' }}</td>
+          <td>{{ getDiscount(item.price , item.discountOnPurchase,item.quantity) | currency:'INR' }}</td>
           <td>{{ (item.totalPrice) | currency:'INR' }}</td>
         </tr>
         </tbody>

@@ -3,6 +3,7 @@ import {Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import baseURL from "./helper/helper";
+import {User} from "../model/User.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,13 @@ export class LoginService {
   public getCurrentUser(){
     let token:any = this.getToken();
     console.log("token from service : "+token);
-    return this.http.get<any>(`${baseURL}/auth/current-user`);
+     let observable = this.http.get<any>(`${baseURL}/auth/current-user`);
+     observable.subscribe(data=>{
+       if(!data.active){
+         this.logout()
+       }
+     })
+    return observable;
   }
 
   public createUser(user:any){

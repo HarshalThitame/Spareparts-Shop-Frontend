@@ -140,6 +140,10 @@ export class CartComponent implements OnInit {
   }
 
   protected decreaseQuantity(item: CartItem): void {
+    if (item.quantity <= item.product.moq){
+      this._snackBar.open(`Minimum order quantity is ${item.product.moq}`, '', { duration: 3000 });
+      return
+    }
     if (item.quantity > 1) {
       item.quantity--;
       this.updateCart(item);

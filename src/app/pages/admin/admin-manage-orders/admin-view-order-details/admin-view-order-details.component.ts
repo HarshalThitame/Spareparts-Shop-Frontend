@@ -96,6 +96,16 @@ export class AdminViewOrderDetailsComponent implements OnInit {
       })
 
   }
+
+  addNoteToOrder() {
+    console.log(this.order.notes)
+    this._adminOrderService.updateOrder(this.order).subscribe(data => {
+      console.log(data)
+    }, error => {
+      console.log(error)
+    })
+  }
+
   getStatusClass(status: OrderStatus): string {
     switch (status) {
       case OrderStatus.PENDING:

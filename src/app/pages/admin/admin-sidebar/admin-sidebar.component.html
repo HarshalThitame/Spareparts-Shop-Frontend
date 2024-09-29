@@ -62,6 +62,20 @@
         </ul>
       </li>
       <li class="nav-item">
+        <a class="nav-link"  (click)="toggleDropdown('customer')">
+          <i class="fas fa-users"></i> Customer
+          <i class="fas fa-caret-down" style="margin-left: auto;"></i>
+        </a>
+        <ul class="nav flex-column dropdown-menu" id="customer" style="display: none;">
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="'/admin/manage-customers'">
+              <i class="fas fa-user-cog"></i> Manage Customer
+            </a>
+          </li>
+
+        </ul>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="fas fa-user"></i> Account Settings
         </a>

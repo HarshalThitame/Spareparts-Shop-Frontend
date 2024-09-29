@@ -149,6 +149,7 @@ export class InitializerService {
 
   initializeOrderItems(): OrderItem {
     return {
+      discountOnPurchase: 0, discountToMechanics: 0, discountToRetailer: 0, gst: 0,
       discountAmount: 0,
       price: 0,
       product: this.initializeProduct(),

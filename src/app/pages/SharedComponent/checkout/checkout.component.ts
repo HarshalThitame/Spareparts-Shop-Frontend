@@ -168,9 +168,11 @@ export class CheckoutComponent implements OnInit {
         id: Date.now(),
         product: this.cart.items[i].product,
         quantity: this.cart.items[i].quantity,
-        price: this.cart.items[i].unitPrice
-
-
+        price: this.cart.items[i].unitPrice,
+        gst: this.cart.items[i].product.gst,
+        discountOnPurchase: this.cart.items[i].product.discountOnPurchase,
+        discountToMechanics: this.cart.items[i].product.discountToMechanics,
+        discountToRetailer: this.cart.items[i].product.discountToRetailer
       };
 
       OI.push(orderItem); // Add the OrderItem to the array

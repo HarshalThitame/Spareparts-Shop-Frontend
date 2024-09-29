@@ -10,4 +10,10 @@ export interface OrderItem {
   discountAmount: number;               // Discount applied to this item
   totalPrice: number;                   // Final price after discount
   taxAmount: number;                    // Tax applied to this item
+  gst?:number;
+  discountOnPurchase:number;
+  discountToMechanics:number;
+  discountToRetailer:number
+  createdAt?:string
+  updatedAt?:string
   }

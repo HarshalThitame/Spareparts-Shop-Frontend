@@ -78,6 +78,13 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {MatSelect} from "@angular/material/select";
 import { AdminSalesOverviewComponent } from './pages/admin/admin-dashboard/admin-sales-overview/admin-sales-overview.component';
 import { AdminInventoryManagementComponent } from './pages/admin/admin-dashboard/admin-inventory-management/admin-inventory-management.component';
+import {FilterByProductIDPipe} from "./pipe/filter-by-product-id.pipe";
+import { AdminOrderManagementComponent } from './pages/admin/admin-dashboard/admin-order-management/admin-order-management.component';
+import {BaseChartDirective} from "ng2-charts";
+import { AdminFinancialMetricsComponent } from './pages/admin/admin-dashboard/admin-financial-metrics/admin-financial-metrics.component';
+import {MatPaginator} from "@angular/material/paginator";
+import { AdminManageCustomersComponent } from './pages/admin/admin-manage-customers/admin-manage-customers.component';
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -129,6 +136,9 @@ import { AdminInventoryManagementComponent } from './pages/admin/admin-dashboard
     AdminOffersComponent,
     AdminSalesOverviewComponent,
     AdminInventoryManagementComponent,
+    AdminOrderManagementComponent,
+    AdminFinancialMetricsComponent,
+    AdminManageCustomersComponent,
   ],
   imports: [
     AppRoutingModule, // Ensure your routing module is included here
@@ -164,6 +174,10 @@ import { AdminInventoryManagementComponent } from './pages/admin/admin-dashboard
     MatSelect,
     MatCardHeader,
     MatCardContent,
+    FilterByProductIDPipe,
+    BaseChartDirective,
+    MatPaginator,
+    MatSlideToggle,
     // Include HttpClientModule here
     // Add other modules here
   ],

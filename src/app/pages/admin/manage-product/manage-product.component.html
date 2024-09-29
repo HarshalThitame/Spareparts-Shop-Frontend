@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-admin-navbar/>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-2">
@@ -47,7 +47,7 @@
               <td>{{ product.price | currency:'INR' }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>
-                <a [routerLink]="['/admin/edit-product', product.id]" class="btn btn-info btn-sm w-100 animated-button">
+                <a [routerLink]="['/admin/manage-products/product-details', product.id]" class="btn btn-info btn-sm w-100 animated-button">
                   <i class="fas fa-edit"></i>
                 </a>
               </td>

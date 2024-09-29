@@ -54,9 +54,7 @@ export class GeneralCartComponent implements OnInit {
   }
 
   getTotalPriceAfterDiscounts(): number {
-    return this.cart.items.reduce((total, item) => {
-      return total + (item.product.price * item.quantity);
-    }, 0);
+    return this.getSubtotal() - this.getTotalSavings()
   }
 
   getDiscountedPrice(product: Product): number {
@@ -64,13 +62,32 @@ export class GeneralCartComponent implements OnInit {
   }
 
   getDiscount(product: Product): number {
-    return product.discountOnPurchase + product.discountToMechanics;
+    return product.discountOnPurchase;
   }
   getTotalSavings(): number {
     return this.cart.items.reduce((totalSavings, item) => {
       const originalPrice = item.product.price * item.quantity;
       const discountedPrice = this.getDiscountedPrice(item.product) * item.quantity;
       return totalSavings + (originalPrice - discountedPrice);
+    }, 0);
+  }
+
+
+  getGst() {
+    let totalGst = this.cart.items.reduce((sum, item) => sum + (item.product.gst||0), 0);
+    console.log(totalGst)
+    let avgGst = totalGst/this.cart.items.length;
+    console.log(avgGst)
+    return this.getTotalPriceAfterDiscounts()*(avgGst/100);
+  }
+
+  getTotal() {
+    return this.getTotalPriceAfterDiscounts()+this.getGst();
+  }
+
+  getSubtotal() {
+    return this.cart.items.reduce((sum, item) => {
+      return sum + (item.product.price * item.quantity);
     }, 0);
   }
 }

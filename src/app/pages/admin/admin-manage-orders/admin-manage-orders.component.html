@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-admin-navbar/>
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar for larger screens -->
@@ -7,7 +7,7 @@
     </div>
 
     <!-- Main content area -->
-    <div class="col-md-10">
+    <div class="col-md-9">
 
 
 
@@ -97,9 +97,6 @@
                 <div class="d-flex justify-content-around">
                   <a [routerLink]="['/admin/manage-orders/view-order-details', order.id]" class="btn btn-primary btn-sm action-btn">
                     <i class="fas fa-eye"></i> View
-                  </a>
-                  <a [routerLink]="['/admin/manage-orders/edit-order-details', order.id]" class="btn btn-primary btn-sm action-btn">
-                    <i class="fas fa-edit"></i> Edit
                   </a>
                   <button (click)="deleteOrder(order.id)" class="btn btn-danger btn-sm action-btn dlt">
                     <i class="fas fa-trash"></i> Delete

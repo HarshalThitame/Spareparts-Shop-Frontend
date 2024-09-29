@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Order} from "../../model/Order.model";
 import baseURL from "../helper/helper";
 import {Product} from "../../model/Product.model";
+import {OrderItem} from "../../model/OrderItem.model";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class AdminOrderService {
 
   updateOrder(order: Order) {
     return this._http.put<Order>(`${baseURL}/api/admin/orders/update-order`, order)
+  }
+
+  getAllOrderItems() {
+    return this._http.get<OrderItem[]>(`${baseURL}/api/admin/order-items`)
   }
 
 

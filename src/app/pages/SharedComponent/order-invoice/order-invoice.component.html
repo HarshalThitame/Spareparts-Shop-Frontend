@@ -37,8 +37,8 @@
         <td>{{item.product.partNumber}}</td>
         <td>{{ item.product.name }}</td>
         <td>{{ item.quantity }}</td>
-        <td>{{ item.product.price | currency:'INR' }}</td>
-        <td>{{ item.product.gst }} %</td>
+        <td>{{ item.price | currency:'INR' }}</td>
+        <td>{{ item.gst }} %</td>
         <td>{{ item.subtotal | currency:'INR' }}</td>
         <td>{{ item.discountAmount}} </td>
         <td>{{ item.totalPrice | currency:'INR' }}</td>
@@ -61,6 +61,7 @@
     <p>Shipping: {{ order.shippingCost | currency:'INR' }}</p>
     <p>Discount: {{ order.discountAmount | currency:'INR' }}</p>
     <p><strong>Total: {{ order.totalAmount | currency:'INR' }}</strong></p>
+    <p><strong>{{ order.status }}</strong></p>
   </div>
 
   <!-- Print Button -->

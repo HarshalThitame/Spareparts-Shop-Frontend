@@ -50,6 +50,7 @@ import {PRINT_SCREEN} from "@angular/cdk/keycodes";
 import {OrderInvoiceComponent} from "./pages/SharedComponent/order-invoice/order-invoice.component";
 import {AdminDiscountComponent} from "./pages/admin/promotion/admin-discount/admin-discount.component";
 import {AdminOffersComponent} from "./pages/admin/promotion/admin-offers/admin-offers.component";
+import {AdminManageCustomersComponent} from "./pages/admin/admin-manage-customers/admin-manage-customers.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
@@ -85,8 +86,16 @@ const routes: Routes = [
         component: ManageProductComponent
       },
       {
+        path: 'manage-products/product-details/:id',
+        component: ProductDetailsComponent
+      },
+      {
         path: 'manage-categories',
         component: AdminManageCategoriesComponent
+      },
+      {
+        path: 'manage-customers',
+        component: AdminManageCustomersComponent
       },
       {
         path: 'manage-brands',

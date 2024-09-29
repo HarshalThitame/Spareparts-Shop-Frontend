@@ -48,10 +48,7 @@ body {
   }
 }
 
-/* Font size adjustment */
-h6, h4, h5, p, button {
-  font-size: 50%; /* Reduce font size by 50% */
-}
+
 
 @media (max-width: 992px) {
   .summary {

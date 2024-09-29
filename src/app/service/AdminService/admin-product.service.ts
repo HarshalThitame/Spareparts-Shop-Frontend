@@ -26,4 +26,8 @@ export class AdminProductService {
     return this._http.get<Product[]>(`${baseURL}/api/admin/products`)
 
   }
+
+  addOrUpdateProduct(product:Product) {
+    return this._http.post<Product>(`${baseURL}/api/admin/products`,product)
+  }
 }

@@ -1,11 +1,11 @@
-<app-navbar></app-navbar>
+<app-admin-navbar/>
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2 d-md-block">
       <app-admin-sidebar></app-admin-sidebar>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9">
       <div *ngIf="order.isVor" class="card bg-danger-subtle mt-2 p-2">
         <h6>This is VOR order.</h6>
       </div>
@@ -50,7 +50,8 @@
               <p><strong>Name:</strong> {{ order.user.firstName }} {{ order.user.lastName }}</p>
               <p><strong>Email:</strong> {{ order.user.email }}</p>
               <p><strong>Mobile:</strong> {{ order.user.mobile }}</p>
-              <p><strong>Address:</strong> {{ order.user.address }}, {{ order.user.city }}, {{ order.user.state }}, {{ order.user.postalCode }}</p>
+              <p><strong>Address:</strong> {{ order.user.address }}, {{ order.user.city }}, {{ order.user.state }}
+                , {{ order.user.postalCode }}</p>
               <p><strong>Status:</strong> {{ order.user.isActive ? 'Active' : 'Inactive' }}</p>
             </div>
           </div>
@@ -76,15 +77,20 @@
               <div class="alert" [ngClass]="getStatusClass(order.status)">
                 Current Status: <strong>{{ order.status }}</strong>
               </div>
-
-
-
-
-              <button class="btn btn-primary w-100" (click)="printOrder()">Print Order</button>
+              <button class="btn btn-primary w-100" (click)="printOrder()">Print Invoice</button>
+              <button class="btn btn-outline-secondary mt-2 w-100" (click)="markAsUnread()">Mark as unread</button>
             </div>
           </div>
-          <a class="d-block text-center mt-3" [routerLink]="'/admin/manage-orders/edit-order-details/'+order.id">Want to update order?</a>
-          <button class="btn btn-outline-secondary m-2 w-100" (click)="markAsUnread()">Mark as unread</button>
+          <a *ngIf="order.status==='PENDING'" class="d-block text-center mt-3"
+             [routerLink]="'/admin/manage-orders/edit-order-details/'+order.id">Want to update order?</a>
+          <span class="small mt-5">Write a note about this order....</span>
+          <div class="input-group input-group-sm">
+              <textarea [(ngModel)]="order.notes" rows="5" class="form-control" aria-label="Notes"
+                        aria-describedby="notes">
+              </textarea>
+          </div>
+          <button class="btn bg m-3 text-white note-btn" (click)="addNoteToOrder()">Submit Note
+          </button>
         </div>
       </div>
 

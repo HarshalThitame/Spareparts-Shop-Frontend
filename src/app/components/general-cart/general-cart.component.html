@@ -31,7 +31,7 @@
             <div class="col-md-3 col-12 text-end">
               <div class="quantity-selector d-flex align-items-center">
                 <button class="btn btn-outline-secondary" (click)="decreaseQuantity(item)">-</button>
-                <input type="number" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 80px;">
+                <input type="number" [(ngModel)]="item.quantity" [min]="item.product.moq" class="form-control mx-2" style="width: 80px;">
                 <button class="btn btn-outline-secondary" (click)="increaseQuantity(item)">+</button>
               </div>
               <p class="font-weight-bold">Total Price: {{ (getDiscountedPrice(item.product) * item.quantity) | currency:'INR' }}</p>
@@ -54,15 +54,15 @@
 
     <!-- Summary Section -->
     <div class="col-md-4">
-      <div class="summary card mb-3 p-3 shadow-sm rounded">
-        <h5 class="card-title">Cart Summary</h5>
+      <div class="summary card mb-4 p-4 shadow-sm rounded" style="background-color: #f9f9f9;">
+        <h5 class="card-title font-weight-bold text-dark">Cart Summary</h5>
         <p>({{ getTotalItems() }} items)</p>
-        <p>Subtotal: <span id="subtotal">{{ cart.totalAmount | currency:'INR' }}</span></p>
-        <p>CGST: <span id="shipping">{{ 5 | currency:'INR' }}</span></p>
-        <p>SGST: <span id="tax">{{ 9 | currency:'INR' }}</span></p>
-        <p>Other Charges: <span id="other-charges">{{ 0 | currency:'INR' }}</span></p>
-        <p class="font-weight-bold">Total Price After Discounts: <span id="total">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>
-        <p class="text-success">Total Savings: <span id="savings">{{ getTotalSavings() | currency:'INR' }}</span></p>
+        <hr>
+        <p>Subtotal: <span class="font-weight-bold">{{ getSubtotal() | currency:'INR' }}</span></p>
+        <p>GST: <span class="font-weight-bold">{{ getGst() | currency:'INR' }}</span></p>
+        <p class="text-success font-weight-bold">Total Discount: <span id="savings">-{{ getTotalSavings() | currency:'INR' }}</span></p>
+        <p class="font-weight-bold text-success">Total Price After Discounts: <span class="font-weight-bold">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>
+        <p class="font-weight-bold text-success">Total : <span class="font-weight-bold">{{ getTotal() | currency:'INR' }}</span></p>
         <button [routerLink]="'/login'" class="btn btn-success btn-block animated-button">Login</button>
         <button [routerLink]="'/'" class="btn btn-info btn-block mt-3 animated-button">Continue Shopping</button>
       </div>

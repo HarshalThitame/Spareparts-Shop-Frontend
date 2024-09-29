@@ -73,6 +73,8 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(Date.now())
+    console.log((Date.now()+(Date.length*Date.length))*2)
     this.loadCategories();
     this.loadBrands();
   }
@@ -195,6 +197,7 @@ export class AddProductComponent implements OnInit {
   onSubmit(): void {
     if(this.productForm.valid){
       const productData = {
+        id:(Date.now()+(Date.length*Date.length))*2,
         name: this.productForm.value.name,
         description: this.productForm.value.description,
         price: this.productForm.value.price,

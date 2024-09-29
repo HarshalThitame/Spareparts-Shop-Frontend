@@ -143,6 +143,12 @@ export class LoginComponent implements OnInit{
             panelClass: ['error-snackbar'],  // Optional: custom CSS class
           });
         }
+        else if(error.status === 403){
+          this._snackbar.open('You are not active or you are blocked by admin.', 'Close', {
+            duration: 3000,  // Time in milliseconds
+            panelClass: ['error-snackbar'],  // Optional: custom CSS class
+          });
+        }
         this.user.email=null;
         this.user.phone=null;
         this.user.password=null;

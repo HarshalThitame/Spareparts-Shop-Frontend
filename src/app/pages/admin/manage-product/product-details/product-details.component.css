@@ -29,5 +29,26 @@ p{
 strong{
   color: black;
 }
+/* Custom CSS for table responsiveness */
+.table-responsive {
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.mat-table {
+  min-width: 600px; /* Minimum width for larger screens */
+}
 
 
+
+
+@media (max-width: 768px) {
+  /* Adjust any specific styles for smaller screens if necessary */
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th {
+    font-size: 70%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+
+  .icon-img{
+    height: 15px;
+  }
+}
