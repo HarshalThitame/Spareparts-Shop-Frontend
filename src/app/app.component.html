@@ -1,3 +1,10 @@
+<ngx-ui-loader fgsColor="#0091EA" pbColor="#0091EA" [fgsSize]="125" text="Please wait..." textColor="white"
+               fgsType="square-jelly-box">
 
-<router-outlet />
+</ngx-ui-loader>
+<div ngxUiLoaderBlurred [blur]="10">
+  <!-- <app-navbar></app-navbar> -->
+  <router-outlet></router-outlet>
+  <!-- This page content will be blurred/frosted when foreground loader is showed -->
+</div>
 <app-footer *ngIf="showFooter"></app-footer>
