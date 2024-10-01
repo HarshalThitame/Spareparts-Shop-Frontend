@@ -1,7 +1,7 @@
 <app-navbar />
 <div class="container-fluid d-flex align-items-center justify-content-center">
   <div class="row w-100">
-    <div class="col-md-6 d-flex align-items-center justify-content-center">
+    <div class="col-md-6 col-sm-12 col-12 d-flex align-items-center justify-content-center">
       <div class="card shadow-lg p-4" style="border-radius: 15px; width: 80%;">
         <div class="text-center mb-4">
           <img [src]="'https://harshal-ecom.s3.eu-north-1.amazonaws.com/images/Logo.png'" class="logo-image" alt="logo" />
@@ -36,25 +36,25 @@
               {{ getErrorMessage('phone') }}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="dateOfBirth" class="form-label">Date of Birth</label>
-            <input type="date" formControlName="dateOfBirth" class="form-control" id="dateOfBirth">
-            <div *ngIf="signupForm.get('dateOfBirth').touched && signupForm.get('dateOfBirth').invalid" class="text-danger">
-              {{ getErrorMessage('dateOfBirth') }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="gender" class="form-label">Gender</label>
-            <select formControlName="gender" class="form-control" id="gender">
-              <option value="" disabled>Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-            <div *ngIf="signupForm.get('gender').touched && signupForm.get('gender').invalid" class="text-danger">
-              {{ getErrorMessage('gender') }}
-            </div>
-          </div>
+<!--          <div class="mb-3">-->
+<!--            <label for="dateOfBirth" class="form-label">Date of Birth</label>-->
+<!--            <input type="date" formControlName="dateOfBirth" class="form-control" id="dateOfBirth">-->
+<!--            <div *ngIf="signupForm.get('dateOfBirth').touched && signupForm.get('dateOfBirth').invalid" class="text-danger">-->
+<!--              {{ getErrorMessage('dateOfBirth') }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="gender" class="form-label">Gender</label>-->
+<!--            <select formControlName="gender" class="form-control" id="gender">-->
+<!--              <option value="" disabled>Select gender</option>-->
+<!--              <option value="Male">Male</option>-->
+<!--              <option value="Female">Female</option>-->
+<!--              <option value="Other">Other</option>-->
+<!--            </select>-->
+<!--            <div *ngIf="signupForm.get('gender').touched && signupForm.get('gender').invalid" class="text-danger">-->
+<!--              {{ getErrorMessage('gender') }}-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" formControlName="password" class="form-control" id="password" placeholder="Enter password">
@@ -69,6 +69,28 @@
               {{ getErrorMessage('confirmPassword') }}
             </div>
           </div>
+          <div class="mb-3">
+            <label class="form-label">Select User Type</label>
+            <div formGroupName="userType">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="type" id="customer" value="Customer" checked>
+                <label class="form-check-label" for="customer">Customer</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="type" id="retailer" value="Retailer">
+                <label class="form-check-label" for="retailer">Retailer</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="type" id="mechanic" value="Mechanic">
+                <label class="form-check-label" for="mechanic">Mechanic</label>
+              </div>
+            </div>
+          </div>
+          <!-- Warning message for Retailer and Mechanic -->
+          <div *ngIf="isRetailerOrMechanic()" class="alert alert-warning">
+            Your account must be approved by an admin before activation. For normal access, please select "Customer."
+          </div>
+
           <div class="d-flex justify-content-between mb-4">
             <a href="#" [routerLink]="['/login']" class="text-muted">Already have an account? Sign In</a>
           </div>
@@ -80,7 +102,7 @@
     <div class="col-md-6 d-none d-md-block">
       <div class="d-flex justify-content-center align-items-center h-100">
         <img [src]="'https://img.freepik.com/free-vector/sign-up-concept-illustration_114360-132.jpg?w=740&t=st=1725713101~exp=1725716701~hmac=99a2d64977ac9c17ae6f00ea6ad7a5eb08d3d7271c5a021c1b2543beaa125e3f'"
-             alt="Sign-up illustration" class="img-fluid disabled-click" style="max-height: 100%;">
+             alt="" class="img-fluid disabled-click" style="max-height: 100%;">
       </div>
     </div>
   </div>

@@ -48,17 +48,15 @@
     margin-bottom: 10px;
   }
 
-  input, select {
-    font-size: 0.8em;
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label{
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
   }
 
   .container-fluid {
     margin: 0!important;
   }
 
-  h6 {
-    font-size: 1.2em;
-  }
 
   .action-btn {
     background: none;
@@ -83,10 +81,7 @@
     overflow-x: auto;
   }
 
-  .table th, .table td {
-    font-size: 12px;
-    padding: 10px;
-  }
+
 
   /* Hide unnecessary columns on smaller screens */
   th:nth-child(1), td:nth-child(1), /* ID */

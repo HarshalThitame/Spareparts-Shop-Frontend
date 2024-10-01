@@ -197,7 +197,7 @@ export class MyOrdersComponent implements OnInit {
       });
     },(error: any)=>{
       console.log(error)
-      this._snackBar.open("Error while adding product to cart again!")
+      this._snackBar.open("Error while adding product to cart again!","",{duration:3000})
     })
   }
 

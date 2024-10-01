@@ -15,3 +15,16 @@
 .text-success {
   color: #28a745;
 }
+@media (max-width: 768px) {
+  .card-header, .card-body {
+    padding: 1rem;
+  }
+  .order-summary {
+    font-size: 0.9rem;
+  }
+
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th {
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+}

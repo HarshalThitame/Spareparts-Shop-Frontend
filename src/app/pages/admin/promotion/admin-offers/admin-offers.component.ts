@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {OfferService} from "../../../../service/AdminService/offer.service";
 import {AdminProductService} from "../../../../service/AdminService/admin-product.service";
@@ -7,6 +7,9 @@ import {User} from "../../../../model/User.model";
 import {Product} from "../../../../model/Product.model";
 import {Offer} from "../../../../model/Offer.model";
 import {MatOptionSelectionChange} from "@angular/material/core";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-admin-offers',
@@ -22,6 +25,12 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   filteredProducts: Product[] = [];
   productsForm = new FormControl([]);
   activatedOffers: Offer[] = [];
+  displayedColumns: string[] = ['title', 'discount', 'description', 'startDate', 'endDate', 'products', 'actions'];
+  dataSource = new MatTableDataSource<Offer>(this.activatedOffers);  // Bind this to your offers
+
+  @ViewChild(MatPaginator) paginator: MatPaginator | any;
+  @ViewChild(MatSort) sort: MatSort | any;
+
 
 
   constructor(private _fb: FormBuilder,
@@ -73,11 +82,17 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   }
 
   loadActivatedOffer() {
-        this._offerService.getActiveOffers().subscribe(data=>{
-          this.activatedOffers = data;
-          console.log(this.activatedOffers)
-        })
-    }
+    this._offerService.getActiveOffers().subscribe(data => {
+      console.log(data);  // Log the received offers
+      this.activatedOffers = data;
+      this.dataSource.data = this.activatedOffers;  // Assign data to the table's dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, error => {
+      console.error('Error fetching offers:', error);
+    });
+  }
+
 
 
 
@@ -125,6 +140,8 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
         next: (response) => {
           console.log('Offer created successfully!', response);
           console.log(response)
+          this.offerForm.reset();
+          this.ngOnInit()
         },
         error: (error) => {
           console.error('Error creating offer', error);
@@ -134,4 +151,11 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   }
 
 
+  editOffer(offer:any) {
+
+  }
+
+  deleteOffer(offer:any) {
+
+  }
 }

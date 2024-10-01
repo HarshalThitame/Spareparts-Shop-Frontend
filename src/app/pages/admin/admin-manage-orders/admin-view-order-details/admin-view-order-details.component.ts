@@ -10,6 +10,7 @@ import {OrderInvoiceComponent} from "../../../SharedComponent/order-invoice/orde
 import {OrderStatus} from "../../../../model/OrderStatus.model";
 import Swal from "sweetalert2";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Product} from "../../../../model/Product.model";
 
 @Component({
   selector: 'app-admin-view-order-details',
@@ -125,5 +126,33 @@ export class AdminViewOrderDetailsComponent implements OnInit {
       default:
         return '';
     }
+  }
+  getDiscount(product: Product): number {
+    return product.discountOnPurchase;
+  }
+  getDiscountedPrice(product: Product): number {
+    return product.price - (product.price * this.getDiscount(product) / 100);
+  }
+
+  getTotalSavings(): number {
+    return this.order.orderItems.reduce((totalSavings, item) => {
+      const originalPrice = item.product.price * item.quantity;
+      const discountedPrice = this.getDiscountedPrice(item.product) * item.quantity;
+      return totalSavings + (originalPrice - discountedPrice);
+    }, 0);
+  }
+
+  getTotalPriceAfterDiscounts(): number {
+    return this.getSubtotal() - this.getTotalSavings()
+  }
+
+  getGst() {
+    return this.order.orderItems.reduce((sum, item) => sum + (item.taxAmount || 0), 0);
+  }
+
+  getSubtotal() {
+    return this.order.orderItems.reduce((sum, item) => {
+      return sum + (item.product.price * item.quantity);
+    }, 0);
   }
 }

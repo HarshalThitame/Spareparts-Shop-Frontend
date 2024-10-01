@@ -29,6 +29,10 @@ export class RetailerNavbarComponent implements OnInit{
     } else {
       this._loginService.getCurrentUser().subscribe(data => {
         this.user = data;
+        // this._router.navigate(['/retailer'])
+        if(this.user.userRole!=="RETAILER"){
+          this.logout()
+        }
       }, error => {
         this._loginService.logout();
         this._router.navigate(['/']);
@@ -39,7 +43,7 @@ export class RetailerNavbarComponent implements OnInit{
 
   logout() {
     this._loginService.logout();
-    window.location.reload()
+    this._router.navigate(['/']);
   }
 
   openCart() {

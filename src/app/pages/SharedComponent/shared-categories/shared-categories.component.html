@@ -1,18 +1,17 @@
 <div class="container-fluid">
   <h6>Search by Category</h6>
   <div class="row mb-3">
-    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let category of categories">
-      <a [routerLink]="['/category/sub-category/',category.id]">
-        <div class="card text-center shadow-lg m-1 p-2" [@bounceDrop]="bounceState">
-          <div class="card-header">
-            <img class="cat-img" src="{{category.categoryImage || NoImage}}">
-          </div>
-          <div class="card-body bg text-white">
-            <p class="cat-name mt-3 text-white">{{category.name}}</p>
-          </div>
-        </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-4 d-flex" *ngFor="let category of categories">
+      <a [routerLink]="['/category/sub-category/',category.id]" class="text-decoration-none w-100">
+        <mat-card class="category-card shadow-lg text-center" [@bounceDrop]="bounceState">
+          <mat-card-header class="category-header">
+            <img mat-card-image class="cat-img" [src]="category.categoryImage || NoImage" alt="{{ category.name }}">
+          </mat-card-header>
+          <mat-card-content class="category-body">
+            <p class="cat-name text-white">{{ category.name }}</p>
+          </mat-card-content>
+        </mat-card>
       </a>
     </div>
   </div>
-
 </div>

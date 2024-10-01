@@ -51,6 +51,7 @@ import {OrderInvoiceComponent} from "./pages/SharedComponent/order-invoice/order
 import {AdminDiscountComponent} from "./pages/admin/promotion/admin-discount/admin-discount.component";
 import {AdminOffersComponent} from "./pages/admin/promotion/admin-offers/admin-offers.component";
 import {AdminManageCustomersComponent} from "./pages/admin/admin-manage-customers/admin-manage-customers.component";
+import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
@@ -128,6 +129,10 @@ const routes: Routes = [
       {
         path:'print-invoice',
         component: OrderInvoiceComponent
+      },
+      {
+        path: 'alert',
+        component:AdminAlertComponent
       }
     ]
   }, {

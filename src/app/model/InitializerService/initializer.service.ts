@@ -123,7 +123,6 @@ export class InitializerService {
       addressLine1: "",
       addressLine2: "",
       city: "",
-      country: "",
       id: 0,
       postalCode: "",
       recipientName: "",

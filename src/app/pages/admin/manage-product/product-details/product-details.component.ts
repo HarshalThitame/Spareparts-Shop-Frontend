@@ -10,6 +10,10 @@ import {AdminOrderService} from "../../../../service/AdminService/admin-order.se
 import {Order} from "../../../../model/Order.model";
 import {OrderStatus} from "../../../../model/OrderStatus.model";
 import {MatTableDataSource} from "@angular/material/table";
+import {FileUploadService} from "../../../../service/AWSService/file-upload.service";
+import {HttpBackend, HttpClient} from "@angular/common/http";
+import NoImage from "../../../../service/helper/noImage";
+import {Image} from "../../../../model/Image.model";
 
 @Component({
   selector: 'app-product-details',
@@ -20,6 +24,8 @@ export class ProductDetailsComponent implements OnInit {
   id: any;
   user: User;
   product: Product;
+  selectedFile: File | null = null;
+  selectedImageUrl: any;
   productMetrics = {
     totalSales: 0,
     totalPaidOrders: 0,
@@ -29,10 +35,12 @@ export class ProductDetailsComponent implements OnInit {
     totalGSTCollected: 0
   };
 
+  uploadedImageUrl: string | null = null; // Store the uploaded image URL
   orderStatusKeys = Object.values(OrderStatus); // Get an array of order status keys
   productOrders: Order[] = [];
-  displayedColumns: string[] = ['id', 'status', 'totalPrice', 'quantity', 'orderDate','details'];
+  displayedColumns: string[] = ['id', 'status', 'totalPrice', 'quantity', 'orderDate', 'details'];
   dataSource = new MatTableDataSource<Order>(); // Use MatTableDataSource for the orders
+  private httpWithoutInterceptor: HttpClient;
 
 
   constructor(private _loginService: LoginService,
@@ -40,10 +48,15 @@ export class ProductDetailsComponent implements OnInit {
               private _adminProductService: AdminProductService,
               private _adminOrderService: AdminOrderService,
               private _route: ActivatedRoute,
-              private _snackBar:MatSnackBar,
-              private _initializerService: InitializerService) {
+              private _snackBar: MatSnackBar,
+              private _adminFileUploadService: FileUploadService,
+              private _initializerService: InitializerService,
+              private _http: HttpClient,
+              private httpBackend: HttpBackend) {
     this.user = _initializerService.initializeUser();
     this.product = this._initializerService.initializeProduct()
+    this.httpWithoutInterceptor = new HttpClient(httpBackend);
+
   }
 
   ngOnInit(): void {
@@ -63,10 +76,12 @@ export class ProductDetailsComponent implements OnInit {
   loadProduct(id: any) {
     this._adminProductService.getProductDetails(id).subscribe(data => {
       this.product = data;
+      this.selectedImageUrl = this.product.mainImage;
       this.loadOrders()
       console.log(this.product)
     })
   }
+
   loadOrders() {
     this._adminOrderService.getAllOrders().subscribe(orders => {
       this.productMetrics = this.calculateProductMetrics(this.product, orders);
@@ -81,6 +96,7 @@ export class ProductDetailsComponent implements OnInit {
       order.orderItems.some(item => item.product.id === this.product.id)
     );
   }
+
   getTotalPrice(order: Order): number {
     return order.orderItems.reduce((acc, item) => acc + item.totalPrice, 0);
   }
@@ -129,18 +145,17 @@ export class ProductDetailsComponent implements OnInit {
         orderStatusCounts[order.status]++;
         if (order.status === 'PAID') {
           totalPaidOrders++;
-        }
-        else if(order.status === OrderStatus.PENDING){
+        } else if (order.status === OrderStatus.PENDING) {
           orderStatusCounts["PENDING"]++;
-        }else if(order.status === OrderStatus.CONFIRMED){
+        } else if (order.status === OrderStatus.CONFIRMED) {
           orderStatusCounts["CONFIRMED"]++;
-        }else if(order.status === OrderStatus.UNPAID){
+        } else if (order.status === OrderStatus.UNPAID) {
           orderStatusCounts["UNPAID"]++;
-        }else if(order.status === OrderStatus.CANCELLED){
+        } else if (order.status === OrderStatus.CANCELLED) {
           orderStatusCounts["CANCELLED"]++;
-        }else if(order.status === OrderStatus.RETURNED){
+        } else if (order.status === OrderStatus.RETURNED) {
           orderStatusCounts["RETURNED"]++;
-        }else if(order.status === OrderStatus.REJECTED){
+        } else if (order.status === OrderStatus.REJECTED) {
           orderStatusCounts["REJECTED"]++;
         }
       }
@@ -157,24 +172,23 @@ export class ProductDetailsComponent implements OnInit {
   }
 
 
-
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
   }
 
   applyDiscount() {
-    if(this.product.discountOnPurchase >= 0 && this.product.discountOnPurchase <=100 ||
-      this.product.discountToRetailer >= 0 && this.product.discountToRetailer <=100 ||
-      this.product.discountToMechanics >= 0 && this.product.discountToMechanics <=100 )
-    {
-      this._adminProductService.addOrUpdateProduct(this.product).subscribe(()=>{
-        this._snackBar.open(`Discount Applied`,"",{duration:3000})
-      },
+    if (this.product.discountOnPurchase >= 0 && this.product.discountOnPurchase <= 100 ||
+      this.product.discountToRetailer >= 0 && this.product.discountToRetailer <= 100 ||
+      this.product.discountToMechanics >= 0 && this.product.discountToMechanics <= 100) {
+      this._adminProductService.addOrUpdateProduct(this.product).subscribe(() => {
+          this._snackBar.open(`Discount Applied`, "", {duration: 3000})
+        },
         error => {
-        this._snackBar.open("Error while applying discount.","",{duration:3000})
+          this._snackBar.open("Error while applying discount.", "", {duration: 3000})
         })
     }
   }
+
   getStatusColor(status: string): string {
     switch (status) {
       case 'PENDING':
@@ -195,5 +209,134 @@ export class ProductDetailsComponent implements OnInit {
         return '#FFFFFF'; // Default color
     }
   }
+
+  onSubmit() {
+    if (this.selectedFile) {
+      const fileName = this.selectedFile.name;
+
+      // Get the pre-signed URL from Spring Boot backend
+      this._http.get(`/api/admin/presigned-url/upload/${fileName}`, {responseType: 'text'})
+        .subscribe((presignedUrl: string) => {
+          // Upload the file directly to S3 using the pre-signed URL
+          this._http.put(presignedUrl, this.selectedFile).subscribe(
+            () => {
+              console.log('File uploaded successfully!');
+            },
+            error => {
+              console.error('File upload failed:', error);
+            }
+          );
+        });
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
+  uploadMainImage() {
+    this.uploadImage('Main-Image')
+  }
+
+  uploadCoverImage(){
+    this.uploadImage('Cover-Images')
+  }
+
+  uploadImage(folderName: string) {
+    if (!this.selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    // Step 1: Get the pre-signed URL from Spring Boot
+    this._http.get<any>(`http://localhost:8080/api/auth/presigned-url/${folderName}`).subscribe(response => {
+      const uploadUrl = response.url;
+      const objectKey = response.key;  // Assuming backend returns the S3 key
+
+      // Define the Content-Type
+      const contentType = this.selectedFile?.type || 'application/octet-stream';
+
+      // Step 2: Upload the image to S3 using the pre-signed URL
+      this.httpWithoutInterceptor.put(uploadUrl, this.selectedFile, {
+        headers: {
+          'Content-Type': contentType
+        },
+        reportProgress: true,
+        observe: 'events'
+      }).subscribe(
+        event => {
+          if (event.type === 4) { // HttpEventType.Response
+            console.log('Image successfully uploaded');
+
+
+
+            // Step 3: Construct the image URL (replace with your actual bucket's URL)
+            const bucketBaseUrl = 'https://harshal-ecom.s3.amazonaws.com/';
+            this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
+            console.log('Uploaded Image URL:', this.uploadedImageUrl);
+
+            if (folderName === 'Main-image') {
+              if (this.product.mainImage != null) {
+                this.deleteImage(this.product.mainImage)
+              }
+              this.product.mainImage = this.uploadedImageUrl;
+              this._adminProductService.addOrUpdateProduct(this.product).subscribe(() => {
+              }, error => {
+                console.log(error)
+              })
+            }else if(folderName==='Cover-Images'){
+              const image:any= {
+                url: this.uploadedImageUrl,
+                productId: this.product.id,
+              }
+              this._adminProductService.addProductCoverImages(image).subscribe(() => {
+              }, error => {
+                console.log(error)
+              })
+            }
+
+            this.selectedFile = null;
+            // Display image in the UI
+          }
+        },
+        error => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    });
+  }
+
+  deleteImage(oldImageUrl: any) {
+
+    // Extract the key from the uploadedImageUrl
+    // const key = this.uploadedImageUrl.split('/').pop(); // Extract the file name from the URL
+    const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
+    console.log(key)
+    if (key) {
+      this._http.delete(`http://localhost:8080/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+        .subscribe(
+          response => {
+            console.log('Response:', response); // This will now log the plain text "File deleted successfully"
+            this.uploadedImageUrl = null; // Clear the URL after deletion
+          },
+          error => {
+            console.error('Error deleting image:', error);
+          }
+        );
+    } else {
+      console.error('Unable to extract key from URL');
+    }
+  }
+
+
+  protected readonly NoImage = NoImage;
+
+  onImageHover(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
+  }
+
 
 }

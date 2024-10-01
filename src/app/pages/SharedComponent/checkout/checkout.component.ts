@@ -21,6 +21,7 @@ import {CustomerOrderService} from "../../../service/customerService/customer-or
 import {RetailerOrderService} from "../../../service/retailerService/retailer-order.service";
 import {MechanicOrderService} from "../../../service/mecahnicService/mechanic-order.service";
 import Swal from 'sweetalert2';
+import {SavedAddressService} from "../../../service/saved-address.service";
 
 @Component({
   selector: 'app-checkout',
@@ -57,7 +58,8 @@ export class CheckoutComponent implements OnInit {
               private _mechanicCartService: MechanicCartService,
               private _snackBar: MatSnackBar,
               private _initializerService: InitializerService,
-              private _sharedDataService: SharedDataService) {
+              private _sharedDataService: SharedDataService,
+              private _savedAddressService:SavedAddressService) {
     this.shippingForm = this.fb.group({
       recipientName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -67,7 +69,7 @@ export class CheckoutComponent implements OnInit {
       city: ['', Validators.required],
       state: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]], // Example for US Zip Code
-      country: ['', Validators.required],
+
     });
     this.shippingAddress = _initializerService.initializeShippingAddress()
     this.user = _initializerService.initializeUser();
@@ -118,7 +120,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getSavedAddresses() {
-    this._customerShippingAddressService.getAddressByUser(this.user.id).subscribe(data => {
+    this._savedAddressService.getAddressesByUserId(this.user.id).subscribe(data => {
       this.savedAddresses = data;
       console.log(this.savedAddresses)
     })
@@ -126,27 +128,33 @@ export class CheckoutComponent implements OnInit {
 
 
   onSubmitShipping() {
+    console.log(this.shippingForm.value)
     if (this.shippingForm.valid) {
       this.shippingForm.value.user = this.user;
-      console.log('Shipping Information:', this.shippingForm.value);
-      if (this.user.userRole === "CUSTOMER") {
-        this._customerShippingAddressService.saveCustomerAddress(this.shippingForm.value).subscribe(data => {
-          console.log(data)
-          this._snackBar.open("Address saved successfully...")
-        }, error => {
-          console.log(error)
-          this._snackBar.open("Error while saving address")
-
-        })
+      const shippingAddress:ShippingAddress = {
+        recipientName: this.shippingForm.value.recipientName,
+        addressLine1: this.shippingForm.value.addressLine1,
+        addressLine2:this.shippingForm.value.addressLine2,
+        email:this.shippingForm.value.email,
+        mobile: this.shippingForm.value.mobile,
+        city: this.shippingForm.value.city,
+        state: this.shippingForm.value.state,
+        postalCode: this.shippingForm.value.postalCode,
+        user:this.user,
       }
-    } else {
-      console.log("Invalid")
+      this._savedAddressService.createSavedAddress(shippingAddress).subscribe(data=>{
+        this._snackBar.open("New Address Saved.","",{duration:3000})
+      },error => {
+        console.log(error)
+        this._snackBar.open("Error while saving address.","",{duration:3000})
+      })
     }
   }
 
 
   selectAddress(address: any) {
     this.selectedAddress = address
+    console.log(this.selectedAddress)
   }
 
   calculateDiscountedPrice(mrp: number, discount: number): number {
@@ -178,6 +186,7 @@ export class CheckoutComponent implements OnInit {
       OI.push(orderItem); // Add the OrderItem to the array
     }
 
+    this.selectedAddress.id = null;
     // Prepare the order object
     this.order.id = Date.now() + Date.now();
     this.order.orderItems = OI; // Assign the OrderItem array to the order

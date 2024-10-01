@@ -1,12 +1,40 @@
 a{
   text-decoration: none;
 }
-.cat-img{
-  height: 100px;
-  object-fit: contain;
+.category-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
-.cat-name{
-  color: #358bb1;
+
+.category-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px; /* Adjust the height for the header area */
+}
+
+.cat-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.category-body {
+  padding: 20px;
+  background-color: #5b74ff; /* Material theme color */
+  color: white;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .category-card {
+    height: auto;
+  }
 }
 
 /* Adjustments for tablet screens and smaller */

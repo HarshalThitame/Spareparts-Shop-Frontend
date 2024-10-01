@@ -16,7 +16,7 @@ import {ForgotPasswordComponent} from './components/forgot-password/forgot-passw
 import {AdminDashboardComponent} from "./pages/admin/admin-dashboard/admin-dashboard.component";
 import {AdminSidebarComponent} from './pages/admin/admin-sidebar/admin-sidebar.component';
 import {AddProductComponent} from './pages/admin/add-product/add-product.component';
-import {MatAnchor, MatButton} from "@angular/material/button";
+import {MatAnchor, MatButton, MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {ManageProductComponent} from './pages/admin/manage-product/manage-product.component';
 import {ProductDetailsComponent} from './pages/admin/manage-product/product-details/product-details.component';
@@ -54,7 +54,7 @@ import {
   MatCard,
   MatCardActions, MatCardContent,
   MatCardFooter,
-  MatCardHeader,
+  MatCardHeader, MatCardImage,
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
@@ -106,6 +106,9 @@ import {MatPaginator} from "@angular/material/paginator";
 import {AdminManageCustomersComponent} from './pages/admin/admin-manage-customers/admin-manage-customers.component';
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
+import {MatSort} from "@angular/material/sort";
+import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
 
 @NgModule({
   declarations: [
@@ -160,6 +163,7 @@ import {NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
     AdminOrderManagementComponent,
     AdminFinancialMetricsComponent,
     AdminManageCustomersComponent,
+    AdminAlertComponent,
   ],
   imports: [
     AppRoutingModule, // Ensure your routing module is included here
@@ -203,6 +207,13 @@ import {NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
       showForeground: true,
     }),
     NgxUiLoaderModule,
+    MatIconButton,
+    MatCardImage,
+    MatFabButton,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatSort,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Add this line
   providers: [provideClientHydration(),

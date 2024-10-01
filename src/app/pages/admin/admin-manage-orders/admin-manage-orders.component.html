@@ -1,4 +1,4 @@
-<app-admin-navbar/>
+<app-admin-navbar></app-admin-navbar>
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar for larger screens -->
@@ -8,9 +8,6 @@
 
     <!-- Main content area -->
     <div class="col-md-9">
-
-
-
       <div class="container-fluid mt-5">
         <h6 class="mb-4 text-start">Manage Orders</h6>
 
@@ -32,70 +29,106 @@
 
         <!-- Filters and Search Section -->
         <div class="d-flex flex-column flex-md-row justify-content-between mb-4">
-          <div class="input-group rounded search mb-2 mb-md-0 me-md-2">
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Search Orders"
-              aria-label="Search"
-              aria-describedby="search-addon"
-              [(ngModel)]="searchTerm"
-              (input)="onFilterChange()"
-            />
-            <span class="input-group-text border-0" id="search-addon">
-              <i class="fas fa-search"></i>
-            </span>
-          </div>
+          <mat-form-field class="mb-2 mb-md-0 me-md-2" appearance="outline">
+            <mat-label>Search Orders</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (input)="onFilterChange()" placeholder="Search Orders" />
+          </mat-form-field>
 
           <!-- Customer Type Filter -->
-          <select class="form-select mb-2 mb-md-0 me-md-2" [(ngModel)]="selectedCustomerType" (change)="onFilterChange()">
-            <option value="">All Customer Types</option>
-            <option *ngFor="let type of customerTypes" [value]="type">{{ type }}</option>
-          </select>
+          <mat-form-field class="mb-2 mb-md-0 me-md-2" appearance="outline">
+            <mat-label>Customer Type</mat-label>
+            <mat-select [(ngModel)]="selectedCustomerType" (selectionChange)="onFilterChange()">
+              <mat-option value="">All Customer Types</mat-option>
+              <mat-option *ngFor="let type of customerTypes" [value]="type">{{ type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <!-- Order Status Filter -->
-          <select class="form-select mb-2 mb-md-0 me-md-2" [(ngModel)]="selectedStatus" (change)="onFilterChange()">
-            <option value="">All Statuses</option>
-            <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
-          </select>
+          <mat-form-field class="mb-2 mb-md-0 me-md-2" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onFilterChange()">
+              <mat-option value="">All Statuses</mat-option>
+              <mat-option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
+
+          <div class="">
+            <input type="date" class="form-control mb-2 mb-md-0 me-md-2" [(ngModel)]="startDate" (change)="onFilterChange()" placeholder="Start Date" />
+            <input type="date" class="form-control" [(ngModel)]="endDate" (change)="onFilterChange()" placeholder="End Date" />
+          </div>
           <!-- Order Date Range Filter -->
-          <input type="date" class="form-control mb-2 mb-md-0 me-md-2" [(ngModel)]="startDate" (change)="onFilterChange()" placeholder="Start Date" />
-          <input type="date" class="form-control" [(ngModel)]="endDate" (change)="onFilterChange()" placeholder="End Date" />
+<!--          <mat-form-field class="mb-2 mb-md-0 me-md-2" appearance="outline">-->
+<!--            <mat-label>Start Date</mat-label>-->
+<!--            <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" (dateChange)="onFilterChange()" />-->
+<!--            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #startDatePicker></mat-datepicker>-->
+<!--          </mat-form-field>-->
+
+<!--          <mat-form-field class="me-md-2" appearance="outline">-->
+<!--            <mat-label>End Date</mat-label>-->
+<!--            <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" (dateChange)="onFilterChange()" />-->
+<!--            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #endDatePicker></mat-datepicker>-->
+<!--          </mat-form-field>-->
         </div>
 
         <!-- Orders Table -->
         <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-            <tr>
-              <th class="text-center">ID</th>
-              <th class="text-center">Customer Type</th>
-              <th class="text-center">Customer Name</th>
-              <th class="text-center">Order Date</th>
-              <th class="text-center">Status</th>
-              <th class="text-center">Order Items</th>
-              <th class="text-center">Total Amount</th>
-              <th class="text-center">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let order of filteredOrders; let i = index" [ngClass]="{ 'table-info fw-bolder': !order.isViewed }">
-              <td class="text-center">{{ order.id }}</td>
-              <td class="text-center">{{ order.user.userRole }}</td>
-              <td class="text-center">{{ order.user.firstName }} {{ order.user.lastName }}</td>
-              <td class="text-center">{{ order.createdAt | date: 'dd-MMM-yyyy hh:mm a' }}</td>
-              <!-- order.component.html -->
-              <td class="text-center">
-                <select class="form-select" [ngClass]="getStatusClass(order.status)" [(ngModel)]="order.status" (change)="onStatusChange($event,order)">
-                  <option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</option>
-                </select>
+          <table mat-table [dataSource]="filteredOrders" matSort class="mat-elevation-z8">
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> ID </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.id }} </td>
+            </ng-container>
+
+            <!-- Customer Type Column -->
+            <ng-container matColumnDef="customerType">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Customer Type </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.user.userRole }} </td>
+            </ng-container>
+
+            <!-- Customer Name Column -->
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Customer Name </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.user.firstName }} {{ order.user.lastName }} </td>
+            </ng-container>
+
+            <!-- Order Date Column -->
+            <ng-container matColumnDef="orderDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Order Date </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.createdAt | date: 'dd-MMM-yyyy hh:mm a' }} </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Status </th>
+              <td mat-cell *matCellDef="let order" class="text-center">
+                <mat-select [(ngModel)]="order.status" (selectionChange)="onStatusChange($event, order)">
+                  <mat-option *ngFor="let status of orderStatuses" [value]="status">{{ status }}</mat-option>
+                </mat-select>
               </td>
-              <td class="text-center">{{ order.orderItems.length }}</td>
-              <td class="text-center">{{ order.totalAmount | currency: 'INR' }}</td>
-              <td class="text-center">
+            </ng-container>
+
+            <!-- Order Items Column -->
+            <ng-container matColumnDef="orderItems">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Order Items </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.orderItems.length }} </td>
+            </ng-container>
+
+            <!-- Total Amount Column -->
+            <ng-container matColumnDef="totalAmount">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Total Amount </th>
+              <td mat-cell *matCellDef="let order" class="text-center"> {{ order.totalAmount | currency: 'INR' }} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Actions </th>
+              <td mat-cell *matCellDef="let order" class="text-center">
                 <div class="d-flex justify-content-around">
-                  <a [routerLink]="['/admin/manage-orders/view-order-details', order.id]" class="btn btn-primary btn-sm action-btn">
+                  <a [routerLink]="['/admin/manage-orders/view-order-details', order.id]"
+                     class="btn btn-primary btn-sm action-btn">
                     <i class="fas fa-eye"></i> View
                   </a>
                   <button (click)="deleteOrder(order.id)" class="btn btn-danger btn-sm action-btn dlt">
@@ -103,19 +136,17 @@
                   </button>
                 </div>
               </td>
-            </tr>
-            </tbody>
-          </table>
+            </ng-container>
 
-          <!-- No Orders Available -->
-          <ng-template #noOrdersTemplate>
-            <div class="text-center mt-5">
-              <img [src]="NoImage" alt="No Orders" class="img-fluid" style="max-width: 300px;" />
-              <h5 class="mt-3">No Orders Available</h5>
-              <p>Please add some orders to get started.</p>
-            </div>
-          </ng-template>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let order; columns: displayedColumns;"></tr>
+          </table>
         </div>
+        <!-- Paginator -->
+        <mat-paginator [length]="filteredOrders.length" [pageSize]="10" showFirstLastButtons
+                       (page)="onPageChange($event)">
+        </mat-paginator>
+
       </div>
     </div>
   </div>

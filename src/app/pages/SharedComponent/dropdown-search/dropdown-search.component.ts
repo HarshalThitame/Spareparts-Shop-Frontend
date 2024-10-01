@@ -59,15 +59,6 @@ export class DropdownSearchComponent implements OnInit {
   private loadUser() {
     this._loginService.getCurrentUser().subscribe(data => {
       this.user = data;
-      if (this.user.userRole === "CUSTOMER") {
-        this._router.navigate(['/'])
-      } else if (this.user.userRole === "RETAILER") {
-        this._router.navigate(['/retailer'])
-      } else if (this.user.userRole === "MECHANIC") {
-        this._router.navigate(['/mechanic'])
-      } else if (this.user.userRole === "ADMIN") {
-        this._router.navigate(['/admin'])
-      }
     });
   }
 
@@ -86,7 +77,7 @@ export class DropdownSearchComponent implements OnInit {
       console.log(this.brands)
     }, error => {
       console.log(error)
-      this._snackBar.open("Error While Loading Brands.")
+      this._snackBar.open("Error While Loading Brands.","",{duration:3000})
     })
 
   }

@@ -64,12 +64,7 @@
                    placeholder="Enter your postal code" required>
           </div>
 
-          <!-- Country Input -->
-          <div class="form-group">
-            <label for="country">Country</label>
-            <input type="text" id="country" formControlName="country" class="form-control designed-input-box"
-                   placeholder="Enter your country" required>
-          </div>
+
         </div>
 
         <button type="submit" class="btn btn-blue-gradient" [disabled]="shippingForm.invalid">Proceed to Review</button>
@@ -92,7 +87,6 @@
               <h6 class="mb-1">{{ address.recipientName }}</h6>
               <p class="mb-1">{{ address.addressLine1 }}, {{ address.addressLine2 }}, {{ address.city }}
                 , {{ address.state }}</p>
-              <p class="mb-1">{{ address.country }}</p>
               <p class="mb-1">{{ address.postalCode }}</p>
               <p class="text-muted mb-0">{{ address.email }}</p>
             </div>
@@ -115,7 +109,7 @@
           </small>
         </label>
       </div>
-      <button (click)="placeOrder()" class="btn btn-blue-gradient confirm-btn mt-4">Confirm Order</button>
+      <button (click)="placeOrder()" [disabled]="!selectedAddress" class="btn btn-blue-gradient confirm-btn mt-4">Confirm Order</button>
     </div>
   </div>
 </div>

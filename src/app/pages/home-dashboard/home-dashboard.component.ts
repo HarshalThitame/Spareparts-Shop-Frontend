@@ -14,6 +14,7 @@ import {BrandService} from "../../service/customerService/brand.service";
 import {Brand} from "../../model/Brand.model";
 import {BrandModel} from "../../model/BrandModel.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import noImage from "../../service/helper/noImage";
 
 @Component({
   selector: 'app-home-dashboard',

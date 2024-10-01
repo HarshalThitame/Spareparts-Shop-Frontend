@@ -25,6 +25,10 @@ body {
 .btn {
   transition: background-color 0.3s, transform 0.2s;
 }
+.cart-img{
+  height: 150px;
+  object-fit: contain;
+}
 
 .btn:hover {
   background-color: #0056b3;

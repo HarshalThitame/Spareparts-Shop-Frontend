@@ -232,9 +232,7 @@ export class CartComponent implements OnInit {
 
   getGst() {
      let totalGst = this.cart.items.reduce((sum, item) => sum + (item.product.gst||0), 0);
-    console.log(totalGst)
      let avgGst = totalGst/this.cart.items.length;
-    console.log(avgGst)
     return this.getTotalPriceAfterDiscounts()*(avgGst/100);
   }
 

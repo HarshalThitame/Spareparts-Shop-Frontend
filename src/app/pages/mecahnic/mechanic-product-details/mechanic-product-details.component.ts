@@ -26,13 +26,11 @@ export class MechanicProductDetailsComponent implements OnInit{
   isLoggedIn = false;
   cart:Cart;
   quantity = 1;
+  selectedImageUrl: any;
+
 
   stock = 10;
-  compatibilityData = [
-    { model: 'CIAZ 1ST GEN 1.3L VDI', year: '07.2014 - 07.2015', engine: '1.3 L', power: '88 h.p.', fuelType: 'Diesel', engineType: 'D13A' },
-    { model: 'CIAZ 1ST GEN 1.4L VXI', year: '07.2014 - 07.2018', engine: '1.4 L', power: '91 h.p.', fuelType: 'Petrol', engineType: 'K14B' },
-    { model: 'CIAZ 1ST GEN 1.4L VXI AT', year: '07.2014 - 07.2018', engine: '1.4 L', power: '91 h.p.', fuelType: 'Petrol', engineType: 'K14B' },
-  ];
+
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -66,6 +64,7 @@ export class MechanicProductDetailsComponent implements OnInit{
   loadProduct(id: any) {
     this._productService.getProductByIdByGeneral(id).subscribe(data=>{
       this.product = data;
+      this.selectedImageUrl = this.product.mainImage
       console.log(this.product)
     })
   }
@@ -109,5 +108,9 @@ export class MechanicProductDetailsComponent implements OnInit{
   }
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
+  }
+
+  onImageHover(url: string) {
+    this.selectedImageUrl = url;
   }
 }

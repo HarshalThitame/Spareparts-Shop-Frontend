@@ -12,6 +12,11 @@ import {InitializerService} from "../../model/InitializerService/initializer.ser
 export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   user: User;
+  isNavbarCollapsed = true;
+
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
 
   constructor(private _loginService: LoginService,
               private _router: Router,

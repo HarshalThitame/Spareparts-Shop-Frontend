@@ -1,8 +1,10 @@
-<button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
-  Toggle Sidebar
+<button class="btn border-0" type="button" (click)="toggleSidebar()" aria-expanded="false" aria-controls="sidebarMenu">
+  <span class="material-symbols-outlined">
+view_sidebar
+</span>
 </button>
 
-<div class="collapse d-lg-block" id="sidebarMenu">
+<div [@sidebarToggle]="isSidebarOpen ? 'open' : 'closed'"  [ngClass]="{'collapse': !isSidebarOpen, 'd-lg-block': isSidebarOpen}" id="sidebarMenu">
   <div class="sidebar-container">
     <ul class="nav flex-column sidebar-menu">
       <li class="nav-item">
@@ -76,8 +78,8 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-user"></i> Account Settings
+        <a class="nav-link" [routerLink]="'/admin/alert'">
+          <i class="fas fa-exclamation-triangle"></i> Alert
         </a>
       </li>
       <li class="nav-item">

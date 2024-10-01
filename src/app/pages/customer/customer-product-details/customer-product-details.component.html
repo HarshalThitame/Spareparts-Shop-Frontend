@@ -6,12 +6,19 @@
       <div class="row">
         <div class="col-md-5 col-12 mb-3">
           <!-- Product Image -->
-          <div class="product-image text-center">
-            <img
-              [src]="'https://hips.hearstapps.com/hmg-prod/images/disc-brake-pads-old-and-new-royalty-free-image-114397231-1556562875.jpg'"
-              alt="{{ product.name }}" class="img-fluid"/>
+          <div class="product-detail">
+            <div class="main-image-box">
+              <img [src]="selectedImageUrl" alt="Product Image" class="main-image">
+            </div>
+            <div class="thumbnail-images">
+              <img
+                *ngFor="let image of product.images"
+                [src]="image.url"
+                alt="Thumbnail Image"
+                class="thumbnail-image"
+                (click)="onImageHover(image.url)">
+            </div>
           </div>
-
           <div class="mt-3">
             <div class="input-group">
               <!-- Decrease Button -->

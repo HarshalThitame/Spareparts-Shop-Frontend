@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "../../service/login.service";
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {User} from "../../model/User.model";
 
 @Component({
   selector: 'app-signup',
@@ -12,15 +13,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SignupComponent implements OnInit{
   signupForm: FormGroup|any;
 
-  user:any = {
+  user:User = {
     username: "",
     password: "",
     email: "",
     firstName: "",
     lastName: "",
-    phone:"",
-    dateOfBirth:"",
-    gender:""
+    mobile: "",
+    id: 0,
+    userRole: 'CUSTOMER',
+    isActive: false,
+    createdAt: '',
+    updatedAt: ''
   }
 
   constructor(private fb: FormBuilder,
@@ -30,25 +34,16 @@ export class SignupComponent implements OnInit{
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
+      userType: this.fb.group({
+        type: ['Customer'], // Default selected value
+      }),
       firstName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")]], // Only letters, max 50 chars
       lastName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")]], // Only letters, max 50 chars
       email: ['', [Validators.required, Validators.email]], // Valid email pattern
       phone: ['', [Validators.required, Validators.pattern("^[6789]\\d{9}$")]], // Indian 10-digit phone numbers starting with 6, 7, 8, or 9
-      dateOfBirth: ['', [Validators.required, this.dateOfBirthValidator]], // Custom DOB validator
-      gender: ['', [Validators.required]], // Assuming you have predefined gender options
       password: ['', [Validators.required, Validators.minLength(6)]], // Minimum 6 chars
       confirmPassword: ['', [Validators.required]],
     }, { validators: this.passwordMatchValidator });
-  }
-  dateOfBirthValidator(control: { value: string | number | Date; }) {
-    const dob = new Date(control.value);
-    const today = new Date();
-    const age = today.getFullYear() - dob.getFullYear();
-    const monthDiff = today.getMonth() - dob.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-      return { invalidDate: true };
-    }
-    return age >= 8 ? null : { ageInvalid: true }; // Ensure the user is at least 8
   }
 
   // Custom validator to check if password and confirm password match
@@ -58,17 +53,30 @@ export class SignupComponent implements OnInit{
   }
 
   onSubmit(): void {
+    console.log(this.signupForm.value.userType)
     if (this.signupForm.valid) {
       console.log('Form Submitted', this.signupForm.value);
 
+      this.user.id = Date.now()*2+Date.now()*2;
       this.user.email = this.signupForm.value.email;
       this.user.password = this.signupForm.value.confirmPassword;
       this.user.firstName = this.signupForm.value.firstName;
       this.user.lastName = this.signupForm.value.lastName;
-      this.user.phone = this.signupForm.value.phone;
-      this.user.dateOfBirth = this.signupForm.value.dateOfBirth;
+      this.user.mobile = this.signupForm.value.phone;
       this.user.username = "";
-      this.user.gender = this.signupForm.value.gender;
+
+      if(this.signupForm.value.userType === 'Customer'){
+        this.user.userRole="CUSTOMER"
+        this.user.isActive = true;
+      }else
+      if(this.signupForm.value.userType === 'Retailer'){
+        this.user.userRole="RETAILER"
+        this.user.isActive = false;
+      }else
+      if(this.signupForm.value.userType === 'Mechanic'){
+        this.user.userRole="MECHANIC"
+        this.user.isActive = false;
+      }
 
       this._loginService.createUser(this.user).subscribe(()=>{
         this._snackBar.open("Your account has been successfully created. Welcome aboard!","",{duration:3000});
@@ -110,9 +118,6 @@ export class SignupComponent implements OnInit{
       if (control.hasError('email')) {
         return 'Invalid email format.';
       }
-      if (field === 'dateOfBirth' && control.hasError('ageInvalid')) {
-        return 'You must be at least 8 years old.';
-      }
       if (field === 'password' && control.hasError('minlength')) {
         return 'Password must be at least 6 characters long.';
       }
@@ -121,5 +126,9 @@ export class SignupComponent implements OnInit{
       }
     }
     return '';
+  }
+  isRetailerOrMechanic(): boolean {
+    return this.signupForm.get('userType')?.get('type')?.value === 'Retailer' ||
+      this.signupForm.get('userType')?.get('type')?.value === 'Mechanic';
   }
 }

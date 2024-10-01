@@ -14,17 +14,24 @@
           <div class="card mt-3">
             <div class="card-header bg">
               <h5>Order Details</h5>
+              <small> Order Date : {{ order.createdAt|date:'dd-MMM-YYYY hh:mm a' }}</small>
             </div>
             <div class="card-body">
               <h6>Product Details:</h6>
               <div *ngFor="let item of order.orderItems">
                 <div class="row">
                   <div class="col-8">
+                    <div class="d-flex justify-content-between">
                     <h6>{{ item.product.name }}</h6>
-                    <p><strong>Price:</strong> {{ item.price | currency : 'INR' }}</p>
-                    <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+                      <div class="text-center">
+                        <p><strong>MRP:</strong> {{ item.price | currency : 'INR' }} (-{{item.discountOnPurchase}}% Off)</p>
+                        <p><strong>Price:</strong> {{ getDiscountedPrice(item.product) | currency : 'INR' }}</p>
+                        <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+                      </div>
+                    </div>
                     <p><strong>Subtotal:</strong> {{ item.subtotal | currency : 'INR' }}</p>
                     <p><strong>Discount:</strong> {{ item.discountAmount | currency : 'INR' }}</p>
+                    <p><strong>GST:</strong> ({{ item.gst}}%)  {{item.taxAmount}}</p>
                     <p><strong>Total Price:</strong> {{ item.totalPrice | currency : 'INR' }}</p>
                   </div>
                   <div class="col-4 text-center">
@@ -34,13 +41,20 @@
                 </div>
                 <hr/>
               </div>
-              <h6>Order Summary:</h6>
-              <p><strong>Total Items:</strong> {{ order.orderItems.length }}</p>
-              <p><strong>Total Amount:</strong> {{ order.totalAmount | currency : 'INR' }}</p>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-5">
+          <div class="bg-secondary-subtle p-lg-4 mt-lg-3">
+            <h6>Order Summary:</h6>
+            <hr>
+            <p><strong>Total Items:</strong> {{ order.orderItems.length }}</p>
+            <p><strong>Discount:</strong> {{ getTotalSavings() }}</p>
+            <p><strong>GST:</strong> {{ getGst() }}</p>
+            <p><strong>Subtotal:</strong> {{ getSubtotal() | currency : 'INR' }}</p>
+            <p><strong>Total Amount:</strong> {{ order.totalAmount | currency : 'INR' }}</p>
+
+          </div>
           <!-- User Details Card -->
           <div class="card mt-3">
             <div class="card-header bg">

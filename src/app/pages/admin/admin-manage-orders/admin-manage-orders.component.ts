@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {Order} from "../../../model/Order.model";
-import {User} from "../../../model/User.model";
-import {LoginService} from "../../../service/login.service";
-import {Router} from "@angular/router";
-import {AdminOrderService} from "../../../service/AdminService/admin-order.service";
-import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Order } from "../../../model/Order.model";
+import { User } from "../../../model/User.model";
+import { LoginService } from "../../../service/login.service";
+import { Router } from "@angular/router";
+import { AdminOrderService } from "../../../service/AdminService/admin-order.service";
+import { InitializerService } from "../../../model/InitializerService/initializer.service";
 import NoImage from "../../../service/helper/noImage";
 import Swal from "sweetalert2";
-import {OrderStatus} from "../../../model/OrderStatus.model";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { OrderStatus } from "../../../model/OrderStatus.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'app-admin-manage-orders',
   templateUrl: './admin-manage-orders.component.html',
-  styleUrls: ['./admin-manage-orders.component.css'] // Fix typo 'styleUrl' to 'styleUrls'
+  styleUrls: ['./admin-manage-orders.component.css']
 })
 export class AdminManageOrdersComponent implements OnInit {
   searchTerm: string = '';
@@ -26,16 +29,23 @@ export class AdminManageOrdersComponent implements OnInit {
   endDate: Date | null = null;
   showViewedOrders: boolean = false;
 
+  displayedColumns: string[] = ['id', 'customerType', 'customerName', 'orderDate', 'status', 'orderItems', 'totalAmount', 'actions'];
+  dataSource: MatTableDataSource<Order> = new MatTableDataSource<Order>([]); // Ensure type is specified
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   customerTypes: string[] = ['RETAILER', 'CUSTOMER', 'MECHANIC'];
   orderStatuses = Object.values(OrderStatus);
   originalOrders: Order[] = [];
 
-  constructor(private _loginService: LoginService,
-              private _router: Router,
-              private _adminOrderService: AdminOrderService,
-              private _snackBar: MatSnackBar,
-              private _initializerService: InitializerService) {
+  constructor(
+    private _loginService: LoginService,
+    private _router: Router,
+    private _adminOrderService: AdminOrderService,
+    private _snackBar: MatSnackBar,
+    private _initializerService: InitializerService
+  ) {
     this.user = _initializerService.initializeUser();
 
     const savedShowViewedOrders = localStorage.getItem('showViewedOrders');
@@ -55,6 +65,7 @@ export class AdminManageOrdersComponent implements OnInit {
     });
   }
 
+
   loadOrders() {
     this._adminOrderService.getAllOrders().subscribe(data => {
       this.orders = data;
@@ -68,14 +79,15 @@ export class AdminManageOrdersComponent implements OnInit {
 
       this.filteredOrders = [...this.orders]; // Initialize filtered orders
       this.originalOrders = [...this.orders]; // Keep a copy for resetting filters
-      this.onFilterChange()
+      this.dataSource = new MatTableDataSource<Order>(this.filteredOrders); // Initialize dataSource
+      this.dataSource.paginator = this.paginator; // Bind paginator here
+      this.dataSource.sort = this.sort; // Set sort
     });
   }
 
   // Method to filter orders based on selected filters
   onFilterChange() {
     this.filteredOrders = this.originalOrders.filter(order => {
-      // Ensure order.createdAt is defined before creating a Date
       const orderDate = order.createdAt ? new Date(order.createdAt) : null;
 
       const isAfterStartDate = this.startDate ? orderDate && new Date(this.startDate) <= orderDate : true;
@@ -84,17 +96,18 @@ export class AdminManageOrdersComponent implements OnInit {
       return (
         (this.selectedCustomerType ? order.user.userRole === this.selectedCustomerType : true) &&
         (this.selectedStatus ? order.status === this.selectedStatus : true) &&
-        (this.startDate ? isAfterStartDate : true) && // Use isAfterStartDate directly
-        (this.endDate ? isBeforeEndDate : true) && // Use isBeforeEndDate directly
+        (this.startDate ? isAfterStartDate : true) &&
+        (this.endDate ? isBeforeEndDate : true) &&
         (this.searchTerm ?
           (order.user.firstName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             order.user.lastName.toLowerCase().includes(this.searchTerm.toLowerCase())) : true) &&
-        (this.showViewedOrders ? order.isVor : true) // Check if only viewed orders should be shown
+        (this.showViewedOrders ? order.isVor : true)
       );
     });
 
-    // Save the checkbox state in localStorage
-    localStorage.setItem('showViewedOrders', JSON.stringify(this.showViewedOrders));
+    this.dataSource.data = this.filteredOrders; // Update data source with filtered orders
+    this.dataSource.paginator = this.paginator; // Rebind paginator to data source
+    this.dataSource.sort = this.sort; // Rebind sort to data source
   }
 
 
@@ -135,11 +148,11 @@ export class AdminManageOrdersComponent implements OnInit {
       case OrderStatus.CONFIRMED:
         return 'text-primary'; // Blue text for CONFIRMED
       case OrderStatus.UNPAID:
-        return 'text-info'; // Red text for UNPAID
+        return 'text-danger'; // Red text for UNPAID
       case OrderStatus.PAID:
         return 'text-success'; // Green text for PAID
       case OrderStatus.CANCELLED:
-        return 'text-danger'; // Grey text for CANCELLED
+        return 'text-grey'; // Grey text for CANCELLED
       case OrderStatus.REJECTED:
         return 'text-danger'; // Red text for REJECTED
       case OrderStatus.RETURNED:
@@ -150,9 +163,9 @@ export class AdminManageOrdersComponent implements OnInit {
   }
 
   onStatusChange(event: any, order: Order) {
-    const newStatus = event.target.value;
-    console.log(newStatus)
-    console.log(order.status)
+    const newStatus = event.value;
+    console.log(newStatus);
+    console.log(order.status);
     Swal.fire({
       title: 'Are you sure?',
       text: 'Changing the status of the order may impact its processing workflow. Please confirm you want to proceed with this change.',
@@ -167,19 +180,20 @@ export class AdminManageOrdersComponent implements OnInit {
         order.status = newStatus;
 
         this._adminOrderService.updateOrder(order).subscribe(() => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Order Status Updated',
-              text: `Order status has been updated to: ${order.status}`,
-              confirmButtonText: 'OK',
-            });
-          },
-          error => {
-            this._snackBar.open("Something went Wrong !!!", "", {duration: 3000})
-          })
-
+          Swal.fire('Success!', 'Order status updated successfully.', 'success');
+          this.loadOrders(); // Reload orders after status change
+        }, error => {
+          console.error('Error updating order status:', error);
+          Swal.fire('Error!', 'There was an error updating the order status.', 'error');
+        });
       }
     });
   }
 
+  // Handle paginator changes
+  onPageChange(event: any) {
+    // You can handle additional logic here if needed
+    console.log('Current page:', event.pageIndex);
+    console.log('Page size:', event.pageSize);
+  }
 }

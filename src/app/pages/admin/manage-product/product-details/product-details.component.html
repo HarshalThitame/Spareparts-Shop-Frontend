@@ -1,23 +1,54 @@
 <app-admin-navbar/>
 <div class="container-fluid">
-  <div class="row mt-5">
+  <div class="row">
     <div class="col-md-2">
       <!-- Admin Sidebar -->
       <app-admin-sidebar></app-admin-sidebar>
     </div>
 
     <div class="col-md-9">
-      <div class="row">
+      <div class="row mt-lg-4">
         <div class="col-md-5">
           <!-- Product Image -->
-          <div class="product-image">
-            <img
-              [src]="'https://hips.hearstapps.com/hmg-prod/images/disc-brake-pads-old-and-new-royalty-free-image-114397231-1556562875.jpg'"
-              alt="{{ product.name }}" class="img-fluid"/>
+          <div class="product-detail">
+            <div class="main-image-box">
+              <img [src]="selectedImageUrl" alt="Product Image" class="main-image">
+            </div>
+            <div class="thumbnail-images">
+              <img
+                *ngFor="let image of product.images"
+                [src]="image.url"
+                alt="Thumbnail Image"
+                class="thumbnail-image"
+                (click)="onImageHover(image.url)">
+            </div>
           </div>
           <div class="cart-button text-center frame mt-3">
             <button [routerLink]="'/admin/edit-product/'+product.id" class="btn btn-outline-secondary"><span>Edit Product</span>
             </button>
+            <div class="row justify-content-center">
+
+              <h6 class="text-center">Upload main image</h6>
+              <form>
+                <div class="input-group mb-3">
+                  <input type="file" (change)="onFileSelected($event)" class="form-control" id="fileInput"/>
+                  <button type="button" class="btn btn-outline-primary" (click)="uploadMainImage()">Upload</button>
+                </div>
+              </form>
+
+              <!-- File Input for Cover Images -->
+              <div  class="">
+                <h6 class="text-center mt-3">Upload Cover Images</h6>
+                <div class="input-group mb-3">
+                  <input type="file" (change)="onFileSelected($event)" multiple class="form-control" id="fileInputCover"
+                         aria-describedby="uploadCoverButton">
+                  <button class="btn btn-outline-info" type="button" id="uploadCoverButton"
+                          (click)="uploadCoverImage()">
+                    Upload
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -297,7 +328,7 @@
             <ng-container matColumnDef="details">
               <th mat-header-cell *matHeaderCellDef> Details</th>
               <td mat-cell *matCellDef="let order">
-                <button mat-button [routerLink]="['admin/manage-orders/view-order', order.id]">
+                <button mat-button [routerLink]="['/admin/manage-orders/view-order-details', order.id]">
                   <mat-icon>arrow_forward</mat-icon>
                 </button>
               </td>

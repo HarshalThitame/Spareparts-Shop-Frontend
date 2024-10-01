@@ -13,6 +13,11 @@ export class AdminNavbarComponent implements OnInit{
 
   isLoggedIn = false;
   user: User;
+  isNavbarCollapsed = true;
+
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -42,16 +47,8 @@ export class AdminNavbarComponent implements OnInit{
 
   logout() {
     this._loginService.logout();
-    window.location.reload()
+    this._router.navigate(['/']);
   }
 
-  openCart() {
-    if (this.user.userRole === 'CUSTOMER') {
-      this._router.navigate(['/customer/cart']);
-    } else if (this.user.userRole == 'RETAILER') {
-      this._router.navigate(['/retailer/cart']);
-    } else if (this.user.userRole == 'MECHANIC') {
-      this._router.navigate(['/mechanic/cart']);
-    }
-  }
+
 }

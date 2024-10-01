@@ -1,6 +1,7 @@
 import {Cart} from "./Cart.model";
 import {Wishlist} from "./Wishlist.model";
 import {Review} from "./Review.model";
+import {ShippingAddress} from "./ShippingAddress.model";
 
 export interface User {
   id: number;                       // Corresponds to Long in Java
@@ -23,4 +24,5 @@ export interface User {
   cart?: Cart;                      // Assuming Cart is another interface
   wishlist?: Wishlist;              // Assuming Wishlist is another interface
   reviews?: Review[];               // Assuming Review is another interface
+  savedAddresses?:ShippingAddress[]
 }

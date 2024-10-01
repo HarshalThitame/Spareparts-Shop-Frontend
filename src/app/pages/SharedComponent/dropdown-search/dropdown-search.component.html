@@ -1,44 +1,31 @@
-
 <div class="menu-container mt-4">
   <h3>Search Parts</h3>
-  <nav>
-    <ul class="menu">
-      <li class="dropdown dropdown-6" role="combobox" aria-expanded="false" aria-haspopup="true">
-        Brand: <span *ngIf="selectedBrand">{{ selectedBrand.name }}</span>
-        <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6" role="listbox">
-          <li role="option" (click)="onBrandSelect(null)">Select</li> <!-- Default Option -->
-          <li *ngFor="let brand of brands" class="dropdown_item-1"
-              (click)="onBrandSelect(brand)" role="option">
-            {{ brand.name }}
-          </li>
-        </ul>
-      </li>
+  <mat-form-field appearance="fill">
+    <mat-label>Brand</mat-label>
+    <mat-select [(value)]="selectedBrand" (selectionChange)="onBrandSelect($event.value)">
+      <mat-option [value]="null">Select</mat-option>
+      <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-      <li class="dropdown dropdown-7">
-        Model No: <span *ngIf="selectedModel"> {{ selectedModel.name }}</span>
-        <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-7">
-          <li (click)="onModelSelect(null)">Select</li> <!-- Default Option -->
-          <li *ngFor="let model of brandModels" class="dropdown_item"
-              (click)="onModelSelect(model)">
-            {{ model.name }}
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown dropdown-8">
-        Category: <span *ngIf="selectedCategory"> {{ selectedCategory.name }}</span>
-        <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-8">
-          <li (click)="onCategorySelect(null)" >Select</li> <!-- Default Option -->
-          <li *ngFor="let cat of categories" class="dropdown_item"
-              (click)="onCategorySelect(cat)">
-            {{ cat.name }}
-          </li>
-        </ul>
-      </li>
+  <mat-form-field appearance="fill">
+    <mat-label>Model No</mat-label>
+    <mat-select [(value)]="selectedModel" (selectionChange)="onModelSelect($event.value)">
+      <mat-option [value]="null">Select</mat-option>
+      <mat-option *ngFor="let model of brandModels" [value]="model">{{ model.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-      <button class="text-white btn btn-outline-secondary" (click)="SearchByDropdown()">
-        <span class="material-symbols-outlined">search</span>
-      </button>
-    </ul>
-  </nav>
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select [(value)]="selectedCategory" (selectionChange)="onCategorySelect($event.value)">
+      <mat-option [value]="null">Select</mat-option>
+      <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <button (click)="SearchByDropdown()" mat-fab>
+    <mat-icon>search</mat-icon>
+  </button>
 </div>
-

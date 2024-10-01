@@ -56,7 +56,9 @@
     <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of products">
       <div class="card h-100 product-card" [@bounceDrop]="bounceState"
            [routerLink]="['/category/sub-category/sub-sub-category/product-details', product.id]">
-        <img [src]="noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+          <div class="">
+            <img [src]="product.mainImage || noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+          </div>
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
           <p class="text-white">MOQ: {{ product.moq }}</p>

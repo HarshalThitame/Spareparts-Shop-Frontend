@@ -15,7 +15,7 @@
         <div *ngFor="let item of cart.items" class="col-12 cart-item mb-4 p-4 shadow-sm rounded border border-light">
           <div class="row align-items-center">
             <div class="col-md-4 col-12 mb-3 mb-md-0">
-              <img [src]="item.product.images" alt="{{ item.product.name }}" class="img-fluid rounded">
+              <img [src]="item.product.mainImage" alt="{{ item.product.name }}" class="img-fluid rounded cart-img">
             </div>
             <div class="col-md-6 col-12">
               <h5 class="font-weight-bold text-dark">{{ item.product.name }}</h5>

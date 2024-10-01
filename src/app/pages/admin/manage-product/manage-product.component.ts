@@ -40,18 +40,15 @@ export class ManageProductComponent implements OnInit {
 
   loadAllProducts() {
     this._productService.getAllProducts().subscribe(data => {
-      console.log('All Products:', data); // Log the raw data
-      this.products = data;
-      this.filteredProducts = data; // Initialize filtered products
-
-      // Check for missing properties
-      this.products.forEach((product: any) => {
-        console.log(product);
-      });
+      console.log('All Products:', data); // Check if products are fetched correctly
+      this.products = data;  // Assign the data to `products`
+      this.filteredProducts = data;  // Initialize filtered products
+      console.log('Filtered Products:', this.filteredProducts);  // Log filtered products for debugging
     }, error => {
-      console.error('Error fetching products:', error); // Log any error
+      console.error('Error fetching products:', error);  // Log any error from the backend
     });
   }
+
 
 
   onSearchChange() {

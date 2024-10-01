@@ -29,6 +29,9 @@ export class MechanicNavbarComponent implements OnInit{
     } else {
       this._loginService.getCurrentUser().subscribe(data => {
         this.user = data;
+        if (this.user.userRole!=="MECHANIC"){
+          this.logout();
+        }
       }, error => {
         this._loginService.logout();
         this._router.navigate(['/']);
@@ -39,7 +42,7 @@ export class MechanicNavbarComponent implements OnInit{
 
   logout() {
     this._loginService.logout();
-    window.location.reload()
+    this._router.navigate(['/']);
   }
 
   openCart() {

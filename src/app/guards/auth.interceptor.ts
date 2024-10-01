@@ -22,6 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (req.url.includes('htharshal-ecom.s3.amazonaws.com')) {
+      // Clone the request without the Authorization header
+      return next.handle(req.clone({ headers: req.headers.delete('Authorization') }));
+    }
 
     //add the jwt token (local storage) request
     const token = this.login.getToken();

@@ -24,6 +24,8 @@ export class CustomerProductDetailsComponent implements OnInit {
   isLoggedIn = false;
   cart: Cart;
   quantity = 1;
+  selectedImageUrl: any;
+
 
   stock = 10;
   compatibilityData = [
@@ -92,6 +94,7 @@ export class CustomerProductDetailsComponent implements OnInit {
   loadProduct(id: any) {
     this._productService.getProductByIdByGeneral(id).subscribe(data => {
       this.product = data;
+      this.selectedImageUrl = this.product.mainImage
       this.quantity = this.product.moq
       console.log(this.product)
     })
@@ -179,5 +182,9 @@ export class CustomerProductDetailsComponent implements OnInit {
 
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
+  }
+
+  onImageHover(url: string) {
+    this.selectedImageUrl = url
   }
 }
