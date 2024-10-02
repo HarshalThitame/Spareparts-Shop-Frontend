@@ -74,6 +74,39 @@ h4:hover, h5:hover {
   height: 100px;
   object-fit: contain; /* Maintain aspect ratio */
 }
+.category-card {
+  background-color: #fff; /* Set a white background for better contrast */
+  border-radius: 15px; /* Add rounded corners */
+  transition: transform 0.2s; /* Smooth transition for hover effects */
+}
+
+.category-card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+}
+
+.category-img {
+  height: 150px; /* Fixed height for uniformity */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  margin-bottom: 10px; /* Space below the image */
+}
+
+.category-title {
+  cursor: pointer; /* Change cursor to pointer for better UX */
+  transition: color 0.2s; /* Smooth transition for hover effects */
+}
+
+.category-title:hover {
+  color: #28a745; /* Change color on hover */
+}
+
+.action-btn {
+  transition: background-color 0.2s, border-color 0.2s; /* Transition for button states */
+}
+
+.action-btn:hover {
+  background-color: #e7f1ff; /* Light background on hover */
+  border-color: #80bdff; /* Change border color on hover */
+}
 
 @media (max-width: 768px) {
   .category-img {

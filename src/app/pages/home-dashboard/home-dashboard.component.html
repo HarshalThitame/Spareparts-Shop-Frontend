@@ -26,8 +26,13 @@
             <!-- Animated Search Bar Positioned at Top Right -->
             <div class="search-container">
               <div class="search-wrapper">
-                <input type="text" class="form-control animated-search" placeholder="Search for parts..."/>
-                <button class="btn btn-primary" type="button">🔍</button>
+                <input
+                  type="text"
+                  (keydown)="onKeyDown($event)"
+                  [(ngModel)]="searchKeyword"
+                  class="form-control animated-search"
+                  placeholder="Search for parts..."
+                />                <button (click)="searchProduct()" class="btn btn-primary" type="button">🔍</button>
               </div>
             </div>
           </div>
@@ -47,13 +52,14 @@
   <app-shared-categories/>
 
   <!-- Product Display Section -->
-  <div class="row mt-4">
+  <div #scrollTarget class="row mt-4">
     <div class="col-12">
-      <h3 class="text-center mb-4">Featured Products</h3>
+      <h3 *ngIf="searchKeyword ===''" class="text-center mb-4">Featured Products</h3>
     </div>
 
     <!-- Adjusting for different screen sizes -->
-    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of products">
+    <h6 *ngIf="searchKeyword!==''"> Related to "{{searchKeyword}}" products </h6>
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of filterProducts">
       <div class="card h-100 product-card" [@bounceDrop]="bounceState"
            [routerLink]="['/category/sub-category/sub-sub-category/product-details', product.id]">
           <div class="">
@@ -67,7 +73,7 @@
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
           </h6>
           <small class="text-white">Special offer for mechanics</small>
-          <p class="text-white">Price: <span
+          <p class="text-white">MRP: <span
             class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
         </div>
       </div>

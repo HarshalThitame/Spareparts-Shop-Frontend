@@ -1,6 +1,82 @@
-img{
-  max-height: 400px;
+/* Image Styling */
+.offer-img {
+  height: 300px;
+  object-fit: cover;
+  border-radius: 0.5rem; /* Slight rounding of image corners */
 }
+
+/* Overlay on the Image */
+.offer-overlay {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Discount Title */
+.discount-title {
+  font-size: 2.8rem;
+  font-family: 'Brush Script MT', cursive;
+  margin-bottom: 10px;
+}
+
+/* Discount Text */
+.discount-text {
+  font-size: 1.8rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+/* Discount Tagline */
+.discount-tagline {
+  font-size: 1.2rem;
+  font-family: 'Open Sans', sans-serif;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Sale End Date */
+.end-date {
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Stylish Button Positioned on Image */
+.offer-btn {
+  background: linear-gradient(45deg, #ff4081, #ff80ab);
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px; /* Rounded button */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-top: 15px; /* Spacing between button and text */
+}
+
+.offer-btn:hover {
+  background: linear-gradient(45deg, #ff80ab, #ff4081);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+/* Adjust the button to ensure it's placed well on the image */
+.position-relative .offer-btn {
+  position: relative;
+  z-index: 2;
+}
+
 .arrow-left {
   left: -40px; /* Adjust as needed */
 }
@@ -18,4 +94,29 @@ img{
 }
 .ml-3{
   margin-left: 30px;
+}
+
+
+/* Responsive Button for Tablets and Smaller Screens */
+@media (max-width: 992px) {
+  .offer-btn {
+    font-size: 1.1rem; /* Slightly smaller font size */
+    padding: 10px 25px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Responsive Button for Mobile Devices */
+@media (max-width: 768px) {
+  .offer-btn {
+    font-size: 1rem; /* Further reduce font size */
+    padding: 8px 20px; /* Smaller padding for mobile */
+  }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 576px) {
+  .offer-btn {
+    font-size: 0.9rem; /* Smallest font size */
+    padding: 6px 15px; /* Minimal padding for very small screens */
+  }
 }

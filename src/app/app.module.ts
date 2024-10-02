@@ -109,6 +109,8 @@ import {NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatSort} from "@angular/material/sort";
 import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
+import { ProductOfferComponent } from './pages/SharedComponent/offer/product-offer/product-offer.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -164,6 +166,8 @@ import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.compo
     AdminFinancialMetricsComponent,
     AdminManageCustomersComponent,
     AdminAlertComponent,
+    ProductOfferComponent,
+    ErrorComponent,
   ],
   imports: [
     AppRoutingModule, // Ensure your routing module is included here

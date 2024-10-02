@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Offer} from "../../../model/Offer.model";
+import {OfferService} from "../../../service/AdminService/offer.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-offer',
@@ -8,44 +11,35 @@ import {Component, OnInit} from '@angular/core';
 export class OfferComponent implements OnInit{
   currentIndex = 0;
   slideshowInterval: any;
+  activatedOffers:Offer[]=[];
+constructor(private _offerService:OfferService,
+            private _router:Router) {
+}
 
   ngOnInit(): void {
+    this.loadActivatedOffers();
     this.startSlideshow();
   }
-  products = [
-    {
-      id: 1,
-      name: 'Special Brake Pad',
-      description: 'High-quality brake pad on offer!',
-      price: 49.99,
-      image: 'https://via.placeholder.com/300',
-      type: 'offer'
-    },
-    {
-      id: 2,
-      name: 'Engine Oil',
-      description: 'Premium quality engine oil',
-      price: 29.99,
-      image: 'https://via.placeholder.com/300',
-      type: 'product'
-    },
-    {
-      id: 3,
-      name: 'Winter Tires',
-      description: 'Durable winter tires for harsh conditions',
-      price: 99.99,
-      image: 'https://via.placeholder.com/300',
-      type: 'product'
-    }
-  ];
+
 
   startSlideshow() {
     this.slideshowInterval = setInterval(() => {
-      this.currentIndex = (this.currentIndex + 1) % this.products.length;
+      this.currentIndex = (this.currentIndex + 1) % this.activatedOffers.length;
     }, 2000); // Change slide every 2 seconds
   }
 
   get currentProduct() {
-    return this.products[this.currentIndex];
+    return this.activatedOffers[this.currentIndex];
+  }
+
+  loadActivatedOffers() {
+      this._offerService.getActiveOffersForUsers().subscribe(data=>{
+        this.activatedOffers = data;
+        console.log(data)
+      })
+  }
+
+  selectOffer(offer: Offer) {
+    this._router.navigate(['/product-offer/'+offer.id])
   }
 }

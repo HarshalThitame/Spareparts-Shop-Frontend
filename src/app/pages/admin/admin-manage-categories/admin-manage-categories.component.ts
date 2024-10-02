@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from "../../../service/category.service";
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import Swal from 'sweetalert2';
+import NoImage from "../../../service/helper/noImage";
+import {HttpBackend, HttpClient} from "@angular/common/http";
+import {Offer} from "../../../model/Offer.model";
+import baseURL from "../../../service/helper/helper";
 
  interface SubCategory {
   id?: number; // Optional, only set when editing
@@ -26,16 +30,23 @@ export class AdminManageCategoriesComponent implements OnInit {
   categoryForm!: FormGroup;
   categories: Category[] = [];
   editingCategoryId: any = null;
+  private selectedFile: File|any;
+  private httpWithoutInterceptor: HttpClient;
+  private uploadedImageUrl: any;
+
 
   constructor(
-    private categoryService: CategoryService,
-    private fb: FormBuilder
+    private _categoryService: CategoryService,
+    private _httpBackend: HttpBackend,
+    private _fb: FormBuilder,
+    private _http:HttpClient
   ) {
-    this.categoryForm = this.fb.group({
+    this.httpWithoutInterceptor = new HttpClient(_httpBackend);
+    this.categoryForm = this._fb.group({
       name: ['', Validators.required],
       description: [''],
       categoryImage: [''],
-      subcategories: this.fb.array([]) // Initialize with an empty array
+      subcategories: this._fb.array([]) // Initialize with an empty array
     });
   }
 
@@ -44,7 +55,7 @@ export class AdminManageCategoriesComponent implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getCategories().subscribe(data => {
+    this._categoryService.getCategories().subscribe(data => {
       this.categories = data;
     });
   }
@@ -54,7 +65,7 @@ export class AdminManageCategoriesComponent implements OnInit {
   }
 
   addSubCategory() {
-    const subcategoryGroup = this.fb.group({
+    const subcategoryGroup = this._fb.group({
       id: [null], // Initialize with null for new subcategories
       name: ['', Validators.required],
       description: ['']
@@ -79,7 +90,7 @@ export class AdminManageCategoriesComponent implements OnInit {
 
     this.subcategories.clear(); // Clear existing subcategories
     category.subCategories.forEach(sub => {
-      this.subcategories.push(this.fb.group({
+      this.subcategories.push(this._fb.group({
         id: [sub.id], // Set the subcategory ID
         name: [sub.name, Validators.required],
         description: [sub.description]
@@ -98,7 +109,7 @@ export class AdminManageCategoriesComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.deleteCategory(categoryId).subscribe(() => {
+        this._categoryService.deleteCategory(categoryId).subscribe(() => {
           this.categories = this.categories.filter(category => category.id !== categoryId);
           Swal.fire(
             'Deleted!',
@@ -132,7 +143,7 @@ export class AdminManageCategoriesComponent implements OnInit {
 
       if (this.editingCategoryId !== null) {
         // Update existing category
-        this.categoryService.updateCategory(this.editingCategoryId, newCategory).subscribe(data => {
+        this._categoryService.updateCategory(this.editingCategoryId, newCategory).subscribe(data => {
           console.log(data);
           this.loadCategories(); // Refresh the list after update
           this.resetForm();
@@ -142,7 +153,7 @@ export class AdminManageCategoriesComponent implements OnInit {
         });
       } else {
         // Add new category
-        this.categoryService.addCategory(newCategory).subscribe(data => {
+        this._categoryService.addCategory(newCategory).subscribe(data => {
           this.categories.push(data);
           console.log(data)
           this.resetForm();
@@ -181,7 +192,7 @@ export class AdminManageCategoriesComponent implements OnInit {
         // Remove from form array
         // If there's an ID, make a request to delete it from the server
         if (id != null) {
-          this.categoryService.deleteSubCategory(id).subscribe(() => {
+          this._categoryService.deleteSubCategory(id).subscribe(() => {
             const index = this.subcategories.controls.findIndex(sub => sub.value.id === id);
             if (index !== -1) {
               this.subcategories.removeAt(index);
@@ -204,4 +215,93 @@ export class AdminManageCategoriesComponent implements OnInit {
       }
     });
   }
+
+  protected readonly NoImage = NoImage;
+
+  changeCategoryImage(category: Category) {
+    this.uploadImage("Category-Image",category)
+  }
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
+  uploadImage(folderName: string, category:Category) {
+    if (!this.selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    // Step 1: Get the pre-signed URL from Spring Boot
+    this._http.get<any>(`${baseURL}/api/auth/presigned-url/${folderName}`).subscribe(response => {
+      const uploadUrl = response.url;
+      const objectKey = response.key;  // Assuming backend returns the S3 key
+
+      // Define the Content-Type
+      const contentType = this.selectedFile?.type || 'application/octet-stream';
+
+      // Step 2: Upload the image to S3 using the pre-signed URL
+      this.httpWithoutInterceptor.put(uploadUrl, this.selectedFile, {
+        headers: {
+          'Content-Type': contentType
+        },
+        reportProgress: true,
+        observe: 'events'
+      }).subscribe(
+        event => {
+          if (event.type === 4) { // HttpEventType.Response
+            console.log('Image successfully uploaded');
+
+
+
+            // Step 3: Construct the image URL (replace with your actual bucket's URL)
+            const bucketBaseUrl = 'https://harshal-ecom.s3.amazonaws.com/';
+            this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
+            console.log('Uploaded Image URL:', this.uploadedImageUrl);
+
+            if (category.categoryImage != null) {
+              this.deleteImage(category.categoryImage)
+            }
+            category.categoryImage = this.uploadedImageUrl;
+            this._categoryService.updateCategoryImage(category).subscribe(() => {
+            }, error => {
+              console.log(error)
+            })
+
+            this.selectedFile = null;
+            // Display image in the UI
+          }
+        },
+        error => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    });
+  }
+
+  deleteImage(oldImageUrl: any) {
+
+    // Extract the key from the uploadedImageUrl
+    // const key = this.uploadedImageUrl.split('/').pop(); // Extract the file name from the URL
+    const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
+    console.log(key)
+    if (key) {
+      this._http.delete(`${baseURL}/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+        .subscribe(
+          response => {
+            console.log('Response:', response); // This will now log the plain text "File deleted successfully"
+            this.uploadedImageUrl = null; // Clear the URL after deletion
+          },
+          error => {
+            console.error('Error deleting image:', error);
+          }
+        );
+    } else {
+      console.error('Unable to extract key from URL');
+    }
+  }
+
 }

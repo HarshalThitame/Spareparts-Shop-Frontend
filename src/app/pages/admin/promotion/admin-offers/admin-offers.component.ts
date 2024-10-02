@@ -10,6 +10,10 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import NoImage from "../../../../service/helper/noImage";
+import {HttpBackend, HttpClient} from "@angular/common/http";
+import Swal from "sweetalert2";
+import baseURL from "../../../../service/helper/helper";
 
 @Component({
   selector: 'app-admin-offers',
@@ -25,19 +29,28 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   filteredProducts: Product[] = [];
   productsForm = new FormControl([]);
   activatedOffers: Offer[] = [];
-  displayedColumns: string[] = ['title', 'discount', 'description', 'startDate', 'endDate', 'products', 'actions'];
+  offer:Offer;
+  displayedColumns: string[] = ['title', 'discount', 'description', 'startDate', 'endDate', 'products', 'imageUrl', 'actions'];
   dataSource = new MatTableDataSource<Offer>(this.activatedOffers);  // Bind this to your offers
+  private httpWithoutInterceptor: HttpClient;
+  uploadedImageUrl: string | null = null; // Store the uploaded image URL
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
+  private selectedFile: File|any;
 
 
 
   constructor(private _fb: FormBuilder,
               private _offerService: OfferService,
               private _adminProductService:AdminProductService,
+              private _http:HttpClient,
+              private httpBackend: HttpBackend,
               private _initializerService:InitializerService) {
     this.user = _initializerService.initializeUser()
+    this.offer = _initializerService.initializeOffer()
+    this.httpWithoutInterceptor = new HttpClient(httpBackend);
+
 
     this.searchControl = new FormControl(''); // Create a FormControl for search input
     this.offerForm = this._fb.group({
@@ -156,6 +169,113 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   }
 
   deleteOffer(offer:any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "This brand model will be permanently deleted!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          this._offerService.deleteOffer(offer.id).subscribe(() => {
+            Swal.fire('Deleted!', 'Offer has been deleted.', 'success');
+            this.ngOnInit()
+          }, error => {
+            console.log(error)
+            Swal.fire('Error!', 'There was a problem deleting the offer.', 'error');
+          });
+
+      }
+    });
 
   }
+
+
+  uploadImage(folderName: string, offer:Offer) {
+    if (!this.selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    // Step 1: Get the pre-signed URL from Spring Boot
+    this._http.get<any>(`${baseURL}/api/auth/presigned-url/${folderName}`).subscribe(response => {
+      const uploadUrl = response.url;
+      const objectKey = response.key;  // Assuming backend returns the S3 key
+
+      // Define the Content-Type
+      const contentType = this.selectedFile?.type || 'application/octet-stream';
+
+      // Step 2: Upload the image to S3 using the pre-signed URL
+      this.httpWithoutInterceptor.put(uploadUrl, this.selectedFile, {
+        headers: {
+          'Content-Type': contentType
+        },
+        reportProgress: true,
+        observe: 'events'
+      }).subscribe(
+        event => {
+          if (event.type === 4) { // HttpEventType.Response
+            console.log('Image successfully uploaded');
+
+
+
+            // Step 3: Construct the image URL (replace with your actual bucket's URL)
+            const bucketBaseUrl = 'https://harshal-ecom.s3.amazonaws.com/';
+            this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
+            console.log('Uploaded Image URL:', this.uploadedImageUrl);
+
+              if (offer.imageUrl != null) {
+                this.deleteImage(offer.imageUrl)
+              }
+              offer.imageUrl = this.uploadedImageUrl;
+              this._offerService.updateOffer(offer).subscribe(() => {
+              }, error => {
+                console.log(error)
+              })
+
+            this.selectedFile = null;
+            // Display image in the UI
+          }
+        },
+        error => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    });
+  }
+
+  deleteImage(oldImageUrl: any) {
+
+    // Extract the key from the uploadedImageUrl
+    // const key = this.uploadedImageUrl.split('/').pop(); // Extract the file name from the URL
+    const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
+    console.log(key)
+    if (key) {
+      this._http.delete(`${baseURL}/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+        .subscribe(
+          response => {
+            console.log('Response:', response); // This will now log the plain text "File deleted successfully"
+            this.uploadedImageUrl = null; // Clear the URL after deletion
+          },
+          error => {
+            console.error('Error deleting image:', error);
+          }
+        );
+    } else {
+      console.error('Unable to extract key from URL');
+    }
+  }
+
+  protected readonly NoImage = NoImage;
+
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
 }

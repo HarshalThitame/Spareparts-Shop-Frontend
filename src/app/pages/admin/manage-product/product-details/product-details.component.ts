@@ -14,6 +14,7 @@ import {FileUploadService} from "../../../../service/AWSService/file-upload.serv
 import {HttpBackend, HttpClient} from "@angular/common/http";
 import NoImage from "../../../../service/helper/noImage";
 import {Image} from "../../../../model/Image.model";
+import baseURL from "../../../../service/helper/helper";
 
 @Component({
   selector: 'app-product-details',
@@ -252,7 +253,7 @@ export class ProductDetailsComponent implements OnInit {
     }
 
     // Step 1: Get the pre-signed URL from Spring Boot
-    this._http.get<any>(`http://localhost:8080/api/auth/presigned-url/${folderName}`).subscribe(response => {
+    this._http.get<any>(`${baseURL}/api/auth/presigned-url/${folderName}`).subscribe(response => {
       const uploadUrl = response.url;
       const objectKey = response.key;  // Assuming backend returns the S3 key
 
@@ -316,7 +317,7 @@ export class ProductDetailsComponent implements OnInit {
     const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
     console.log(key)
     if (key) {
-      this._http.delete(`http://localhost:8080/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+      this._http.delete(`${baseURL}/api/auth/delete-file?key=${key}`, {responseType: 'text'})
         .subscribe(
           response => {
             console.log('Response:', response); // This will now log the plain text "File deleted successfully"

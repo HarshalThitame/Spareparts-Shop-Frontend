@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NavbarComponent} from "../../components/navbar/navbar.component";
 import {LoginService} from "../../service/login.service";
 import {Router} from "@angular/router";
@@ -41,6 +41,9 @@ import noImage from "../../service/helper/noImage";
   ]
 })
 export class HomeDashboardComponent implements OnInit {
+  @ViewChild('scrollTarget') scrollTarget!: ElementRef;
+
+  searchKeyword: string='';
   bounceState: string='';
   user: User;
   categories: Category[] = [];
@@ -56,6 +59,8 @@ export class HomeDashboardComponent implements OnInit {
   currentIndex: number = 0;
   brands: Brand[] = [];
   brandModels: BrandModel[] = [];
+  filterProducts: Product[] =[];
+
 
 
   constructor(private _loginService: LoginService,
@@ -66,6 +71,7 @@ export class HomeDashboardComponent implements OnInit {
               private _brandService: BrandService,
               private _snackBar: MatSnackBar) {
     this.user = _initializerServie.initializeUser();
+
 
 
     setInterval(() => this.changeImage(), 2000); // Change image every 2 seconds
@@ -112,6 +118,7 @@ export class HomeDashboardComponent implements OnInit {
   loadAllProducts() {
     this._productService.getAllProductsByGeneral().subscribe(data => {
       this.products = data;
+      this.filterProducts = this.products
     })
   }
 
@@ -139,4 +146,22 @@ export class HomeDashboardComponent implements OnInit {
   protected readonly noImage = NoImage;
 
 
+  searchProduct() {
+    if(this.searchKeyword==='' || this.searchKeyword===null)
+    {
+      this.filterProducts = this.products;
+    }else{
+      this._productService.searchProducts(this.searchKeyword).subscribe(data=>{
+        this.filterProducts = data;
+        const scrollToPosition = this.scrollTarget.nativeElement.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+      })
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.searchProduct();
+    }
+  }
 }

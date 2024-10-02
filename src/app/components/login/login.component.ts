@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+    // this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
     this._loginService.getCurrentUser().subscribe((data:any)=>{
         console.log(data.userRole)

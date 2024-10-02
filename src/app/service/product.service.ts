@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import baseURL from "./helper/helper";
 import {Product} from "../model/Product.model";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,9 @@ export class ProductService {
   updateProduct(productData: any) {
       return this._http.put(`${baseURL}/api/admin/products`,productData)
 
+  }
+
+  searchProducts(keyword: string): Observable<Product[]> {
+    return this._http.get<Product[]>(`${baseURL}/api/general/products/search?keyword=${keyword}`);
   }
 }

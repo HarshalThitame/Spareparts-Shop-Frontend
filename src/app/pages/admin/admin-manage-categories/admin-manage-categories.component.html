@@ -57,11 +57,20 @@
           <div class="row">
             <div *ngFor="let category of categories" class="col-6 col-md-4 col-lg-3 mb-4">
               <div class="category-card text-center p-3 shadow-lg rounded">
-                <div (click)="scrollToCategory(category.id)" class="card-header">
-                  <img class="category-img" [src]="category.categoryImage" alt="">
+                <div class="card-header">
+                  <img class="category-img img-fluid rounded" [src]="category.categoryImage||NoImage" alt="{{ category.name }}">
                 </div>
                 <h6 (click)="scrollToCategory(category.id)" class="category-title text-success">{{ category.name }}</h6>
-                <div class="d-flex justify-content-around">
+
+                <!-- Change Image Button -->
+                <div class="d-flex mt-2 text-center">
+                  <!-- Hidden file input for image upload -->
+                  <input type="file" (change)="onFileSelected($event)" multiple class="form-control" id="fileInputCover"
+                         aria-describedby="uploadOfferButton">
+                  <button class="btn btn-outline-secondary btn-sm " (click)="changeCategoryImage(category)">Upload</button>
+                </div>
+
+                <div class="d-flex justify-content-around mt-3">
                   <button type="button" class="btn btn-outline-info action-btn" (click)="editCategory(category)">
                     <span class="material-symbols-outlined">edit</span>
                   </button>
@@ -73,6 +82,8 @@
             </div>
           </div>
         </div>
+
+
         <div *ngFor="let category of categories" id="subcategories-{{ category.id }}" class="mt-5">
           <h3 class="text-success text-center">{{ category.name }} Subcategories</h3>
           <div class="card mb-4 shadow-lg">

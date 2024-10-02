@@ -8,6 +8,7 @@ import {SubCategory} from "../model/SubCategory.model";
   providedIn: 'root'
 })
 export class CategoryService {
+
   constructor(private _http:HttpClient) { }
 
   getCategories() {
@@ -39,5 +40,9 @@ export class CategoryService {
 
   deleteSubCategory(id: any) {
     return this._http.delete(`${baseURL}/api/admin/category/subcategory/${id}`)
+  }
+  updateCategoryImage(category:any) {
+    return this._http.put<Category>(`${baseURL}/api/admin/category/upload-image`,category)
+
   }
 }

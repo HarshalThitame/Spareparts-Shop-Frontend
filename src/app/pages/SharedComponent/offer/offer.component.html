@@ -1,18 +1,28 @@
 <div class="col-md-10 offset-md-1 position-relative offer mb-3">
   <div class="card offer text-center mb-4">
-    <img [src]="'https://media.istockphoto.com/id/596780762/photo/abstract-car-and-many-vehicles-parts.jpg?s=612x612&w=0&k=20&c=s1TYWoz4wQIDksuCpTOmIymZRHAtzaZZAvOlJQTl1n0='" class="card-img-top" alt="{{ currentProduct.name }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ currentProduct.name }}</h5>
-      <p class="card-text">{{ currentProduct.description }}</p>
-      <h4 class="text-success">{{ currentProduct.price | currency }}</h4>
+
+    <!-- Offer Image with Stylish Overlay Text and Button -->
+    <div class="position-relative">
+      <img [src]="activatedOffers[currentIndex]?.imageUrl" class="card-img-top offer-img" alt="Offer Image">
+      <div class="offer-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end align-items-center">
+<!--        <h2 class="discount-title">Big Discount!</h2>-->
+<!--        <h4 class="discount-text">Save {{ activatedOffers[currentIndex]?.discount }}%</h4>-->
+<!--        <p class="discount-tagline">Limited Time Offer. Act Now!</p>-->
+
+        <!-- Sale End Date -->
+        <p class="end-date">Offer ends on: {{ activatedOffers[currentIndex]?.endDate | date: 'dd-MMM' }}</p>
+
+        <!-- Stylish Button Positioned on Image -->
+        <button class="offer-btn" (click)="selectOffer(activatedOffers[currentIndex])">
+          Grab the Deal</button>
+      </div>
     </div>
-  </div>
-  <!-- Navigation Arrows -->
-  <div class="arrow text-center">
-    <i class="mr-3 fas fa-chevron-left" (click)="currentIndex = (currentIndex - 1 + products.length) % products.length"
-    ></i>
-    <i class="ml-3 fas fa-chevron-right" (click)="currentIndex = (currentIndex + 1) % products.length"
-    ></i>
+
   </div>
 
+  <!-- Navigation Arrows -->
+  <div class="arrow text-center">
+    <i class="mr-3 fas fa-chevron-left" (click)="currentIndex = (currentIndex - 1 + activatedOffers.length) % activatedOffers.length"></i>
+    <i class="ml-3 fas fa-chevron-right" (click)="currentIndex = (currentIndex + 1) % activatedOffers.length"></i>
+  </div>
 </div>

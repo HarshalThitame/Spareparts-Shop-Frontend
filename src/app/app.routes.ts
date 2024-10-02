@@ -52,12 +52,15 @@ import {AdminDiscountComponent} from "./pages/admin/promotion/admin-discount/adm
 import {AdminOffersComponent} from "./pages/admin/promotion/admin-offers/admin-offers.component";
 import {AdminManageCustomersComponent} from "./pages/admin/admin-manage-customers/admin-manage-customers.component";
 import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
+import {ProductOfferComponent} from "./pages/SharedComponent/offer/product-offer/product-offer.component";
+import {ErrorComponent} from "./components/error/error.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
   {path :'cart', component:GeneralCartComponent},
+  {path : '**', component:ErrorComponent},
   {
     path: 'category/sub-category/:id',
     component: SharedSubCategoriesComponent
@@ -71,12 +74,17 @@ const routes: Routes = [
     component: CustomerProductDetailsComponent
   },
   {
+    path:'product-offer/:id',
+    component:ProductOfferComponent
+  },
+  {
     path: 'admin',
     canActivate: [adminGuard],
     children: [
       {
         path: '',
-        component: AdminDashboardComponent
+        component: AdminDashboardComponent,
+        // pathMatch:'full'
       },
       {
         path: 'add-product',

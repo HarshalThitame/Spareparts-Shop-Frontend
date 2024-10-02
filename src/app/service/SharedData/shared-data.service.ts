@@ -30,8 +30,8 @@ export class SharedDataService {
 
 
     if (!isLoggedIn) {
-      const returnUrl = this._router.url;
-      this._router.navigate(['login'], { queryParams: { returnUrl } });
+      // const returnUrl = this._router.url;
+      this._router.navigate(['login']);
       return false
     }
       const cart = this.addToCart(user, product, quantity);  // Use the CartService to create a cart
