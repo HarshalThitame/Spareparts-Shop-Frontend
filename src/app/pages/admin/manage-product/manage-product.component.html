@@ -26,7 +26,7 @@
 
         <!-- Products Table with Fade-in Animation -->
         <div class="table-responsive">
-          <table *ngIf="filteredProducts.length > 0; else noProductsTemplate" class="table table-bordered table-hover animated-table">
+          <table *ngIf="paginatedProducts.length > 0; else noProductsTemplate" class="table table-bordered table-hover animated-table">
             <thead class="thead-light">
             <tr>
               <th>ID</th>
@@ -39,7 +39,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of filteredProducts; let i = index" class="animated-row">
+            <tr *ngFor="let product of paginatedProducts; let i = index" class="animated-row">
               <td>{{ i + 1 }}</td>
               <td>{{ product.partNumber }}</td>
               <td>{{ product.name }}</td>
@@ -54,6 +54,11 @@
             </tr>
             </tbody>
           </table>
+
+          <!-- Pagination -->
+          <mat-paginator [length]="filteredProducts.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15]"
+                         (page)="onPageChange($event)">
+          </mat-paginator>
 
           <!-- No Products Template -->
           <ng-template #noProductsTemplate>

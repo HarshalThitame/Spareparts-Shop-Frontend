@@ -54,13 +54,19 @@ import {AdminManageCustomersComponent} from "./pages/admin/admin-manage-customer
 import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
 import {ProductOfferComponent} from "./pages/SharedComponent/offer/product-offer/product-offer.component";
 import {ErrorComponent} from "./components/error/error.component";
+import {ProfileComponent} from "./pages/SharedComponent/profile/profile.component";
+import {AboutComponent} from "./components/about/about.component";
+import {ContactComponent} from "./components/contact/contact.component";
+import {AdminNewOrdersComponent} from "./pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
   {path :'cart', component:GeneralCartComponent},
-  {path : '**', component:ErrorComponent},
+  {path :'profile',component:ProfileComponent},
+  {path : 'about', component : AboutComponent},
+  {path : 'contact', component : ContactComponent},
   {
     path: 'category/sub-category/:id',
     component: SharedSubCategoriesComponent
@@ -113,6 +119,10 @@ const routes: Routes = [
       {
         path: 'manage-orders',
         component: AdminManageOrdersComponent,
+      },
+      {
+        path: 'manage-new-orders',
+        component: AdminNewOrdersComponent
       },
       {
         path: 'manage-orders/view-order-details/:id',
@@ -233,7 +243,8 @@ const routes: Routes = [
         component: MechanicProductDetailsComponent
       }
     ]
-  }
+  },
+  {path : '**', component:ErrorComponent},
 ];
 
 @NgModule({

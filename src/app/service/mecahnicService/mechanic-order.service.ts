@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import baseURL from "../helper/helper";
 import {Order} from "../../model/Order.model";
 import {HttpClient} from "@angular/common/http";
+import {EmailData} from "../../model/EmailData.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ export class MechanicOrderService {
 
   createOrder(order:Order){
     return this._http.post(`${baseURL}/api/mechanic/orders`,order)
+  }
+
+  sendEmailOfOrder(emailData:EmailData){
+    return this._http.post(`${baseURL}/api/mechanic/orders/send-order-mail`,emailData)
   }
 
 

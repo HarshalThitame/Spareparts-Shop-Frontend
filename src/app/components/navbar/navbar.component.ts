@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   user: User;
   isNavbarCollapsed = true;
+  isOpen = false;
 
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
@@ -43,7 +44,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this._loginService.logout();
-    // window.location.reload()
+    window.location.reload()
     this._router.navigate(['/'])
   }
 
@@ -55,5 +56,13 @@ export class NavbarComponent implements OnInit {
     } else if (this.user.userRole == 'MECHANIC') {
       this._router.navigate(['/mechanic/cart']);
     }
+  }
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen; // Toggle the dropdown state
+  }
+
+  closeDropdown() {
+    this.isOpen = false; // Close the dropdown
   }
 }

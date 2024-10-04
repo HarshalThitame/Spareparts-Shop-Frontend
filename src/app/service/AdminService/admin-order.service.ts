@@ -4,11 +4,13 @@ import {Order} from "../../model/Order.model";
 import baseURL from "../helper/helper";
 import {Product} from "../../model/Product.model";
 import {OrderItem} from "../../model/OrderItem.model";
+import {EmailData} from "../../model/EmailData.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminOrderService {
+
 
   constructor(private _http: HttpClient) {
   }
@@ -46,4 +48,15 @@ export class AdminOrderService {
   }
 
 
+  sendEmail(emailData: EmailData) {
+    return this._http.post(`${baseURL}/api/admin/orders/send-order-mail`,emailData)
+  }
+
+  getNewOrders() {
+    return this._http.get<Order[]>(`${baseURL}/api/admin/orders/new-orders`)
+  }
+
+  getNewOrderCount() {
+    return this._http.get<number>(`${baseURL}/api/admin/orders/new-order-count`)
+  }
 }

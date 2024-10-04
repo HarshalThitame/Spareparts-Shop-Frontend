@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow">
   <div class="container-fluid d-flex justify-content-between align-items-center">
     <!-- Logo/Brand -->
     <a class="navbar-brand" [routerLink]="'/'">Customer</a>
@@ -49,10 +49,21 @@
           <button *ngIf="isLoggedIn && user.userRole!='ADMIN'" (click)="openCart()" class="btn btn-outline-secondary border-0 me-2">
             <i class="fas fa-shopping-cart"></i>&nbsp;Cart
           </button>
-          <button class="btn btn-outline-secondary border-0 me-2">
-            <i class="fas fa-user"></i>&nbsp;{{user.firstName}}
-          </button>
-          <button (click)="logout()" class="btn btn-outline-secondary border-0">Logout</button>
+
+          <!-- Profile Dropdown -->
+          <div class="dropdown" (click)="toggleDropdown()">
+            <button class="btn btn-outline-secondary border-0 dropdown-toggle" id="profileDropdown" aria-haspopup="true" aria-expanded="isOpen">
+              <i class="fas fa-user"></i>&nbsp;{{user.firstName}}
+            </button>
+
+            <ul class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" [routerLink]="'/profile'" (click)="closeDropdown()">Profile</a></li>
+              <li><a class="dropdown-item" [routerLink]="'/customer/my-order'" (click)="closeDropdown()">My Orders</a></li>
+              <li><a class="dropdown-item" [routerLink]="'/customer/saved-address'" (click)="closeDropdown()">Saved Address</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item" (click)="logout(); closeDropdown()">Logout</button></li>
+            </ul>
+          </div>
         </ng-container>
       </div>
     </div>

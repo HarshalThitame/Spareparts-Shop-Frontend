@@ -11,6 +11,7 @@ import {OrderStatus} from "../../../../model/OrderStatus.model";
 import Swal from "sweetalert2";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Product} from "../../../../model/Product.model";
+import {EmailData} from "../../../../model/EmailData.model";
 
 @Component({
   selector: 'app-admin-view-order-details',
@@ -83,20 +84,74 @@ export class AdminViewOrderDetailsComponent implements OnInit {
   }
 
   onStatusChange(event: any) {
-    this.order.status = event.target.value
-    this._adminOrderService.updateOrder(this.order).subscribe(()=>{
-      Swal.fire({
-        icon: 'success',
-        title: 'Order Status Updated',
-        text: `Order status has been updated to: ${this.order.status}`,
-        confirmButtonText: 'OK',
-      });
-    },
-      error => {
-      this._snackBar.open("Something went Wrong !!!","",{duration:3000})
-      })
+    this.order.status = event.target.value;
+    this._adminOrderService.updateOrder(this.order).subscribe(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Order Status Updated',
+          text: `Order status has been updated to: ${this.order.status}`,
+          confirmButtonText: 'OK',
+        });
 
+        // Send email based on the new status
+        if (this.order.status === OrderStatus.CONFIRMED) {
+          this.sendEmailConfirmation();
+        } else if (this.order.status === OrderStatus.REJECTED) {
+          this.sendEmailRejection();
+        }
+      },
+      error => {
+        this._snackBar.open("Something went wrong !!!", "", { duration: 3000 });
+      });
   }
+
+  sendEmailConfirmation() {
+    const emailData: EmailData = {
+      to: this.order.user.email,
+      subject: "Order Confirmation",
+      body: this.createOrderConfirmationEmailBody() // Implement this method to create email body
+    };
+
+    this._adminOrderService.sendEmail(emailData).subscribe(response => {
+      console.log('Order confirmation email sent:', response);
+    }, error => {
+      console.error('Error sending email:', error);
+    });
+  }
+
+  sendEmailRejection() {
+    const emailData: EmailData = {
+      to: this.order.user.email,
+      subject: "Order Rejection",
+      body: this.createOrderRejectionEmailBody() // Implement this method to create email body
+    };
+
+    this._adminOrderService.sendEmail(emailData).subscribe(response => {
+      console.log('Order rejection email sent:', response);
+    }, error => {
+      console.error('Error sending email:', error);
+    });
+  }
+
+  // Implement the methods to create the email body for confirmation and rejection
+  createOrderConfirmationEmailBody(): string {
+    return `
+      <h1>Your Order has been Confirmed</h1>
+      <p>Dear ${this.order.user.firstName} ${this.order.user.lastName},</p>
+      <p>Your order with ID: ${this.order.id} has been confirmed. Thank you for shopping with us!</p>
+
+    `;
+  }
+
+  createOrderRejectionEmailBody(): string {
+    return `
+    <h1>Your Order has been Rejected</h1>
+    <p>Dear ${this.order.user.firstName} ${this.order.user.lastName},</p>
+    <p>We regret to inform you that your order with ID: ${this.order.id} has been rejected by the seller.</p>
+    <p>If you have any questions or need assistance, please feel free to contact us.</p>
+  `;
+  }
+
 
   addNoteToOrder() {
     console.log(this.order.notes)

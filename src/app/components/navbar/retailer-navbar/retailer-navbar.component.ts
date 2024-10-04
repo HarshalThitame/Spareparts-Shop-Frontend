@@ -13,6 +13,12 @@ export class RetailerNavbarComponent implements OnInit{
 
   isLoggedIn = false;
   user: User;
+  isNavbarCollapsed = true;
+  isOpen = false;
+
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -56,5 +62,11 @@ export class RetailerNavbarComponent implements OnInit{
     }
   }
 
+  toggleDropdown() {
+    this.isOpen = !this.isOpen; // Toggle the dropdown state
+  }
 
+  closeDropdown() {
+    this.isOpen = false; // Close the dropdown
+  }
 }

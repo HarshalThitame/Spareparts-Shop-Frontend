@@ -3,24 +3,10 @@
   <!-- Welcome Section -->
   <div class="card card-home shadow-lg mb-3">
     <div class="row text-start">
-      <div class="col-md-2 image-container">
-        <img
-          *ngIf="currentImage"
-          [src]="currentImage"
-          alt="Spare Parts"
-          class="img-fluid img-home"
-          [@slideAnimation]
-        />
-      </div>
       <div class="col-md-6 text-start">
-
         <div class="card border-0 text-white" style="background: none">
           <div class="card-body">
-
-            <!-- Main Line -->
             <h1 class="text-start card-title mb-0">Find Parts For Your Tractor !</h1>
-
-            <!-- Tag Line -->
             <p class="card-text text-muted mt-0">Powering Your Tractor with the Best Parts</p>
 
             <!-- Animated Search Bar Positioned at Top Right -->
@@ -32,49 +18,85 @@
                   [(ngModel)]="searchKeyword"
                   class="form-control animated-search"
                   placeholder="Search for parts..."
-                />                <button (click)="searchProduct()" class="btn btn-primary" type="button">🔍</button>
+                />
+                <button (click)="searchProduct()" class="btn btn-primary" type="button">🔍</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="col-md-6">
+        <app-dropdown-search></app-dropdown-search>
+      </div>
     </div>
-
-
   </div>
 
-
   <!-- Offer Card -->
-  <app-offer/>
-  <!--  Dropdown search-->
-  <app-dropdown-search/>
-  <!-- Categories Section -->
-  <app-shared-categories/>
+  <app-offer></app-offer>
 
+  <!-- Categories Section -->
+  <app-shared-categories></app-shared-categories>
+
+  <!-- Product Display Section -->
   <!-- Product Display Section -->
   <div #scrollTarget class="row mt-4">
     <div class="col-12">
-      <h3 *ngIf="searchKeyword ===''" class="text-center mb-4">Featured Products</h3>
+      <h3 *ngIf="searchKeyword === ''" class="text-center mb-4">Featured Products</h3>
     </div>
 
-    <!-- Adjusting for different screen sizes -->
-    <h6 *ngIf="searchKeyword!==''"> Related to "{{searchKeyword}}" products </h6>
-    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of filterProducts">
+    <h6 *ngIf="searchKeyword !== ''">Related to "{{ searchKeyword }}" products</h6>
+
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of displayedProducts">
       <div class="card h-100 product-card" [@bounceDrop]="bounceState"
            [routerLink]="['/category/sub-category/sub-sub-category/product-details', product.id]">
-          <div class="">
-            <img [src]="product.mainImage || noImage" class="card-img-top feature-img" alt="{{ product.name }}">
-          </div>
+        <div class="">
+          <img [src]="product.mainImage || noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+        </div>
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
-          <p class="text-white">MOQ: {{ product.moq }}</p>
+          <small class="text-white">MOQ: {{ product.moq }}</small>
+          <p class="text-white">MRP: <span
+            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
           <h6 class="text-white mt-2">
             {{ getDiscountedPrice(product) | currency:'INR' }}
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
           </h6>
-          <small class="text-white">Special offer for mechanics</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Load More Button -->
+
+  <div class="row mt-3">
+    <div class="col-12 text-center">
+      <!-- Button should be visible only when more products are available to load -->
+      <button *ngIf="currentLoadedCount < totalProducts" (click)="onLoadMoreClick()" class=" load-more btn btn-secondary w-25">
+        Load More
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Top Selling Products Section -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3 class="text-center mb-4">Top Selling Products</h3>
+    </div>
+
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let topProduct of topSellingProducts">
+      <div class="card h-100 product-card" [routerLink]="['/category/sub-category/sub-sub-category/product-details', topProduct.id]">
+        <div class="">
+          <img [src]="topProduct.mainImage || noImage" class="card-img-top feature-img" alt="{{ topProduct.name }}">
+        </div>
+        <div class="card-body bg text-white">
+          <h5 class="card-title">{{ topProduct.name }}</h5>
+          <small class="text-white">MOQ: {{ topProduct.moq }}</small>
           <p class="text-white">MRP: <span
-            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
+            class="text-decoration-line-through">{{ topProduct.price | currency:'INR' }}</span></p>
+          <h6 class="text-white mt-2">
+            {{ getDiscountedPrice(topProduct) | currency:'INR' }}
+            <small class="text-warning ms-2 h6">-{{ getDiscount(topProduct) }}% Off</small>
+          </h6>
         </div>
       </div>
     </div>

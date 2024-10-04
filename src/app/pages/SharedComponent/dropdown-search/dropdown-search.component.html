@@ -1,31 +1,32 @@
-<div class="menu-container mt-4">
+<div class="menu-container">
   <h3>Search Parts</h3>
-  <mat-form-field appearance="fill">
-    <mat-label>Brand</mat-label>
-    <mat-select [(value)]="selectedBrand" (selectionChange)="onBrandSelect($event.value)">
-      <mat-option [value]="null">Select</mat-option>
-      <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="search-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Brand</mat-label>
+      <mat-select [(value)]="selectedBrand" (selectionChange)="onBrandSelect($event.value)">
+        <mat-option [value]="null">Select</mat-option>
+        <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Model No</mat-label>
-    <mat-select [(value)]="selectedModel" (selectionChange)="onModelSelect($event.value)">
-      <mat-option [value]="null">Select</mat-option>
-      <mat-option *ngFor="let model of brandModels" [value]="model">{{ model.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Model No</mat-label>
+      <mat-select [(value)]="selectedModel" (selectionChange)="onModelSelect($event.value)">
+        <mat-option [value]="null">Select</mat-option>
+        <mat-option *ngFor="let model of brandModels" [value]="model">{{ model.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Category</mat-label>
-    <mat-select [(value)]="selectedCategory" (selectionChange)="onCategorySelect($event.value)">
-      <mat-option [value]="null">Select</mat-option>
-      <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select [(value)]="selectedCategory" (selectionChange)="onCategorySelect($event.value)">
+        <mat-option [value]="null">Select</mat-option>
+        <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button (click)="SearchByDropdown()" mat-fab>
-    <mat-icon>search</mat-icon>
-  </button>
+    <button class="search-btn" (click)="SearchByDropdown()" mat-fab>
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
 </div>

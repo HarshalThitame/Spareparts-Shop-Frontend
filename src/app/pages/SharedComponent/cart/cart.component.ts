@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from "../../../model/User.model";
-import { Cart } from "../../../model/Cart.model";
-import { LoginService } from "../../../service/login.service";
-import { Router } from "@angular/router";
-import { CustomerCartService } from "../../../service/customerService/customer-cart.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { InitializerService } from "../../../model/InitializerService/initializer.service";
-import { CartItem } from "../../../model/CartItem.model";
-import { SharedDataService } from "../../../service/SharedData/shared-data.service";
-import { RetailerCartService } from "../../../service/retailerService/retailer-cart.service";
-import { MechanicCartService } from "../../../service/mecahnicService/mechanic-cart.service";
-import { Product } from "../../../model/Product.model";
+import {Component, OnInit} from '@angular/core';
+import {User} from "../../../model/User.model";
+import {Cart} from "../../../model/Cart.model";
+import {LoginService} from "../../../service/login.service";
+import {Router} from "@angular/router";
+import {CustomerCartService} from "../../../service/customerService/customer-cart.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import {CartItem} from "../../../model/CartItem.model";
+import {SharedDataService} from "../../../service/SharedData/shared-data.service";
+import {RetailerCartService} from "../../../service/retailerService/retailer-cart.service";
+import {MechanicCartService} from "../../../service/mecahnicService/mechanic-cart.service";
+import {Product} from "../../../model/Product.model";
 
 @Component({
   selector: 'app-cart',
@@ -218,6 +218,7 @@ export class CartComponent implements OnInit {
   protected readonly Number = Number;
 
   openCheckOut() {
+    this.ngOnInit();
     if(this.user.userRole==="CUSTOMER"){
       this._router.navigate(['/customer/checkout'])
     }else
@@ -229,14 +230,27 @@ export class CartComponent implements OnInit {
       this._router.navigate(['/mechanic/checkout'])
     }
   }
+  calculateGst(product: Product, qty: number): number {
+    // Ensure product.gst has a default value if undefined
+    const gstRate = product.gst || 0; // Use 0 if product.gst is undefined
+    // Calculate the discounted price first
+    const discountedPrice = this.getDiscountedPrice(product);
+    // Calculate the GST amount for the specified quantity
+    const gstAmountPerItem = discountedPrice * (gstRate / 100);
+     // Total GST for the specified quantity
+    return gstAmountPerItem * qty; // Return the total GST
+  }
+
 
   getGst() {
-     let totalGst = this.cart.items.reduce((sum, item) => sum + (item.product.gst||0), 0);
-     let avgGst = totalGst/this.cart.items.length;
-    return this.getTotalPriceAfterDiscounts()*(avgGst/100);
+    return this.cart.items.reduce((sum, item) => sum + (this.calculateGst(item.product, item.quantity) || 0), 0);
   }
 
   getTotal() {
     return this.getTotalPriceAfterDiscounts()+this.getGst();
+  }
+
+  getTotalAmount() {
+    return this.cart.items.reduce((sum, item) => sum + (item.product.price * item.quantity || 0), 0);
   }
 }

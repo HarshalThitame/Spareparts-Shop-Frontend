@@ -126,3 +126,77 @@ button {
 .btn-4 span:hover:after {
   width: 100%;
 }
+.dropdown {
+  position: relative; /* Position relative to position the dropdown menu */
+}
+
+
+/* Dropdown styles */
+.dropdown {
+  position: relative; /* Position relative to position the dropdown menu */
+}
+
+.dropdown-toggle {
+  color: #007bff; /* Dropdown button color */
+  background: none; /* Remove default background */
+  border: none; /* Remove border */
+  font-size: 1rem; /* Font size */
+  transition: background-color 0.3s; /* Transition for hover */
+}
+
+.dropdown-toggle:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Light background on hover */
+  border-radius: 5px; /* Slightly rounded corners */
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  background-color: #ffffff; /* White background for dropdown */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+  min-width: 160px;
+  z-index: 1000; /* Ensure it appears above other elements */
+  margin-top: 0.5rem; /* Spacing from the dropdown toggle */
+  opacity: 0; /* Start invisible */
+  transition: opacity 0.3s ease; /* Fade in/out effect */
+  pointer-events: none; /* Disable pointer events when hidden */
+}
+
+.dropdown-menu.show {
+  display: block; /* Show the dropdown when open */
+  opacity: 1; /* Fully visible */
+  pointer-events: auto; /* Enable pointer events */
+}
+
+.dropdown-item {
+  padding: 10px 20px; /* Padding for dropdown items */
+  color: #212529; /* Item text color */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Display as block for full clickable area */
+  transition: background-color 0.3s; /* Transition for hover */
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Background color on hover */
+  border-radius: 4px; /* Slightly rounded corners */
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: 0.5rem 0;
+  background-color: #e9ecef; /* Divider color */
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column; /* Stack nav items vertically */
+  }
+
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,a{
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+}

@@ -1,152 +1,157 @@
-a{
-  text-decoration: none;
-}
-.category-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.category-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 150px; /* Adjust the height for the header area */
-}
-
-.cat-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-
-.category-body {
-  padding: 20px;
-  background-color: #5b74ff; /* Material theme color */
-  color: white;
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
+  a{
+    text-decoration: none;
+  }
   .category-card {
-    height: auto;
-  }
-}
-
-/* Adjustments for tablet screens and smaller */
-@media (max-width: 768px) {
-  .img-home {
-    height: 150px; /* Reduce image height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
 
-  h1 {
-    font-size: 36px; /* Smaller font size for h1 */
+  .category-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px; /* Adjust the height for the header area */
   }
 
-  h3 {
-    font-size: 1.2em;
+  .cat-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
   }
 
-  .feature-img {
-    height: 80px !important;
-    object-fit: contain !important;
+  .category-body {
+    padding: 20px;
+    background-color: #5b74ff; /* Material theme color */
+    color: white;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .card-body {
-    padding: 5px !important;
-    border-spacing: 10px;
+  .btn{
+    background-color: #5b74ff; /* Material theme color */
   }
 
-  h5 {
-    font-size: 0.75rem !important;
-    line-height: 1.25rem!important;
+  @media (max-width: 768px) {
+    .category-card {
+      height: auto;
+    }
   }
 
-  p{
-    font-size: 0.7em;
-    line-height: 1.25rem!important;
-  }
-  small{
-    font-size: 0.6em;
+  /* Adjustments for tablet screens and smaller */
+  @media (max-width: 768px) {
+    .img-home {
+      height: 150px; /* Reduce image height */
+    }
+
+    h1 {
+      font-size: 36px; /* Smaller font size for h1 */
+    }
+
+    h3 {
+      font-size: 1.2em;
+    }
+
+    .feature-img {
+      height: 80px !important;
+      object-fit: contain !important;
+    }
+
+    .card-body {
+      padding: 5px !important;
+      border-spacing: 10px;
+    }
+
+    h5 {
+      font-size: 0.75rem !important;
+      line-height: 1.25rem!important;
+    }
+
+    p{
+      font-size: 0.7em;
+      line-height: 1.25rem!important;
+    }
+    small{
+      font-size: 0.6em;
+    }
+
+    .animated-search {
+      width: 100%; /* Full width for smaller screens */
+      padding: 10px 20px; /* Adjust padding */
+    }
+
+    .btn-primary {
+      width: 35px; /* Smaller button */
+      height: 35px; /* Smaller button */
+    }
+
+    .product-card {
+      margin-bottom: 15px; /* Reduce spacing between cards */
+    }
+
+    h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,.mat-select{
+      font-size: 80%!important; /* Keep reduced font size */
+      line-height: 1.25rem !important;
+    }
+
+    .card-title {
+      font-size: 1rem; /* Adjust title font size */
+    }
+
+    .card-body h6 {
+      font-size: 0.9rem; /* Adjust pricing font */
+    }
   }
 
-  .animated-search {
-    width: 100%; /* Full width for smaller screens */
-    padding: 10px 20px; /* Adjust padding */
+  /* Adjustments for mobile phones */
+  @media (max-width: 576px) {
+    .img-home {
+      height: 120px; /* Further reduce image height */
+    }
+
+    .search-wrapper {
+      width: 100%; /* Full width for mobile screens */
+    }
+
+    h1 {
+      font-size: 28px; /* Smaller font size for h1 */
+    }
+
+    .card-title {
+      font-size: 0.9rem; /* Smaller title */
+    }
+
+    .search-wrapper {
+      max-width: 100%; /* Ensure search bar takes full width */
+    }
+
+    .animated-search {
+      padding: 8px 20px; /* Adjust padding */
+    }
+
+    .product-card {
+      margin-bottom: 10px; /* Further reduce spacing between cards */
+    }
+
+    .card-body h6 {
+      font-size: 0.8rem; /* Smaller font for pricing */
+    }
   }
 
-  .btn-primary {
-    width: 35px; /* Smaller button */
-    height: 35px; /* Smaller button */
-  }
+  /* Larger screens adjustments */
+  @media (min-width: 1200px) {
+    .img-home {
+      height: 250px; /* Increase image height */
+    }
 
-  .product-card {
-    margin-bottom: 15px; /* Reduce spacing between cards */
-  }
+    h1 {
+      font-size: 56px; /* Larger font size */
+    }
 
-  .feature-img {
-    height: 150px; /* Reduce image size */
+    .card-body h6 {
+      font-size: 1.2rem; /* Larger pricing font */
+    }
   }
-
-  .card-title {
-    font-size: 1rem; /* Adjust title font size */
-  }
-
-  .card-body h6 {
-    font-size: 0.9rem; /* Adjust pricing font */
-  }
-}
-
-/* Adjustments for mobile phones */
-@media (max-width: 576px) {
-  .img-home {
-    height: 120px; /* Further reduce image height */
-  }
-
-  .search-wrapper {
-    width: 100%; /* Full width for mobile screens */
-  }
-
-  h1 {
-    font-size: 28px; /* Smaller font size for h1 */
-  }
-
-  .card-title {
-    font-size: 0.9rem; /* Smaller title */
-  }
-
-  .search-wrapper {
-    max-width: 100%; /* Ensure search bar takes full width */
-  }
-
-  .animated-search {
-    padding: 8px 20px; /* Adjust padding */
-  }
-
-  .product-card {
-    margin-bottom: 10px; /* Further reduce spacing between cards */
-  }
-
-  .card-body h6 {
-    font-size: 0.8rem; /* Smaller font for pricing */
-  }
-}
-
-/* Larger screens adjustments */
-@media (min-width: 1200px) {
-  .img-home {
-    height: 250px; /* Increase image height */
-  }
-
-  h1 {
-    font-size: 56px; /* Larger font size */
-  }
-
-  .card-body h6 {
-    font-size: 1.2rem; /* Larger pricing font */
-  }
-}

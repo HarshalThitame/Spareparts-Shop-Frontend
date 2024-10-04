@@ -17,6 +17,8 @@ import {MechanicCartService} from "../../../../service/mecahnicService/mechanic-
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {InitializerService} from "../../../../model/InitializerService/initializer.service";
 import {SharedDataService} from "../../../../service/SharedData/shared-data.service";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 @Component({
   selector: 'app-my-order-details',
@@ -100,9 +102,43 @@ export class MyOrderDetailsComponent implements OnInit{
 
   }
 
-  printOrder() {
+  printInvoice() {
+    const DATA: any = document.getElementById('order-details-section');
 
+    // Temporarily add a class to prevent responsive behavior
+    DATA.classList.add('print-mode');
+
+    html2canvas(DATA, { scale: 2 }).then(canvas => {
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+      const pdf = new jsPDF('p', 'mm', 'a4'); // A4 in portrait mode
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add the first image (first page)
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Check if more pages are needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Save the PDF using the order ID
+      const orderId = this.order?.id || 'invoice';
+      pdf.save(`${orderId}-order-invoice.pdf`);
+    }).finally(() => {
+      // Remove the class after PDF is generated
+      DATA.classList.remove('print-mode');
+    });
   }
+
+
 
   getDiscount(price: number, discountOnPurchase: number, quantity: number) {
     return ((price*discountOnPurchase)/100)*quantity;
@@ -119,9 +155,17 @@ export class MyOrderDetailsComponent implements OnInit{
 
   getOrderDiscount() {
     for (let i = 0; i < this.order.orderItems.length; i++) {
-      console.log(this.order.orderItems[i].discountAmount)
+      // console.log(this.order.orderItems[i].discountAmount)
 
     }
     return this.order.orderItems.reduce((sum,item)=>sum+item.discountAmount,0);
   }
+
+  getGstPercentage(): number {
+    // Assuming all products have the same GST percentage, return the GST of the first item
+    return this.order.orderItems[0]?.gst || 0;
+  }
+
+
+  protected readonly Date = Date;
 }

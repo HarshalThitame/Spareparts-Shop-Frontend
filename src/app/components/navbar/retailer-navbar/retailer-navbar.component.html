@@ -1,32 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <!-- Logo/Brand -->
     <a class="navbar-brand" [routerLink]="'/'">Retailer</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+    <!-- Navbar Toggler Button for Mobile -->
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()" aria-controls="navbarNav" aria-expanded="!isNavbarCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav" >
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+
+    <!-- Navbar Links -->
+    <div class="navbar-collapse" [ngClass]="{'collapse': isNavbarCollapsed}" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-column flex-lg-row">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/retailer" aria-current="page"><i class="fas fa-home"></i>&nbsp;Home</a>
+          <a class="nav-link active" routerLink="/" aria-current="page">
+            <i class="fas fa-home"></i>&nbsp;Home
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/about"><i class="fas fa-info-circle"></i>&nbsp;About</a>
+          <a class="nav-link" routerLink="/about">
+            <i class="fas fa-info-circle"></i>&nbsp;About
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/contact"><i class="fas fa-phone"></i>&nbsp;Contact</a>
+          <a class="nav-link" routerLink="/contact">
+            <i class="fas fa-phone"></i>&nbsp;Contact
+          </a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-      <div class="ms-3">
-        <button *ngIf="!isLoggedIn" class="btn btn-primary" [routerLink]="['/login']">Sign In</button>
-        <button *ngIf="!isLoggedIn" class="btn btn-secondary" [routerLink]="['/signup']">Sign Up</button>
-        <button *ngIf="isLoggedIn" [routerLink]="'/retailer/my-order'" class="btn btn-outline-secondary border-0"><i class="fas fa-shopping-cart"></i>&nbsp;My Orders</button>
-        <button *ngIf="isLoggedIn" (click)="openCart()" class="btn btn-outline-secondary border-0"><i class="fas fa-shopping-cart"></i>&nbsp;Cart</button>
-        <button *ngIf="isLoggedIn" class="btn btn-outline-secondary border-0"><i class="fas fa-user"></i>&nbsp;{{user.firstName}}</button>
-        <button *ngIf="isLoggedIn" (click)="logout()" class="btn btn-outline-secondary border-0">Logout</button>
+
+      <!-- Authentication and Cart Section -->
+      <div class="d-flex align-items-center">
+        <!-- Cart Icon for All Users -->
+        <button *ngIf="!isLoggedIn" [routerLink]="'/cart'" class="btn btn-outline-secondary border-0 me-2">
+          <span class="material-symbols-outlined">shopping_cart</span>
+        </button>
+
+        <!-- Sign In/Sign Up for Guests -->
+        <ng-container *ngIf="!isLoggedIn">
+          <button [routerLink]="['/login']" class="custom-btn btn-3 m-2"><span>Sign In</span></button>
+          <button [routerLink]="['/signup']" class="custom-btn-signup btn-4 m-2"><span>Sign Up</span></button>
+        </ng-container>
+
+        <!-- User Actions for Logged In Users -->
+        <ng-container *ngIf="isLoggedIn">
+          <button [routerLink]="'/retailer/my-order'" class="btn btn-outline-secondary border-0 me-2">
+            <i class="fas fa-shopping-cart"></i>&nbsp;My Orders
+          </button>
+          <button *ngIf="isLoggedIn && user.userRole!='ADMIN'" (click)="openCart()" class="btn btn-outline-secondary border-0 me-2">
+            <i class="fas fa-shopping-cart"></i>&nbsp;Cart
+          </button>
+
+          <!-- Profile Dropdown -->
+          <div class="dropdown" (click)="toggleDropdown()">
+            <button class="btn btn-outline-secondary border-0 dropdown-toggle" id="profileDropdown" aria-haspopup="true" aria-expanded="isOpen">
+              <i class="fas fa-user"></i>&nbsp;{{user.firstName}}
+            </button>
+
+            <ul class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" [routerLink]="'/profile'" (click)="closeDropdown()">Profile</a></li>
+              <li><a class="dropdown-item" [routerLink]="'/retailer/my-order'" (click)="closeDropdown()">My Orders</a></li>
+              <li><a class="dropdown-item" [routerLink]="'/retailer/saved-address'" (click)="closeDropdown()">Saved Address</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item" (click)="logout(); closeDropdown()">Logout</button></li>
+            </ul>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

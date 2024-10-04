@@ -3,6 +3,7 @@ import {User} from "../../../model/User.model";
 import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
 import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import {AdminOrderService} from "../../../service/AdminService/admin-order.service";
 
 @Component({
   selector: 'app-admin-navbar',
@@ -14,6 +15,7 @@ export class AdminNavbarComponent implements OnInit{
   isLoggedIn = false;
   user: User;
   isNavbarCollapsed = true;
+  newOrderCount: number | 0 | undefined;
 
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
@@ -21,6 +23,7 @@ export class AdminNavbarComponent implements OnInit{
 
   constructor(private _loginService: LoginService,
               private _router: Router,
+              private _adminOrderService: AdminOrderService,
               private _initializeService: InitializerService) {
     this.user = _initializeService.initializeUser();
   }
@@ -34,8 +37,10 @@ export class AdminNavbarComponent implements OnInit{
     } else {
       this._loginService.getCurrentUser().subscribe(data => {
         this.user = data;
+        this.loadNewOrderCount()
         if(this.user.userRole !== "ADMIN"){
           this._loginService.logout();
+
         }
       }, error => {
         this._loginService.logout();
@@ -43,6 +48,13 @@ export class AdminNavbarComponent implements OnInit{
       })
     }
   }
+
+  loadNewOrderCount() {
+       this._adminOrderService.getNewOrderCount().subscribe(data=>{
+         this.newOrderCount = data;
+         console.log(this.newOrderCount)
+       })
+    }
 
 
   logout() {

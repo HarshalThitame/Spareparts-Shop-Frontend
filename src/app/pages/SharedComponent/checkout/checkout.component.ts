@@ -22,6 +22,7 @@ import {RetailerOrderService} from "../../../service/retailerService/retailer-or
 import {MechanicOrderService} from "../../../service/mecahnicService/mechanic-order.service";
 import Swal from 'sweetalert2';
 import {SavedAddressService} from "../../../service/saved-address.service";
+import {EmailData} from "../../../model/EmailData.model";
 
 @Component({
   selector: 'app-checkout',
@@ -144,6 +145,7 @@ export class CheckoutComponent implements OnInit {
       }
       this._savedAddressService.createSavedAddress(shippingAddress).subscribe(data=>{
         this._snackBar.open("New Address Saved.","",{duration:3000})
+        this.ngOnInit()
       },error => {
         console.log(error)
         this._snackBar.open("Error while saving address.","",{duration:3000})
@@ -198,10 +200,22 @@ export class CheckoutComponent implements OnInit {
     this.order.isVor = this.isVor;
 
     console.log(this.order); // Log the order for debugging
+    const emailBody = this.createEmailBody();
 
     // Call the service to create the order
     this._orderServiceTemp.createOrder(this.order).subscribe((data: any) => {
       console.log(data);
+      const emailData:EmailData={
+        to:this.order.user.email,
+        subject:"Order Placed Successfully",
+        body:emailBody
+      }
+      this._orderServiceTemp.sendEmailOfOrder(emailData).subscribe((data: any) => {
+
+      },(error: any) => {
+        console.log(error);
+      })
+
       this._router.navigate(['/'])
       Swal.fire({
         title: 'Order Successfully Placed!',
@@ -228,5 +242,142 @@ export class CheckoutComponent implements OnInit {
       this._snackBar.open("Error while placing order", "", {duration: 3000});
     });
   }
+
+
+  createEmailBody(): string {
+    const orderItemsHTML = this.cart.items.map(item => {
+      const totalPrice = item.quantity * item.unitPrice;
+      const discount = item.product.discountOnPurchase || 0; // Discount percentage
+
+      // Calculate discounted price and total after discount
+      const discountAmount = totalPrice * (discount / 100);
+      const discountedPrice = totalPrice - discountAmount;
+
+      // Assume a GST percentage (if applicable) or set to 0
+      const gst = item.product.gst || 0;
+      const gstAmount = discountedPrice * (gst / 100);
+      const totalWithGST = discountedPrice + gstAmount; // Total after discount and including GST
+
+      return `
+            <tr>
+                <td style="border: 1px solid #dddddd; padding: 8px; word-wrap: break-word;">${item.product.name}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px; text-align: center;">${item.quantity}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">${item.unitPrice.toFixed(2)}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">${totalPrice.toFixed(2)}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">${discountAmount.toFixed(2)}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px; text-align: right;">${totalWithGST.toFixed(2)}</td>
+            </tr>
+        `;
+    }).join('');
+
+    // Calculate total amounts including GST
+    const grandTotal = this.cart.items.reduce((acc, item) => {
+      const totalPrice = item.quantity * item.unitPrice;
+      const discount = item.product.discountOnPurchase || 0;
+      const discountAmount = totalPrice * (discount / 100);
+      const discountedPrice = totalPrice - discountAmount;
+      const gst = item.product.gst || 0;
+      const gstAmount = discountedPrice * (gst / 100);
+      return acc + discountedPrice + gstAmount; // Sum discounted prices plus GST
+    }, 0);
+
+    return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Order Confirmation</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                    padding: 20px;
+                }
+                .header {
+                    background-color: #007bff;
+                    color: #ffffff;
+                    padding: 20px;
+                    text-align: center;
+                }
+                .header h1 {
+                    margin: 0;
+                }
+                .content {
+                    padding: 20px;
+                }
+                .content h2 {
+                    color: #333;
+                }
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                }
+                .total {
+                    font-weight: bold;
+                    font-size: 18px;
+                    color: #007bff;
+                }
+                .footer {
+                    background-color: #f4f4f4;
+                    color: #666666;
+                    text-align: center;
+                    padding: 10px;
+                    font-size: 12px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>Order Confirmation</h1>
+                </div>
+                <div class="content">
+                    <h2>Dear ${this.user.firstName} ${this.user.lastName},</h2>
+                    <p>Thank you for your order! We are processing it and will notify you once it has been shipped.</p>
+                    <h3>Order Details:</h3>
+                    <table class="table" style="border-collapse: collapse; width: 100%; max-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #dddddd; padding: 8px;">Product</th>
+                                <th style="border: 1px solid #dddddd; padding: 8px; text-align: center;">Quantity</th>
+                                <th style="border: 1px solid #dddddd; padding: 8px; text-align: right;">Unit Price</th>
+                                <th style="border: 1px solid #dddddd; padding: 8px; text-align: right;">Total Price</th>
+                                <th style="border: 1px solid #dddddd; padding: 8px; text-align: right;">Discount Amount</th>
+                                <th style="border: 1px solid #dddddd; padding: 8px; text-align: right;">Total After Discount & GST</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${orderItemsHTML}
+                            <tr>
+                                <td colspan="5" style="text-align: right; border: 1px solid #dddddd; padding: 8px;">Grand Total:</td>
+                                <td class="total" style="border: 1px solid #dddddd; padding: 8px;">${grandTotal.toFixed(2)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <p>If you have any questions, feel free to contact us.</p>
+                    <p>Thank you for shopping with us!</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+  }
+
+
+
 
 }

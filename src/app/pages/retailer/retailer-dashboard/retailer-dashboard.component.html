@@ -30,7 +30,6 @@
             {{ getDiscountedPrice(product) | currency:'INR' }}
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
           </h6>
-          <small class="text-white">Special offer for mechanics</small>
           <p class="text-white">Price: <span
             class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
         </div>

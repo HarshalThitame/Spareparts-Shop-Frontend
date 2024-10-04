@@ -127,13 +127,6 @@ a{
     height: 150px; /* Reduce image height */
   }
 
-  h1 {
-    font-size: 36px; /* Smaller font size for h1 */
-  }
-
-  h3 {
-    font-size: 1.2em;
-  }
 
   .prod-img {
     height: 80px !important;
@@ -145,17 +138,9 @@ a{
     border-spacing: 10px;
   }
 
-  h5,h6, button {
-    font-size: 0.75rem !important;
-    line-height: 1.25rem!important;
-  }
-
-  p{
-    font-size: 0.7em;
-    line-height: 1.25rem!important;
-  }
-  small,span{
-    font-size: 1em;
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,a{
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
   }
 
   .animated-search {

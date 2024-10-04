@@ -48,7 +48,7 @@
         <h5 class="card-title font-weight-bold text-dark">Cart Summary</h5>
         <p>({{ getTotalItems() }} items)</p>
         <hr>
-        <p>Subtotal: <span class="font-weight-bold">{{ cart.totalAmount | currency:'INR' }}</span></p>
+        <p>Subtotal: <span class="font-weight-bold">{{ getTotalAmount() | currency:'INR' }}</span></p>
         <p>GST: <span class="font-weight-bold">{{ getGst() | currency:'INR' }}</span></p>
         <p class="text-success font-weight-bold">Total Discount: <span id="savings">-{{ getTotalSavings() | currency:'INR' }}</span></p>
         <p class="font-weight-bold text-success">Total Price After Discounts: <span class="font-weight-bold">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>

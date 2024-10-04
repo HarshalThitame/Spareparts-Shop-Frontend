@@ -70,9 +70,7 @@
               <p><strong>Name:</strong> {{ order.user.firstName }} {{ order.user.lastName }}</p>
               <p><strong>Email:</strong> {{ order.user.email }}</p>
               <p><strong>Mobile:</strong> {{ order.user.mobile }}</p>
-              <p><strong>Address:</strong> {{ order.user.address }}, {{ order.user.city }}, {{ order.user.state }}
-                , {{ order.user.postalCode }}</p>
-              <p><strong>Status:</strong> {{ order.user.isActive ? 'Active' : 'Inactive' }}</p>
+
             </div>
           </div>
           <!-- Additional Information Card -->
@@ -81,16 +79,18 @@
               <h5>Additional Information</h5>
             </div>
             <div class="card-body">
-              <p>Delivery Address: demo</p>
+              <p><strong>Delivery Address:</strong> {{order.shippingAddress.recipientName}}</p>
+              <p>{{order.shippingAddress.addressLine1}}, {{order.shippingAddress.addressLine2}}, {{order.shippingAddress.city}}, {{order.shippingAddress.state}}. </p>
+              <p>{{order.shippingAddress.postalCode}}</p>
               <p>Order Date: {{ order.createdAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
               <p>Last Updated On: {{ order.updatedAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
               <!-- order.component.html -->
-              <div class="mb-3">
-                <label for="status" class="form-label">Change Status:</label>
-                <select id="status" class="form-select" [(ngModel)]="order.status" (change)="onStatusChange($event)">
-                  <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
-                </select>
-              </div>
+<!--              <div class="mb-3">-->
+<!--                <label for="status" class="form-label">Change Status:</label>-->
+<!--                <select id="status" class="form-select" [(ngModel)]="order.status" (change)="onStatusChange($event)">-->
+<!--                  <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>-->
+<!--                </select>-->
+<!--              </div>-->
 
               <!-- Status Display -->
               <div class="alert" [ngClass]="getStatusClass(order.status)">

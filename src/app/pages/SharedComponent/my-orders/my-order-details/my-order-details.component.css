@@ -1,3 +1,7 @@
+#order-details-section {
+  display: none;
+}
+
 .container {
   max-width: 800px;
   margin: auto;
@@ -15,6 +19,118 @@
 .text-success {
   color: #28a745;
 }
+.invoice-box {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  color: #555;
+}
+
+.invoice-box table {
+  width: 100%;
+  line-height: inherit;
+  text-align: left;
+}
+
+.invoice-box table td {
+  padding: 5px;
+  vertical-align: top;
+}
+
+.invoice-box table tr td:nth-child(2) {
+  text-align: right;
+}
+
+.invoice-box table tr.top table td {
+  padding-bottom: 20px;
+}
+
+.invoice-box table tr.information table td {
+  padding-bottom: 40px;
+}
+
+.invoice-box table tr.heading td {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.invoice-box table tr.details td {
+  padding-bottom: 20px;
+}
+
+.invoice-box table tr.item td {
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-box table tr.item.last td {
+  border-bottom: none;
+}
+
+.invoice-box table tr.total td:nth-child(2) {
+  border-top: 2px solid #eee;
+  font-weight: bold;
+}
+
+.tb td,
+.tb th,
+.tb h1,
+.tb h2,
+.tb h3,
+.tb h4,
+.tb h5,
+.tb h6 {
+  font-size: 94%;
+}
+
+/* Ensure the layout is fixed for both PC and mobile when printing */
+@media print {
+  .container, .invoice-box, .order-summary, table, th, td, h1, h2, h3, h4, h5, h6, p {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal !important;
+  }
+
+  /* Avoid any font or layout changes due to responsiveness */
+  body, html {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  .invoice-box {
+    border: none;
+    box-shadow: none;
+  }
+
+  table {
+    border-collapse: collapse !important;
+    table-layout: fixed; /* Prevent table from shrinking */
+    width: 100%;
+  }
+
+  /* Disable responsive behavior during PDF generation */
+  @page {
+    size: A4; /* Force A4 size */
+    margin: 0; /* Remove page margin */
+  }
+
+  /* Apply fixed width and disable scaling */
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .card-header, .card-body {
     padding: 1rem;

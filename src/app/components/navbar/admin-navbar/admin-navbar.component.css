@@ -1,0 +1,28 @@
+/* Stylish badge for new orders */
+.stylish-badge {
+  background-color: #ff4b5c; /* Bright red */
+  color: white;
+  font-size: 0.8rem; /* Adjust font size */
+  padding: 6px 10px; /* Padding for rounded look */
+  border-radius: 50%; /* Make it circular */
+  box-shadow: 0 0 8px rgba(255, 75, 92, 0.5); /* Shadow for pop effect */
+  animation: bounce 1s infinite; /* Add animation */
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Adjust positioning of the badge */
+.stylish-badge {
+  transform: translate(-50%, -50%);
+  font-weight: bold; /* Make the number bold */
+}

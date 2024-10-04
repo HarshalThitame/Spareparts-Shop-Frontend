@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Cart} from "../../model/Cart.model";
 import {CartItem} from "../../model/CartItem.model";
 import {Product} from "../../model/Product.model";
+import NoImage from "../../service/helper/noImage";
 
 @Component({
   selector: 'app-general-cart',
@@ -21,6 +22,7 @@ export class GeneralCartComponent implements OnInit {
       this.cart = JSON.parse(storedCart);
       this.updateCartTotal(); // Update the total after loading
     }
+    console.log(this.cart)
   }
 
   private updateCartTotal(): void {
@@ -73,12 +75,20 @@ export class GeneralCartComponent implements OnInit {
   }
 
 
+  calculateGst(product: Product, qty: number): number {
+    // Ensure product.gst has a default value if undefined
+    const gstRate = product.gst || 0; // Use 0 if product.gst is undefined
+    // Calculate the discounted price first
+    const discountedPrice = this.getDiscountedPrice(product);
+    // Calculate the GST amount for the specified quantity
+    const gstAmountPerItem = discountedPrice * (gstRate / 100);
+    // Total GST for the specified quantity
+    return gstAmountPerItem * qty; // Return the total GST
+  }
+
+
   getGst() {
-    let totalGst = this.cart.items.reduce((sum, item) => sum + (item.product.gst||0), 0);
-    console.log(totalGst)
-    let avgGst = totalGst/this.cart.items.length;
-    console.log(avgGst)
-    return this.getTotalPriceAfterDiscounts()*(avgGst/100);
+    return this.cart.items.reduce((sum, item) => sum + (this.calculateGst(item.product, item.quantity) || 0), 0);
   }
 
   getTotal() {
@@ -90,4 +100,6 @@ export class GeneralCartComponent implements OnInit {
       return sum + (item.product.price * item.quantity);
     }, 0);
   }
+
+  protected readonly NoImage = NoImage;
 }

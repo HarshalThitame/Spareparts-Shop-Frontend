@@ -16,7 +16,7 @@
         <div *ngFor="let item of cart.items" class="col-12 cart-item mb-3 p-3 shadow-sm rounded">
           <div class="row align-items-center">
             <div class="col-md-3 col-12">
-              <img [src]="item.product.images" alt="{{ item.product.name }}" class="img-fluid rounded">
+              <img [src]="item.product.images ||NoImage" alt="{{ item.product.name }}" class="img-fluid rounded">
             </div>
             <div class="col-md-6 col-12">
               <h5 class="font-weight-bold">{{ item.product.name }}</h5>
@@ -25,7 +25,6 @@
                 {{ getDiscountedPrice(item.product) | currency:'INR' }}
                 <small class="text-danger ms-2 h6">-{{ getDiscount(item.product) }}% Off</small>
               </h4>
-              <small class="text-muted">Special offer for mechanics</small>
               <p class="text-muted">Price: <span class="text-decoration-line-through">{{ item.product.price | currency:'INR' }}</span></p>
             </div>
             <div class="col-md-3 col-12 text-end">

@@ -118,10 +118,13 @@ export class MechanicAllProductsComponent implements OnInit {
 
   filterProducts() {
     if (this.searchTerm) {
-      this.filteredProducts = this.products.filter(product =>
-        product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+      this.filteredProducts = this.products.filter((product) => {
+        return (product.name && product.name.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+          (product.description && product.description.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+          (product.brands && product.brands.some(brand => brand.name.toLowerCase().includes(this.searchTerm.toLowerCase()))) ||
+          (product.brandModels && product.brandModels.some(model => model.name.toLowerCase().includes(this.searchTerm.toLowerCase()))) ||
+          (product.partNumber && product.partNumber.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      });
     } else {
       this.filteredProducts = this.products; // Reset to all products if search term is empty
     }

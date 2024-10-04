@@ -1,26 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {LoginService} from "../../../service/login.service";
-import {Router} from "@angular/router";
-import {ProductService} from "../../../service/product.service";
-import {User} from "../../../model/User.model";
-import {Product} from "../../../model/Product.model";
-import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { LoginService } from "../../../service/login.service";
+import { Router } from "@angular/router";
+import { ProductService } from "../../../service/product.service";
+import { User } from "../../../model/User.model";
+import { Product } from "../../../model/Product.model";
+import { InitializerService } from "../../../model/InitializerService/initializer.service";
 
 @Component({
   selector: 'app-manage-product',
   templateUrl: './manage-product.component.html',
-  styleUrls: ['./manage-product.component.css'] // Corrected to 'styleUrls'
+  styleUrls: ['./manage-product.component.css']
 })
 export class ManageProductComponent implements OnInit {
   user: User;
   products: Product[] = [];
   filteredProducts: Product[] = [];
+  paginatedProducts: Product[] = []; // Store paginated products
   searchTerm: string = '';
+  pageSize: number = 10;
+  currentPage: number = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // Using non-null assertion operator
 
   constructor(private _loginService: LoginService,
               private _router: Router,
               private _productService: ProductService,
-              private _initializerService:InitializerService) {
+              private _initializerService: InitializerService) {
     this.user = _initializerService.initializeUser();
   }
 
@@ -32,24 +38,20 @@ export class ManageProductComponent implements OnInit {
   private loadUser() {
     this._loginService.getCurrentUser().subscribe(data => {
       this.user = data;
-      if (this.user.userRole === "ADMIN") {
-        // Additional logic for admin user if needed
-      }
     });
   }
 
   loadAllProducts() {
     this._productService.getAllProducts().subscribe(data => {
       console.log('All Products:', data); // Check if products are fetched correctly
-      this.products = data;  // Assign the data to `products`
-      this.filteredProducts = data;  // Initialize filtered products
-      console.log('Filtered Products:', this.filteredProducts);  // Log filtered products for debugging
+      // Ensure data is an array
+      this.products = Array.isArray(data) ? data : [];
+      this.filteredProducts = [...this.products]; // Initialize filtered products
+      this.updatePaginatedProducts();  // Initial pagination update
     }, error => {
-      console.error('Error fetching products:', error);  // Log any error from the backend
+      console.error('Error fetching products:', error); // Log any error from the backend
     });
   }
-
-
 
   onSearchChange() {
     console.log('Current search term:', this.searchTerm);
@@ -62,11 +64,22 @@ export class ManageProductComponent implements OnInit {
           (product.partNumber && product.partNumber.toLowerCase().includes(this.searchTerm.toLowerCase()));
       });
     } else {
-      this.filteredProducts = this.products; // Reset to all products if search term is empty
+      this.filteredProducts = [...this.products]; // Reset to all products if search term is empty
     }
+    this.updatePaginatedProducts();
   }
 
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updatePaginatedProducts();
+  }
 
+  updatePaginatedProducts() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
+  }
 
   deleteProduct(id: any) {
     // Implement delete logic here

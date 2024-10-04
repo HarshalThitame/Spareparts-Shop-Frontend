@@ -43,11 +43,12 @@ import noImage from "../../service/helper/noImage";
 export class HomeDashboardComponent implements OnInit {
   @ViewChild('scrollTarget') scrollTarget!: ElementRef;
 
-  searchKeyword: string='';
-  bounceState: string='';
+  searchKeyword: string = '';
+  bounceState: string = '';
   user: User;
   categories: Category[] = [];
   products: Product[] = [];
+  displayedProducts: Product[] = [];
   images: string[] = [
     'https://harshal-ecom.s3.eu-north-1.amazonaws.com/bgimage1.png', // First image
     'https://harshal-ecom.s3.eu-north-1.amazonaws.com/bgimage2.png', // First image
@@ -60,6 +61,11 @@ export class HomeDashboardComponent implements OnInit {
   brands: Brand[] = [];
   brandModels: BrandModel[] = [];
   filterProducts: Product[] =[];
+  initialLoadCount: number = 6;
+  additionalLoadCount: number = 12;
+  currentLoadedCount: number = 0; // Track how many products are currently displayed
+  totalProducts: number = 0; // Track total products count
+  topSellingProducts: Product[]=[];
 
 
 
@@ -83,8 +89,17 @@ export class HomeDashboardComponent implements OnInit {
     this.bounceState = 'in'
     this.loadUser();
     this.loadCategories();
-    this.loadAllProducts()
+    this.load18AllProducts()
+    this.loadTopSellingProduct();
+
   }
+
+  loadTopSellingProduct() {
+        this._productService.getTopSellingProduct().subscribe(data=>{
+          this.topSellingProducts = data;
+          console.log(this.topSellingProducts)
+        })
+    }
 
 
 
@@ -115,12 +130,26 @@ export class HomeDashboardComponent implements OnInit {
 
   }
 
-  loadAllProducts() {
-    this._productService.getAllProductsByGeneral().subscribe(data => {
+  load18AllProducts() {
+    this._productService.get18ProductsByGeneral().subscribe((data) => {
       this.products = data;
-      this.filterProducts = this.products
-    })
+      this.totalProducts = this.products.length;
+      this.loadMoreProducts(this.initialLoadCount);
+    });
   }
+  loadMoreProducts(count: number) {
+    const nextBatch = this.products.slice(this.currentLoadedCount, this.currentLoadedCount + count);
+    this.displayedProducts = this.displayedProducts.concat(nextBatch);
+    this.currentLoadedCount += nextBatch.length; // Update the current loaded count
+  }
+
+  // Method to load more products on button click
+  onLoadMoreClick() {
+    if (this.currentLoadedCount < this.totalProducts) {
+      this.loadMoreProducts(this.additionalLoadCount);
+    }
+  }
+
 
   changeImage() {
     this.currentIndex = (this.currentIndex + 1) % this.images.length; // Cycle through images
@@ -147,15 +176,16 @@ export class HomeDashboardComponent implements OnInit {
 
 
   searchProduct() {
-    if(this.searchKeyword==='' || this.searchKeyword===null)
-    {
+    if (this.searchKeyword === '' || this.searchKeyword === null) {
       this.filterProducts = this.products;
-    }else{
-      this._productService.searchProducts(this.searchKeyword).subscribe(data=>{
+    } else {
+      this._productService.searchProducts(this.searchKeyword).subscribe((data) => {
         this.filterProducts = data;
+        this.displayedProducts = data.slice(0, this.additionalLoadCount);
+        this.currentLoadedCount = this.additionalLoadCount;
         const scrollToPosition = this.scrollTarget.nativeElement.getBoundingClientRect().top + window.scrollY - 100;
         window.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
-      })
+      });
     }
   }
 

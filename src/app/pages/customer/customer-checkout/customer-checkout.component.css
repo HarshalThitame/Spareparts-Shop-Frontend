@@ -91,4 +91,9 @@
     margin-bottom: 20px;
     padding: 15px;
   }
+
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,a{
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
 }

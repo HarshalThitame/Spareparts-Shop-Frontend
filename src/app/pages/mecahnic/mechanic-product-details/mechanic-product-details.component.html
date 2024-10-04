@@ -53,7 +53,6 @@
               {{ calculateDiscountedPrice(product.price, product.discountToMechanics) | currency:'INR' }}
               <small class="text-danger ms-2 h6">-{{ product.discountToMechanics }}% Off</small>
             </h4>
-            <small class="text-muted">Special offer for mechanic</small>
             <p class="card-text"><small class="text-muted">MRP: <span class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></small></p>
             <div class="mt-3">
               <h5>Specifications:</h5>

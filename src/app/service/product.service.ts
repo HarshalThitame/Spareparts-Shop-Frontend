@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ProductService {
+
   constructor(private _http:HttpClient) { }
 
   addProduct(formData: any) {
@@ -17,9 +18,16 @@ export class ProductService {
   getAllProducts() {
       return this._http.get<Product[]>(`${baseURL}/api/admin/products`)
   }
+  getAllProductsByPagination() {
+    return this._http.get<Product[]>(`${baseURL}/api/admin/products/by-pagination`)
+  }
 
   getAllProductsByGeneral() {
     return this._http.get<Product[]>(`${baseURL}/api/general/products`)
+  }
+
+  get18ProductsByGeneral(){
+    return this._http.get<Product[]>(`${baseURL}/api/general/products/top18`)
   }
 
   getProductById(id: any) {
@@ -67,5 +75,10 @@ export class ProductService {
 
   searchProducts(keyword: string): Observable<Product[]> {
     return this._http.get<Product[]>(`${baseURL}/api/general/products/search?keyword=${keyword}`);
+  }
+
+  getTopSellingProduct() {
+    return this._http.get<Product[]>(`${baseURL}/api/general/products/top-selling-products`);
+
   }
 }

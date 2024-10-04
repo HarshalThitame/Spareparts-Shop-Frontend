@@ -102,7 +102,7 @@ import {BaseChartDirective} from "ng2-charts";
 import {
   AdminFinancialMetricsComponent
 } from './pages/admin/admin-dashboard/admin-financial-metrics/admin-financial-metrics.component';
-import {MatPaginator} from "@angular/material/paginator";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {AdminManageCustomersComponent} from './pages/admin/admin-manage-customers/admin-manage-customers.component';
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
@@ -111,6 +111,11 @@ import {MatSort} from "@angular/material/sort";
 import { AdminAlertComponent } from './pages/admin/admin-alert/admin-alert.component';
 import { ProductOfferComponent } from './pages/SharedComponent/offer/product-offer/product-offer.component';
 import { ErrorComponent } from './components/error/error.component';
+import { ProfileComponent } from './pages/SharedComponent/profile/profile.component';
+import {NgxPrintModule} from "ngx-print";
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { AdminNewOrdersComponent } from './pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component';
 
 @NgModule({
   declarations: [
@@ -168,8 +173,14 @@ import { ErrorComponent } from './components/error/error.component';
     AdminAlertComponent,
     ProductOfferComponent,
     ErrorComponent,
+    ProfileComponent,
+    AboutComponent,
+    ContactComponent,
+    AdminNewOrdersComponent,
   ],
   imports: [
+    MatPaginatorModule,
+    NgxPrintModule,
     AppRoutingModule, // Ensure your routing module is included here
     BrowserModule,
     HttpClientModule,
