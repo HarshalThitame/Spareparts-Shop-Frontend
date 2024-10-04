@@ -1,0 +1,35 @@
+<app-navbar *ngIf="user.userRole==='CUSTOMER'"/>
+<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"/>
+<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"/>
+<div class="container-fluid offer-container mt-5">
+  <!-- Offer Banner Section -->
+  <div class="offer-banner text-center mb-5" [style.backgroundImage]="'url(' + offer.imageUrl + ')'">
+    <div class="overlay">
+      <h1 class="text-white">{{ offer.title }}</h1>
+      <p class="text-white">{{ offer.description }}</p>
+      <div class="offer-discount">
+        <h2 class="display-4 text-warning">FLAT {{ offer.discount }}% OFF</h2>
+        <p class="text-white">Hurry! Offer ends on {{ offer.endDate | date: 'longDate' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <div class="row">
+    <div *ngFor="let product of products" class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4">
+      <div class="card product-card shadow-lg">
+        <img [src]="product.mainImage" class="card-img-top product-img" alt="{{ product.name }}">
+        <div class="card-body bg text-white">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="text-white">MOQ: {{ product.moq }}</p>
+          <h6 class="text-white mt-2">
+            {{ getDiscountedPrice(product) | currency:'INR' }}
+            <small class="text-warning ms-2 h6">-{{ offer.discount }}% Off</small>
+          </h6>
+          <p class="text-white">MRP: <span
+            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

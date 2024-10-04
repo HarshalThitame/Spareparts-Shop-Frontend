@@ -1,0 +1,28 @@
+<!-- order-management.component.html -->
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card h-100">
+        <div class="card-header bg text-white">
+          <h5 class="card-title">Order Status Overview</h5>
+        </div>
+        <div class="card-body">
+          <h5>Order Status Counts</h5>
+          <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-6 mb-4" *ngFor="let status of orderStatuses">
+              <div class="card" [ngStyle]="{ backgroundColor: getStatusColor(status) }">
+                <div class="card-body">
+                  <p class="card-title">{{ status }}</p>
+                  <h6 class="card-text">{{ orderCounts[status] }}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <canvas id="ordersChart" #ordersChart></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

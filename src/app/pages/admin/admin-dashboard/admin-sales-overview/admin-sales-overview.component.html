@@ -1,0 +1,49 @@
+<div class="card h-100">
+  <div class="card-header bg text-white">
+    <h5 class="card-title">Sales Overview</h5>
+    <small>Total Sales: <span> {{ totalSales | currency:'INR' }}</span></small>
+    <br><small>Monthly Growth: <span>{{ monthlyGrowth | number: '1.0-0' }}%</span></small>
+  </div>
+  <div class="card-body">
+    <div class="row">
+
+      <div class="col-12 text-center">
+        <mat-form-field appearance="fill">
+          <mat-label>Select Chart Type</mat-label>
+          <mat-select [(value)]="selectedChartType" (selectionChange)="onChartTypeChange($event.value)">
+            <mat-option value="line">Line</mat-option>
+            <mat-option value="bar">Bar</mat-option>
+            <mat-option value="pie">Pie</mat-option>
+            <mat-option value="doughnut">Doughnut</mat-option>
+            <mat-option value="radar">Radar</mat-option>
+            <mat-option value="polarArea">Polar Area</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <div class="btn-group mt-2 mb-2" role="group" aria-label="Time filters">
+          <button type="button" class="btn btn-outline-primary" (click)="filterOrders('1month')">Last 1 Month</button>
+          <button type="button" class="btn btn-outline-primary" (click)="filterOrders('3months')">Last 3 Months</button>
+          <button type="button" class="btn btn-outline-primary" (click)="filterOrders('6months')">Last 6 Months</button>
+          <button type="button" class="btn btn-outline-primary" (click)="filterOrders('1year')">Last 1 Year</button>
+          <button type="button" class="btn btn-outline-primary" (click)="filterOrders('all')">All</button>
+        </div>
+
+
+        <div class="input-group mb-2">
+          <input type="number" [(ngModel)]="customMonths" placeholder="Enter custom months" class="form-control"
+                 min="1"/>
+          <button (click)="filterOrders(customMonths)" class="btn btn-primary">Filter</button>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted text-center">
+    <small>Last updated 2 mins ago</small>
+  </div>
+</div>
+
+

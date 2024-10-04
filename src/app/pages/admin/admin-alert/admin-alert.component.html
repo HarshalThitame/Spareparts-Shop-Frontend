@@ -1,0 +1,155 @@
+<app-admin-navbar></app-admin-navbar>
+      <app-admin-sidebar></app-admin-sidebar>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar for larger screens -->
+    <div class="col-md-2 d-md-block">
+    </div>
+
+    <!-- Main content area -->
+    <div class="col-md-9">
+      <div class="alert-page">
+        <!-- Order Updates Table -->
+        <!-- Order Updates Table -->
+        <mat-card class="alert-card w-100">
+          <mat-card-title>Order Updates</mat-card-title>
+          <div class="table-responsive"> <!-- Add this wrapper for responsiveness -->
+            <table mat-table [dataSource]="orderUpdates" class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Order ID </th>
+                <td mat-cell *matCellDef="let order"> {{order.id}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="customer">
+                <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+                <td mat-cell *matCellDef="let order"> {{order.user.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let order"> {{order.status}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> Total Amount </th>
+                <td mat-cell *matCellDef="let order"> {{order.totalAmount | currency}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let order"> {{order.createdAt | date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['id', 'customer', 'status', 'amount', 'createdAt']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['id', 'customer', 'status', 'amount', 'createdAt'];"></tr>
+            </table>
+          </div>
+        </mat-card>
+
+        <!-- Repeat the same for other tables -->
+
+        <!-- Low Stock Alerts Table -->
+        <mat-card class="alert-card w-100">
+          <mat-card-title>Low Stock Alerts</mat-card-title>
+          <div class="table-responsive"> <!-- Add this wrapper for responsiveness -->
+            <table mat-table [dataSource]="lowStockProducts" class="mat-elevation-z8">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="partNumber">
+                <th mat-header-cell *matHeaderCellDef> Part Number </th>
+                <td mat-cell *matCellDef="let product"> {{product.partNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="stockQuantity">
+                <th mat-header-cell *matHeaderCellDef> Stock Quantity </th>
+                <td mat-cell *matCellDef="let product"> {{product.stockQuantity}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="categories">
+                <th mat-header-cell *matHeaderCellDef> Categories </th>
+                <td mat-cell *matCellDef="let product"> {{getCategoryNames(product)}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="updateStock">
+                <th mat-header-cell *matHeaderCellDef> Update Stock </th>
+                <td mat-cell *matCellDef="let product">
+                  <input type="number" [(ngModel)]="product.stockQuantity" placeholder="Enter new stock" min="0" class="form-control" />
+                  <button mat-button (click)="updateStock(product)">Update Stock</button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['name', 'partNumber', 'stockQuantity', 'categories', 'updateStock']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['name', 'partNumber', 'stockQuantity', 'categories', 'updateStock'];"></tr>
+            </table>
+          </div>
+        </mat-card>
+
+        <!-- Dead Products Table -->
+        <mat-card class="alert-card w-100">
+          <mat-card-title>Dead Products</mat-card-title>
+          <div class="table-responsive"> <!-- Add this wrapper for responsiveness -->
+            <table mat-table [dataSource]="deadProducts" class="mat-elevation-z8">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="partNumber">
+                <th mat-header-cell *matHeaderCellDef> Part Number </th>
+                <td mat-cell *matCellDef="let product"> {{product.partNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="lastSold">
+                <th mat-header-cell *matHeaderCellDef> Last Sold Date </th>
+                <td mat-cell *matCellDef="let product"> Never get sold. </td>
+              </ng-container>
+
+              <ng-container matColumnDef="blocked">
+                <th mat-header-cell *matHeaderCellDef> Blocked </th>
+                <td mat-cell *matCellDef="let product">
+                  <mat-slide-toggle [(ngModel)]="product.blocked" (change)="toggleBlocked(product)">
+                    {{ product.blocked ? 'Blocked' : 'Active' }}
+                  </mat-slide-toggle>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['name', 'partNumber', 'lastSold', 'blocked']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['name', 'partNumber', 'lastSold', 'blocked'];"></tr>
+            </table>
+          </div>
+        </mat-card>
+
+        <!-- Recently Stock Updated Products Table -->
+        <mat-card class="alert-card w-100">
+          <mat-card-title>Recently Stock Updated Products</mat-card-title>
+          <div class="table-responsive"> <!-- Add this wrapper for responsiveness -->
+            <table mat-table [dataSource]="recentlyUpdatedProducts" class="mat-elevation-z8">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="partNumber">
+                <th mat-header-cell *matHeaderCellDef> Part Number </th>
+                <td mat-cell *matCellDef="let product"> {{product.partNumber}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="stockUpdatedAt">
+                <th mat-header-cell *matHeaderCellDef> Stock Updated At </th>
+                <td mat-cell *matCellDef="let product"> {{product.updatedAt | date}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['name', 'partNumber', 'stockUpdatedAt']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['name', 'partNumber', 'stockUpdatedAt'];"></tr>
+            </table>
+          </div>
+        </mat-card>
+
+      </div>
+
+    </div>
+  </div>
+</div>

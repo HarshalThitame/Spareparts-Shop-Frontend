@@ -1,0 +1,7 @@
+@media (max-width: 768px) {
+  /* Adjust any specific styles for smaller screens if necessary */
+  h1, h2, h3, h6, h4, h5, p, button,span,small {
+    font-size: 70%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+}

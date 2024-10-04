@@ -1,0 +1,84 @@
+<div class="card h-100 p-2">
+  <div class="card-header bg text-white">
+    <h5 class="card-title">Inventory Management</h5>
+    <small>Total inventory value {{calculateTotalInventoryValue()|currency:'INR'}}</small>
+  </div>
+<div class="row">
+  <div class="col-md-12">
+    <!-- Most Selling Products Section -->
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <h6 class="mb-4">Most Selling Products</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="thead-success">
+            <tr>
+              <th>Part Number</th>
+              <th>Name</th>
+              <th>Sales Quantity</th>
+              <th>Last Sold Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let bestSeller of mostSellingProducts">
+              <td>{{ bestSeller.product.partNumber }}</td>
+              <td>{{ bestSeller.product.name }}</td>
+              <td>{{ bestSeller.salesQuantity }}</td>
+              <td>
+                <ng-container *ngIf="(orderItems | filterByProductID: bestSeller.product.id) as filteredItems">
+                  <ng-container *ngIf="filteredItems.length > 0">
+                    {{ filteredItems[0].updatedAt | date: 'shortDate' }}
+                  </ng-container>
+                  <ng-container *ngIf="filteredItems.length === 0">
+                    <span class="empty-state">No sales</span>
+                  </ng-container>
+                </ng-container>
+              </td>
+              <td style="width: 15%;">
+                <button class="btn btn-light btn-sm" (click)="viewDetails(bestSeller.product)">Manage Product</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  <hr>
+    <!-- Dead Products Section -->
+    <div class="row">
+      <div class="col-md-12">
+        <h6 class="mb-4">Dead Products</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="thead-danger">
+            <tr>
+              <th>Part Number</th>
+              <th>Name</th>
+              <th>Stock Quantity</th>
+              <th>Last Sold Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let deadProduct of deadProducts">
+              <td>{{ deadProduct.partNumber }}</td>
+              <td>{{ deadProduct.name }}</td>
+              <td>{{ deadProduct.stockQuantity }}</td>
+              <td>
+                <span class="text-warning">Never sold</span>
+              </td>
+              <td style="width: 15%;">
+                <button class="btn btn-light btn-sm" (click)="viewDetails(deadProduct)">Manage Product</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>

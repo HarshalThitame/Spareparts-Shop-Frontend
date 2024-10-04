@@ -1,0 +1,53 @@
+/* profile-update.component.css */
+.profile-update-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  background: linear-gradient(45deg, #2196F3, #21CBF3);
+  color: white;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #21CBF3, #2196F3);
+}
+/* Add to profile-update.component.css */
+@media (max-width: 600px) {
+  .input-grid {
+    grid-template-columns: 1fr; /* Stack fields on smaller screens */
+  }
+}

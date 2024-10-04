@@ -1,0 +1,24 @@
+
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.badge {
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  /* Adjust any specific styles for smaller screens if necessary */
+  h1, h2, h3, h6, h4, h5, p, button,span,small {
+    font-size: 70%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  #ordersChart{
+    width: 50%!important;
+    height: auto!important;
+    justify-content: center
+  }
+}

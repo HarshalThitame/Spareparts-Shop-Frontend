@@ -1,0 +1,53 @@
+#salesChart {
+  width: 100% !important; /* Make sure the canvas fills its container */
+  height: auto !important; /* Adjust height to maintain aspect ratio */
+}
+/* Media Queries for Responsive Font Size */
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1.25rem; /* Smaller font size for card title on tablets */
+  }
+
+  .card-body p {
+    font-size: 0.9rem; /* Smaller font size for paragraph text on tablets */
+  }
+
+  .btn {
+    font-size: 0.8rem; /* Smaller font size for buttons on tablets */
+  }
+  .chart-label {
+    font-size: 8px !important; /* Reduce size on mobile */
+  }
+
+  .chart-title {
+    font-size: 10px !important; /* Reduce size on mobile */
+  }
+
+  .legend-label {
+    font-size: 8px !important; /* Reduce size on mobile */
+  }
+}
+
+@media (max-width: 576px) {
+  .card-title {
+    font-size: 1rem; /* Even smaller font size for card title on mobile phones */
+  }
+
+  .card-body p {
+    font-size: 0.85rem; /* Smaller font size for paragraph text on mobile phones */
+  }
+
+  .btn {
+    font-size: 0.75rem; /* Smaller font size for buttons on mobile phones */
+  }
+}
+
+
+@media (min-width: 768px) {
+  #salesChart{
+    width: 70%!important;
+    height: auto!important;
+    justify-content: center
+  }
+}
+

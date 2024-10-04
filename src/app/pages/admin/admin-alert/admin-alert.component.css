@@ -1,0 +1,94 @@
+.alert-page {
+  padding: 20px;
+}
+
+.alert-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.alert-card-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #1976d2; /* Customize this color */
+  border-bottom: 2px solid #1976d2; /* Bottom border for title */
+  padding-bottom: 10px;
+}
+
+.alert-table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  background-color: #f5f5f5; /* Light background for headers */
+  font-weight: bold;
+  color: #333; /* Darker color for text */
+}
+
+td.mat-cell {
+  transition: background-color 0.3s ease; /* Transition effect */
+}
+
+tr.mat-row:hover td.mat-cell {
+  background-color: #e3f2fd; /* Light blue on hover */
+}
+
+.stock-input {
+  width: 80px;
+  margin-right: 10px;
+}
+
+.update-button {
+  background-color: #4caf50; /* Green background */
+  color: white!important;
+  border-radius: 5px;
+}
+
+.update-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+.alert-page {
+  padding: 15px;
+}
+
+.alert-card {
+  margin-bottom: 20px; /* Space between cards */
+}
+
+/* Ensure the tables are fully responsive */
+table {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .alert-card {
+    margin: 10px 0; /* Reduce margin on smaller screens */
+  }
+
+  /* Stack elements in smaller screens if needed */
+  .alert-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Make inputs full width */
+  input[type="number"] {
+    width: 100%;
+  }
+
+  /* Stack the sidebar and main content on smaller screens */
+  .col-md-2 {
+    display: none; /* Hide sidebar on small screens */
+  }
+
+  .col-12 {
+    padding: 0; /* Remove padding for full width */
+  }
+
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label{
+    font-size: 80%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+
+}

@@ -1,0 +1,76 @@
+<app-admin-navbar />
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 col-12">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-md-10 col-12">
+      <div class="container mt-lg-5">
+        <h2 class="text-center">Manage Users</h2>
+
+        <div class="row mb-3">
+          <div class="col-md-4 col-12 mb-2">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Search</mat-label>
+              <input matInput (keyup)="applyFilter()" [(ngModel)]="filterValue" placeholder="Search users" />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-12 mb-2">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Filter by Role</mat-label>
+              <mat-select [(value)]="roleFilter" (selectionChange)="applyFilter()">
+                <mat-option value="">All</mat-option>
+                <mat-option value="CUSTOMER">Customer</mat-option>
+                <mat-option value="RETAILER">Retailer</mat-option>
+                <mat-option value="MECHANIC">Mechanic</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> Username </th>
+            <td mat-cell *matCellDef="let user"> {{ user.username }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef> Full Name </th>
+            <td mat-cell *matCellDef="let user"> {{ user.firstName }} {{ user.lastName }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell *matHeaderCellDef> Mobile </th>
+            <td mat-cell *matCellDef="let user"> {{ user.mobile }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> Role </th>
+            <td mat-cell *matCellDef="let user"> {{ user.userRole }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let user">
+              <mat-slide-toggle [(ngModel)]="user.active" (change)="updateUser(user)">
+                {{ user.active ? 'Active' : 'Inactive' }}
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

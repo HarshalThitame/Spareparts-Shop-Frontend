@@ -1,0 +1,59 @@
+/* admin-inventory-management.component.scss */
+
+/* General Styles */
+.table {
+  margin-top: 20px;
+}
+
+/* Table Header Styles */
+.table thead {
+  background-color: #343a40; /* Dark background for header */
+  color: #ffffff; /* White text color */
+}
+
+/* Table Row Styles */
+.table tbody tr {
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa; /* Light background on hover */
+}
+
+/* Action Buttons */
+.btn {
+  margin-right: 5px; /* Space between buttons */
+}
+
+.btn-light {
+  background-color: #ffffff; /* White background for action buttons */
+  color: #343a40; /* Dark text color */
+  border: 1px solid #ced4da; /* Light border */
+}
+
+.btn-light:hover {
+  background-color: #e2e6ea; /* Slightly darker on hover */
+}
+
+/* Empty State Message */
+.empty-state {
+  text-align: center;
+  color: #6c757d; /* Grey color for no sales message */
+  font-style: italic; /* Italic style */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  @media (max-width: 768px) {
+    /* Adjust any specific styles for smaller screens if necessary */
+    h1, h2, h3, h6, h4, h5, p, button,span,small,tr,td,th {
+      font-size: 70%!important; /* Keep reduced font size */
+      line-height: 1.25rem !important;
+    }
+
+    .container-fluid{
+      margin: 0!important;
+      padding: 0!important;
+    }
+  }
+}
