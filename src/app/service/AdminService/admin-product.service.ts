@@ -40,7 +40,7 @@ export class AdminProductService {
 
 
   updateProductMainImage(product:Product,image:any){
-    return this._http.post<any>(`${baseURL}/api/admin/products/upload-main-image/${product.id}`, {image})
+    return this._http.post<any>(`${baseURL}/api/admin/products/upload-main-image/${product.id}`, image)
   }
 
 
@@ -63,4 +63,7 @@ export class AdminProductService {
     return this._http.post<Product>(`${baseURL}/api/admin/products/blocked`,product)
   }
 
+  deleteCoverImage(productId: number, imageId: number | undefined) {
+    return this._http.delete(`${baseURL}/api/admin/products/${productId}/images/${imageId}`)
+  }
 }

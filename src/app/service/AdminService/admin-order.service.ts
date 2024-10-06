@@ -19,6 +19,10 @@ export class AdminOrderService {
     return this._http.get<Order[]>(`${baseURL}/api/admin/orders`)
   }
 
+  getAllOrdersByPagination(currentPage: number, pageSize: number) {
+    return this._http.get<any>(`${baseURL}/api/admin/orders/by-pagination?page=${currentPage}&size=${pageSize}`);
+  }
+
   getAllOrderByUser(id: any) {
     return this._http.get<Order[]>(`${baseURL}/api/admin/orders/user/${id}`)
   }

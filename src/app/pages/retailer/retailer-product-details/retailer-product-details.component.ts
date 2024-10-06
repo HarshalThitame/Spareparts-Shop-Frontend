@@ -25,7 +25,7 @@ export class RetailerProductDetailsComponent implements OnInit {
   isLoggedIn = false;
   cart: Cart;
   quantity = 1;
-
+  selectedImageUrl: any;
   stock = 10;
 
   constructor(private _loginService: LoginService,
@@ -60,6 +60,7 @@ export class RetailerProductDetailsComponent implements OnInit {
   loadProduct(id: any) {
     this._productService.getProductByIdByGeneral(id).subscribe(data => {
       this.product = data;
+      this.selectedImageUrl = this.product.mainImage
       console.log(this.product)
     })
   }
@@ -103,5 +104,9 @@ export class RetailerProductDetailsComponent implements OnInit {
 
   calculateDiscountedPrice(mrp: number, discount: number): number {
     return mrp - (mrp * discount / 100);
+  }
+
+  onImageHover(url: any) {
+    this.selectedImageUrl = url;
   }
 }

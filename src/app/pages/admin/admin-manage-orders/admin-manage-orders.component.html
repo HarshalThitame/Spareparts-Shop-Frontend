@@ -53,12 +53,34 @@
           </mat-form-field>
 
 
-          <div class="">
-            <input type="date" class="form-control mb-2 mb-md-0 me-md-2" [(ngModel)]="startDate" (change)="onFilterChange()" placeholder="Start Date" />
-            <input type="date" class="form-control" [(ngModel)]="endDate" (change)="onFilterChange()" placeholder="End Date" />
-          </div>
+<!--          <div class="date-range-filter">-->
+            <div class="form-group">
+              <label for="startDate" class="form-label">From</label>
+              <input
+                type="date"
+                id="startDate"
+                class="form-control"
+                [(ngModel)]="startDate"
+                (change)="onFilterChange()"
+                placeholder="Start Date"
+              />
+            </div>
+            <div class="form-group">
+              <label for="endDate" class="form-label">To</label>
+              <input
+                type="date"
+                id="endDate"
+                class="form-control"
+                [(ngModel)]="endDate"
+                (change)="onFilterChange()"
+                placeholder="End Date"
+              />
+            </div>
+<!--          </div>-->
+
         </div>
 
+        <small>Total Orders : {{orders.length}}  <mat-icon class="small-icon" (click)="refreshPage()">refresh</mat-icon></small>
         <!-- Orders Table -->
         <div class="table-responsive">
           <table mat-table [dataSource]="filteredOrders" matSort class="mat-elevation-z8">
@@ -128,8 +150,8 @@
             <tr mat-row *matRowDef="let order; columns: displayedColumns;"></tr>
           </table>
         </div>
-        <!-- Paginator -->
-        <mat-paginator [length]="filteredOrders.length" [pageSize]="10" showFirstLastButtons
+        <!-- Pagination -->
+        <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15]"
                        (page)="onPageChange($event)">
         </mat-paginator>
 

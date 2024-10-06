@@ -15,6 +15,7 @@ import {HttpBackend, HttpClient} from "@angular/common/http";
 import NoImage from "../../../../service/helper/noImage";
 import {Image} from "../../../../model/Image.model";
 import baseURL from "../../../../service/helper/helper";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-product-details',
@@ -132,7 +133,7 @@ export class ProductDetailsComponent implements OnInit {
       let hasProduct = false;
 
       order.orderItems.forEach(item => {
-        if (item.product.id === product.id) {
+        if (item.product.id === product.id && order.status == 'PAID') {
           totalSales += item.quantity;
           totalRevenue += item.totalPrice;
           totalDiscountGiven += item.discountAmount;
@@ -246,6 +247,31 @@ export class ProductDetailsComponent implements OnInit {
     this.uploadImage('Cover-Images')
   }
 
+  deleteCoverImage(image: Image) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to delete this image?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteImage(image.url)
+
+          this._adminProductService.deleteCoverImage(this.product.id,image.id).subscribe(()=>{
+            Swal.fire('Deleted!', 'Your image has been deleted.', 'success');
+            this.ngOnInit();
+          },error => {
+            Swal.fire('Deleted!', 'Something went wrong.', 'error');
+            })
+        }
+      });
+
+  }
+
   uploadImage(folderName: string) {
     if (!this.selectedFile) {
       alert('Please select a file first.');
@@ -253,7 +279,7 @@ export class ProductDetailsComponent implements OnInit {
     }
 
     // Step 1: Get the pre-signed URL from Spring Boot
-    this._http.get<any>(`${baseURL}/api/auth/presigned-url/${folderName}`).subscribe(response => {
+    this._http.get<any>(`${baseURL}/auth/presigned-url/${folderName}`).subscribe(response => {
       const uploadUrl = response.url;
       const objectKey = response.key;  // Assuming backend returns the S3 key
 
@@ -279,12 +305,14 @@ export class ProductDetailsComponent implements OnInit {
             this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
             console.log('Uploaded Image URL:', this.uploadedImageUrl);
 
-            if (folderName === 'Main-image') {
+            if (folderName === 'Main-Image') {
+              console.log("inside MAin -image")
               if (this.product.mainImage != null) {
                 this.deleteImage(this.product.mainImage)
               }
               this.product.mainImage = this.uploadedImageUrl;
-              this._adminProductService.addOrUpdateProduct(this.product).subscribe(() => {
+              this._adminProductService.updateProductMainImage(this.product,this.uploadedImageUrl).subscribe(() => {
+
               }, error => {
                 console.log(error)
               })
@@ -294,6 +322,7 @@ export class ProductDetailsComponent implements OnInit {
                 productId: this.product.id,
               }
               this._adminProductService.addProductCoverImages(image).subscribe(() => {
+                this.ngOnInit()
               }, error => {
                 console.log(error)
               })
@@ -317,7 +346,7 @@ export class ProductDetailsComponent implements OnInit {
     const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
     console.log(key)
     if (key) {
-      this._http.delete(`${baseURL}/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+      this._http.delete(`${baseURL}/auth/delete-file?key=${key}`, {responseType: 'text'})
         .subscribe(
           response => {
             console.log('Response:', response); // This will now log the plain text "File deleted successfully"
@@ -335,9 +364,10 @@ export class ProductDetailsComponent implements OnInit {
 
   protected readonly NoImage = NoImage;
 
-  onImageHover(imageUrl: string): void {
+  onImageHover(imageUrl: any): void {
     this.selectedImageUrl = imageUrl;
   }
+
 
 
 }

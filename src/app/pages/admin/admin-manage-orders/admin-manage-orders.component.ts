@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { OrderStatus } from "../../../model/OrderStatus.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
-import { MatPaginator } from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
@@ -30,7 +30,7 @@ export class AdminManageOrdersComponent implements OnInit {
   showViewedOrders: boolean = false;
 
   displayedColumns: string[] = ['id', 'customerType', 'customerName', 'orderDate', 'status', 'orderItems', 'totalAmount', 'actions'];
-  dataSource: MatTableDataSource<Order> = new MatTableDataSource<Order>([]); // Ensure type is specified
+  dataSource: MatTableDataSource<Order> = new MatTableDataSource<Order>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -38,6 +38,11 @@ export class AdminManageOrdersComponent implements OnInit {
   customerTypes: string[] = ['RETAILER', 'CUSTOMER', 'MECHANIC'];
   orderStatuses = Object.values(OrderStatus);
   originalOrders: Order[] = [];
+
+  // Pagination Variables
+  totalOrders: number = 0; // Total number of orders
+  pageSize: number = 10; // Number of orders per page
+  currentPage: number = 0; // Current page index
 
   constructor(
     private _loginService: LoginService,
@@ -67,21 +72,21 @@ export class AdminManageOrdersComponent implements OnInit {
 
 
   loadOrders() {
-    this._adminOrderService.getAllOrders().subscribe(data => {
-      this.orders = data;
+    this._adminOrderService.getAllOrdersByPagination(this.currentPage, this.pageSize).subscribe(data => {
+      this.orders = data.content; // Accessing orders from the page content
+      this.totalOrders = data.totalElements; // Total number of orders
 
-      // Sort orders by createdAt (newest first), handling undefined values
+      // Sort orders by createdAt (newest first)
       this.orders.sort((a: Order, b: Order) => {
         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
         return dateB - dateA;
       });
 
-      this.filteredOrders = [...this.orders]; // Initialize filtered orders
-      this.originalOrders = [...this.orders]; // Keep a copy for resetting filters
-      this.dataSource = new MatTableDataSource<Order>(this.filteredOrders); // Initialize dataSource
-      this.dataSource.paginator = this.paginator; // Bind paginator here
-      this.dataSource.sort = this.sort; // Set sort
+      this.filteredOrders = [...this.orders];
+      this.dataSource = new MatTableDataSource<Order>(this.filteredOrders);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
@@ -191,9 +196,13 @@ export class AdminManageOrdersComponent implements OnInit {
   }
 
   // Handle paginator changes
-  onPageChange(event: any) {
-    // You can handle additional logic here if needed
-    console.log('Current page:', event.pageIndex);
-    console.log('Page size:', event.pageSize);
+  onPageChange(event: PageEvent) {
+    this.currentPage = event.pageIndex; // Update current page index
+    this.pageSize = event.pageSize; // Update page size
+    this.loadOrders(); // Reload orders for the new page
+  }
+
+  refreshPage() {
+    this.ngOnInit()
   }
 }

@@ -16,11 +16,21 @@
             </div>
             <div class="thumbnail-images">
               <img
-                *ngFor="let image of product.images"
-                [src]="image.url"
+                [src]="product.mainImage"
                 alt="Thumbnail Image"
                 class="thumbnail-image"
-                (click)="onImageHover(image.url)">
+                (click)="onImageHover(product.mainImage)">
+              <div class="thumbnail-image-wrapper" *ngFor="let image of product.images; let i = index">
+                <img
+                  [src]="image.url"
+                  alt="Thumbnail Image"
+                  class="thumbnail-image"
+                  (click)="onImageHover(image.url)">
+                <!-- Delete icon for other images -->
+                <button mat-icon-button class="delete-icon" (click)="deleteCoverImage(image)">
+                  <mat-icon class="small-icon">delete</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
           <div class="cart-button text-center frame mt-3">
@@ -222,14 +232,6 @@
               <div class="card-body">
                 <h5 class="card-title">Total Sales</h5>
                 <p class="card-text text-white">{{ productMetrics.totalSales }} units</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3 mb-3">
-            <div class="card text-white bg-success mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Total Paid Orders</h5>
-                <p class="card-text text-white">{{ productMetrics.totalPaidOrders }}</p>
               </div>
             </div>
           </div>

@@ -110,7 +110,7 @@ export class MechanicProductDetailsComponent implements OnInit{
     return mrp - (mrp * discount / 100);
   }
 
-  onImageHover(url: string) {
+  onImageHover(url: any) {
     this.selectedImageUrl = url;
   }
 }

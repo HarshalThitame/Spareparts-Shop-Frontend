@@ -33,17 +33,12 @@ product:Product[] = []
   ){}
 
   ngOnInit(): void {
-    this.loadAllOrders();
     this.loadLowStockProducts();
     this.loadDeadProducts();
     this.loadRecentlyUpdatedProducts();
   }
 
-  loadAllOrders() {
-    this._adminOrderService.getAllOrders().subscribe(data => {
-      this.orderUpdates = data;
-    });
-  }
+
 
   loadLowStockProducts() {
     this._adminProductService.getLowStockProducts().subscribe(data => {

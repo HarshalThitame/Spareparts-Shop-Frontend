@@ -7,26 +7,31 @@
     <div class="col-lg-9">
       <div class="container-fluid mt-5">
         <h6 class="mb-4 text-start">Manage Products</h6>
-
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+        <div class="row">
           <!-- Add Product Button -->
-          <div class="mb-3">
-            <a routerLink="/admin/add-product" class="btn btn-info animated-button add-new">Add New Product</a>
+          <div class="col-lg-3 d-flex justify-content-start align-items-center">
+            <div class="mb-3">
+              <a routerLink="/admin/add-product" class="btn btn-info animated-button add-new">Add New Product</a>
+            </div>
           </div>
 
-          <!-- Search bar -->
-          <div class="input-group rounded search">
-            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                   aria-describedby="search-addon" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
-            <span class="input-group-text border-0" id="search-addon">
+          <div class="col-lg-8">
+            <!-- Search bar -->
+            <div class="input-group rounded search">
+              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                     aria-describedby="search-addon" [(ngModel)]="searchTerm" (input)="onSearchChange()"/>
+              <span class="input-group-text border-0" id="search-addon">
               <i class="fas fa-search"></i>
             </span>
+            </div>
           </div>
         </div>
 
+        <small>Total products : {{ products.length }}</small>
         <!-- Products Table with Fade-in Animation -->
         <div class="table-responsive">
-          <table *ngIf="paginatedProducts.length > 0; else noProductsTemplate" class="table table-bordered table-hover animated-table">
+          <table *ngIf="paginatedProducts.length > 0; else noProductsTemplate"
+                 class="table table-bordered table-hover animated-table">
             <thead class="thead-light">
             <tr>
               <th>ID</th>
@@ -47,7 +52,8 @@
               <td>{{ product.price | currency:'INR' }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>
-                <a [routerLink]="['/admin/manage-products/product-details', product.id]" class="btn btn-info btn-sm w-100 animated-button">
+                <a [routerLink]="['/admin/manage-products/product-details', product.id]"
+                   class="btn btn-info btn-sm w-100 animated-button">
                   <i class="fas fa-edit"></i>
                 </a>
               </td>
@@ -56,14 +62,14 @@
           </table>
 
           <!-- Pagination -->
-          <mat-paginator [length]="filteredProducts.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15]"
+          <mat-paginator *ngIf="filteredProducts.length>0" [length]="filteredProducts.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15]"
                          (page)="onPageChange($event)">
           </mat-paginator>
 
           <!-- No Products Template -->
           <ng-template #noProductsTemplate>
             <div class="text-center mt-5">
-              <img src="assets/images/no-products.png" alt="No Products" class="img-fluid" style="max-width: 300px;" />
+              <img src="assets/images/no-products.png" alt="No Products" class="img-fluid" style="max-width: 300px;"/>
               <h5 class="mt-3">No Products Available</h5>
               <p>Please add some products to get started.</p>
             </div>

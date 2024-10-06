@@ -36,6 +36,9 @@
 .search {
   width: 100%;
 }
+.small-icon{
+  height: 20px;
+}
 
 @media (max-width: 768px) {
   .d-md-none {

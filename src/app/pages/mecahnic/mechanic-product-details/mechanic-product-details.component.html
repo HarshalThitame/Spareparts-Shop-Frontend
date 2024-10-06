@@ -13,6 +13,11 @@
             </div>
             <div class="thumbnail-images">
               <img
+                [src]="product.mainImage"
+                alt="Thumbnail Image"
+                class="thumbnail-image"
+                (click)="onImageHover(product.mainImage)">
+              <img
                 *ngFor="let image of product.images"
                 [src]="image.url"
                 alt="Thumbnail Image"

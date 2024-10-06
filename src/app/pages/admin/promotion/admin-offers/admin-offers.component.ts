@@ -200,7 +200,7 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
     }
 
     // Step 1: Get the pre-signed URL from Spring Boot
-    this._http.get<any>(`${baseURL}/api/auth/presigned-url/${folderName}`).subscribe(response => {
+    this._http.get<any>(`${baseURL}/auth/presigned-url/${folderName}`).subscribe(response => {
       const uploadUrl = response.url;
       const objectKey = response.key;  // Assuming backend returns the S3 key
 
@@ -253,7 +253,7 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
     const key = oldImageUrl.split('https://harshal-ecom.s3.amazonaws.com/').pop(); // Extract the file name from the URL
     console.log(key)
     if (key) {
-      this._http.delete(`${baseURL}/api/auth/delete-file?key=${key}`, {responseType: 'text'})
+      this._http.delete(`${baseURL}/auth/delete-file?key=${key}`, {responseType: 'text'})
         .subscribe(
           response => {
             console.log('Response:', response); // This will now log the plain text "File deleted successfully"

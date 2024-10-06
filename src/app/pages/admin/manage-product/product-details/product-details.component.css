@@ -74,7 +74,23 @@ strong{
   border-color: #000;
 }
 
-
+.thumbnail-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.small-icon {
+  font-size: 16px; /* Adjust size as needed */
+}
+.delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 20px; /* Adjust button size */
+  height: 20px; /* Adjust button size */
+  padding: 1px; /* Adjust padding to fit the smaller icon */
+}
 
 @media (max-width: 768px) {
   /* Adjust any specific styles for smaller screens if necessary */

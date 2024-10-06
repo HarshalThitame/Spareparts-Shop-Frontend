@@ -36,7 +36,7 @@
                 </ng-container>
               </td>
               <td style="width: 15%;">
-                <button class="btn btn-light btn-sm" (click)="viewDetails(bestSeller.product)">Manage Product</button>
+                <button class="btn btn-light btn-sm" [routerLink]="'/admin/manage-products/product-details/'+bestSeller.product.id">Manage Product</button>
               </td>
             </tr>
             </tbody>
