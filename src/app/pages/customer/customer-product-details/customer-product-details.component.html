@@ -40,7 +40,10 @@
           </div>
 
           <div class="cart-button text-center frame mt-3">
-            <button class="custom-btn btn-3" (click)="addToCart(product)"><span>Add to cart</span></button>
+            <button *ngIf="!isOutOfStock(product)" class="custom-btn btn-3" (click)="addToCart(product)"><span>Add to cart</span></button>
+            <img *ngIf="isOutOfStock(product)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/out-stock-stamp-red-rubber-stamp-white-background-out-stock-stamp-sign-out-stock-stamp_1089581-1027-removebg-preview.png"
+                 alt="Out of Stock" class="out-of-stock-img" />
+
           </div>
         </div>
 
@@ -63,10 +66,11 @@
                 <p class="text-danger">
                   You save:(-{{product.price - calculateDiscountedPrice(product.price,product.discountOnPurchase)| currency:'INR'}}) {{ product.discountOnPurchase }}% off
                 </p>
+                <small>InStock: {{product.stockQuantity}}</small>
               </div>
-              <div class="col-md-3 col-4 text-center">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/024/119/892/small/new-offer-sticker-banner-marketing-and-advertising-tag-business-concept-design-vector.jpg" class="img-fluid">
-              </div>
+<!--              <div class="col-md-3 col-4 text-center">-->
+<!--                <img src="https://static.vecteezy.com/system/resources/thumbnails/024/119/892/small/new-offer-sticker-banner-marketing-and-advertising-tag-business-concept-design-vector.jpg" class="img-fluid">-->
+<!--              </div>-->
             </div>
             <div class="mt-3">
               <h5>Specifications:</h5>

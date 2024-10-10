@@ -36,8 +36,8 @@
             <tr>
               <th>ID</th>
               <th>Part No.</th>
+              <th>Bin Location</th>
               <th>Name</th>
-              <th>Description</th>
               <th>Price</th>
               <th>Stock Quantity</th>
               <th>Actions</th>
@@ -47,8 +47,8 @@
             <tr *ngFor="let product of paginatedProducts; let i = index" class="animated-row">
               <td>{{ i + 1 }}</td>
               <td>{{ product.partNumber }}</td>
+              <td>{{ product.binLocation }}</td>
               <td>{{ product.name }}</td>
-              <td>{{ product.description }}</td>
               <td>{{ product.price | currency:'INR' }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>

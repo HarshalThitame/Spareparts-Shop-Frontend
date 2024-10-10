@@ -48,6 +48,7 @@ export class SharedSubCategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.bounceState = 'in'
     this.id = this._route.snapshot.paramMap.get('id');
     this.loadUser();
@@ -63,9 +64,11 @@ export class SharedSubCategoriesComponent implements OnInit {
     }
 
   private loadUser() {
-    this._loginService.getCurrentUser().subscribe(data => {
-      this.user = data;
-    });
+    if(this._loginService.isLoggedIn()){
+      this._loginService.getCurrentUser().subscribe(data => {
+        this.user = data;
+      });
+    }
   }
 
   loadSubCategories(id: any) {

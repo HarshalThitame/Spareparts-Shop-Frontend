@@ -32,10 +32,10 @@ import noImage from "../../service/helper/noImage";
     ]),
     trigger('bounceDrop', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-50px) scale(0.8)' }),
-        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
-        animate('0.2s ease-out', style({ transform: 'translateY(-10px)' })),
-        animate('0.2s ease-out', style({ transform: 'translateY(0)' })),
+        style({opacity: 0, transform: 'translateY(-50px) scale(0.8)'}),
+        animate('0.8s ease-out', style({opacity: 1, transform: 'translateY(0) scale(1)'})),
+        animate('0.2s ease-out', style({transform: 'translateY(-10px)'})),
+        animate('0.2s ease-out', style({transform: 'translateY(0)'})),
       ]),
     ]),
   ]
@@ -60,13 +60,12 @@ export class HomeDashboardComponent implements OnInit {
   currentIndex: number = 0;
   brands: Brand[] = [];
   brandModels: BrandModel[] = [];
-  filterProducts: Product[] =[];
+  filterProducts: Product[] = [];
   initialLoadCount: number = 6;
   additionalLoadCount: number = 12;
   currentLoadedCount: number = 0; // Track how many products are currently displayed
   totalProducts: number = 0; // Track total products count
-  topSellingProducts: Product[]=[];
-
+  topSellingProducts: Product[] = [];
 
 
   constructor(private _loginService: LoginService,
@@ -77,7 +76,6 @@ export class HomeDashboardComponent implements OnInit {
               private _brandService: BrandService,
               private _snackBar: MatSnackBar) {
     this.user = _initializerServie.initializeUser();
-
 
 
     setInterval(() => this.changeImage(), 2000); // Change image every 2 seconds
@@ -95,30 +93,28 @@ export class HomeDashboardComponent implements OnInit {
   }
 
   loadTopSellingProduct() {
-        this._productService.getTopSellingProduct().subscribe(data=>{
-          this.topSellingProducts = data;
-          console.log(this.topSellingProducts)
-        })
-    }
-
-
-
-
+    this._productService.getTopSellingProduct().subscribe(data => {
+      this.topSellingProducts = data;
+      console.log(this.topSellingProducts)
+    })
+  }
 
 
   private loadUser() {
-    this._loginService.getCurrentUser().subscribe(data => {
-      this.user = data;
-      if (this.user.userRole === "CUSTOMER") {
-        this._router.navigate(['/'])
-      } else if (this.user.userRole === "RETAILER") {
-        this._router.navigate(['/retailer'])
-      } else if (this.user.userRole === "MECHANIC") {
-        this._router.navigate(['/mechanic'])
-      } else if (this.user.userRole === "ADMIN") {
-        this._router.navigate(['/admin'])
-      }
-    });
+    if (this._loginService.isLoggedIn()) {
+      this._loginService.getCurrentUser().subscribe(data => {
+        this.user = data;
+        if (this.user.userRole === "CUSTOMER") {
+          this._router.navigate(['/'])
+        } else if (this.user.userRole === "RETAILER") {
+          this._router.navigate(['/retailer'])
+        } else if (this.user.userRole === "MECHANIC") {
+          this._router.navigate(['/mechanic'])
+        } else if (this.user.userRole === "ADMIN") {
+          this._router.navigate(['/admin'])
+        }
+      });
+    }
   }
 
   loadCategories() {
@@ -137,6 +133,7 @@ export class HomeDashboardComponent implements OnInit {
       this.loadMoreProducts(this.initialLoadCount);
     });
   }
+
   loadMoreProducts(count: number) {
     const nextBatch = this.products.slice(this.currentLoadedCount, this.currentLoadedCount + count);
     this.displayedProducts = this.displayedProducts.concat(nextBatch);
@@ -172,6 +169,7 @@ export class HomeDashboardComponent implements OnInit {
         return product.discountOnPurchase;
     }
   }
+
   protected readonly noImage = NoImage;
 
 
@@ -181,10 +179,14 @@ export class HomeDashboardComponent implements OnInit {
     } else {
       this._productService.searchProducts(this.searchKeyword).subscribe((data) => {
         this.filterProducts = data;
-        this.displayedProducts = data.slice(0, this.additionalLoadCount);
-        this.currentLoadedCount = this.additionalLoadCount;
-        const scrollToPosition = this.scrollTarget.nativeElement.getBoundingClientRect().top + window.scrollY - 100;
-        window.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+        if (this.filterProducts !== null) {
+          this.displayedProducts = data.slice(0, this.additionalLoadCount);
+          this.currentLoadedCount = this.additionalLoadCount;
+          const scrollToPosition = this.scrollTarget.nativeElement.getBoundingClientRect().top + window.scrollY - 100;
+          window.scrollTo({top: scrollToPosition, behavior: 'smooth'});
+        } else {
+          this._snackBar.open("No product found. 😔", '', {duration: 5000})
+        }
       });
     }
   }
@@ -193,5 +195,9 @@ export class HomeDashboardComponent implements OnInit {
     if (event.key === 'Enter') {
       this.searchProduct();
     }
+  }
+
+  isOutOfStock(topProduct: Product) {
+    return topProduct.stockQuantity == 0;
   }
 }

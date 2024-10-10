@@ -36,12 +36,6 @@
 .search {
   width: 100%;
 }
-.small-icon{
-  height: 20px;
-}
-.bold-text {
-  font-weight: bold;
-}
 
 @media (max-width: 768px) {
   .d-md-none {

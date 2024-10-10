@@ -68,7 +68,7 @@ export class CheckoutComponent implements OnInit {
       addressLine1: ['', Validators.required],
       addressLine2: [''],
       city: ['', Validators.required],
-      state: ['', Validators.required],
+      state: ['Maharashtra', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]], // Example for US Zip Code
 
     });
@@ -146,6 +146,7 @@ export class CheckoutComponent implements OnInit {
       this._savedAddressService.createSavedAddress(shippingAddress).subscribe(data=>{
         this._snackBar.open("New Address Saved.","",{duration:3000})
         this.ngOnInit()
+        this.shippingForm.reset();
       },error => {
         console.log(error)
         this._snackBar.open("Error while saving address.","",{duration:3000})
@@ -204,6 +205,7 @@ export class CheckoutComponent implements OnInit {
 
     // Call the service to create the order
     this._orderServiceTemp.createOrder(this.order).subscribe((data: any) => {
+
       console.log(data);
       const emailData:EmailData={
         to:this.order.user.email,

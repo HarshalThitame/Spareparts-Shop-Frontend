@@ -136,7 +136,6 @@ h1 {
     transform: scaleY(1);
   }
 }
-
 @keyframes rotateMenu {
   0% {
     transform: rotateX(-90deg);

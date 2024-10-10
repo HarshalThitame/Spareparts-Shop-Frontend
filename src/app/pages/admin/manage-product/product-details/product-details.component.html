@@ -63,6 +63,10 @@
         </div>
 
         <div class="col-md-7">
+          <span *ngIf="product.blocked" class="bg-danger-subtle p-2 m-2">This product is currently blocked and cannot be listed for sale.</span>
+          <mat-slide-toggle [(ngModel)]="product.blocked" (change)="toggleBlocked(product)">
+            {{ product.blocked ? 'Blocked' : 'Active' }}
+          </mat-slide-toggle>
           <!-- Product Details -->
           <div class="product-details">
             <h2>{{ product.name }}</h2>
@@ -228,34 +232,34 @@
         <h5>Product Metrics:</h5>
         <div class="row">
           <div class="col-6 col-md-3 mb-3"> <!-- Changed col-md-4 to col-6 for mobile responsiveness -->
-            <div class="card text-white bg-info mb-3">
+            <div class="card text-dark bg-info-subtle mb-3">
               <div class="card-body">
-                <h5 class="card-title">Total Sales</h5>
-                <p class="card-text text-white">{{ productMetrics.totalSales }} units</p>
+                <p class="card-title text-dark">Total Sales</p>
+                <h5 class="card-text text-dark">{{ productMetrics.totalSales }} units</h5>
               </div>
             </div>
           </div>
           <div class="col-6 col-md-3 mb-3">
-            <div class="card text-white bg-primary mb-3">
+            <div class="card text-dark bg-primary-subtle mb-3">
               <div class="card-body">
-                <h5 class="card-title">Total Revenue</h5>
-                <p class="card-text text-white">{{ productMetrics.totalRevenue | currency:'INR' }}</p>
+                <p class="card-title text-dark">Total Revenue</p>
+                <h5 class="card-text text-dark">{{ productMetrics.totalRevenue | currency:'INR' }}</h5>
               </div>
             </div>
           </div>
           <div class="col-6 col-md-3 mb-3">
-            <div class="card text-white bg-warning mb-3">
+            <div class="card text-dark bg-warning-subtle mb-3">
               <div class="card-body">
-                <h5 class="card-title">Total Discount Given</h5>
-                <p class="card-text text-white">{{ productMetrics.totalDiscountGiven | currency:'INR' }}</p>
+                <p class="card-title text-dark">Total Discount Given</p>
+                <h5 class="card-text text-dark">{{ productMetrics.totalDiscountGiven | currency:'INR' }}</h5>
               </div>
             </div>
           </div>
           <div class="col-6 col-md-3 mb-3">
-            <div class="card text-white bg-danger mb-3">
+            <div class="card text-dark bg-danger-subtle mb-3">
               <div class="card-body">
-                <h5 class="card-title">Total GST Collected</h5>
-                <p class="card-text text-white">{{ productMetrics.totalGSTCollected | currency:'INR' }}</p>
+                <p class="card-title text-dark">Total GST Collected</p>
+                <h5 class="card-text text-dark">{{ productMetrics.totalGSTCollected | currency:'INR' }}</h5>
               </div>
             </div>
           </div>
@@ -273,10 +277,10 @@
             <div class="row mt-4 p-2">
               <div class="col-6 col-md-3 mb-4" *ngFor="let status of orderStatusKeys">
                 <!-- Updated classes for responsiveness -->
-                <div class="card text-white bg-secondary">
+                <div class="card text-dark bg-success-subtle">
                   <div class="card-body">
-                    <h5 class="card-title">{{ status }}</h5>
-                    <p class="card-text text-white">{{ productMetrics.orderStatusCounts[status] }}</p>
+                    <p class="card-title text-dark">{{ status }}</p>
+                    <h5 class="card-text text-dark">{{ productMetrics.orderStatusCounts[status] }}</h5>
                   </div>
                 </div>
               </div>
@@ -285,7 +289,7 @@
         </div>
       </div>
 
-      <div class="mt-4">
+      <div *ngIf="productOrders.length>0" class="mt-4">
         <h5>Orders for {{ product.name }}:</h5>
         <div class="table-responsive"> <!-- Added responsive wrapper -->
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

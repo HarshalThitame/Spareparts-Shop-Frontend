@@ -57,9 +57,11 @@ export class DropdownSearchComponent implements OnInit {
   }
 
   private loadUser() {
-    this._loginService.getCurrentUser().subscribe(data => {
-      this.user = data;
-    });
+    if(this._loginService.isLoggedIn()){
+      this._loginService.getCurrentUser().subscribe(data => {
+        this.user = data;
+      });
+    }
   }
 
   loadCategories() {

@@ -1,35 +1,106 @@
 <app-mechanic-navbar/>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col text-center">
-      <h1 class="display-4 mb-4">Welcome to Mechanic Dashboard of Spare Parts Shop!</h1>
-      <p class="lead">Quality parts for all your automotive needs.</p>
+  <!-- Welcome Section -->
+  <div class="card card-home shadow-lg mb-3">
+    <div class="row text-start">
+      <div class="col-md-6 text-start">
+        <div class="card border-0 text-white" style="background: none">
+          <div class="card-body">
+            <h1 class="text-start card-title mb-0">Find Parts For Your Tractor !</h1>
+            <p class="card-text text-muted mt-0">Powering Your Tractor with the Best Parts</p>
+
+            <!-- Animated Search Bar Positioned at Top Right -->
+            <div class="search-container">
+              <div class="search-wrapper">
+                <input
+                  type="text"
+                  (keydown)="onKeyDown($event)"
+                  [(ngModel)]="searchKeyword"
+                  class="form-control animated-search"
+                  placeholder="Search for parts..."
+                />
+                <button (click)="searchProduct()" class="btn btn-primary" type="button">🔍</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <app-dropdown-search></app-dropdown-search>
+      </div>
     </div>
   </div>
-  <!--  Offer card-->
 
-  <app-offer/>
-  <app-dropdown-search/>
- <app-shared-categories/>
+  <!-- Offer Card -->
+  <app-offer></app-offer>
 
-  <div class="row mt-4">
+  <!-- Categories Section -->
+  <app-shared-categories></app-shared-categories>
+
+  <!-- Product Display Section -->
+  <div #scrollTarget class="row mt-4">
     <div class="col-12">
-      <h3 class="text-center mb-4">Featured Products</h3>
+      <h3 *ngIf="searchKeyword === ''" class="text-center mb-4">Featured Products</h3>
     </div>
-    <!-- Adjusting for different screen sizes -->
-    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of products">
-      <div class="card h-100 product-card"
+
+    <h6 *ngIf="searchKeyword !== ''">Related to "{{ searchKeyword }}" products</h6>
+
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of displayedProducts">
+      <div class="card h-100 product-card" [@bounceDrop]="bounceState"
            [routerLink]="['/mechanic/category/sub-category/sub-sub-category/product-details', product.id]">
-        <img [src]="product.mainImage||noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+        <div class="">
+          <img [src]="product.mainImage || noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+          <img *ngIf="isOutOfStock(product)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/vector-design-out-stock-icon-style_822882-399019-removebg-preview.png"
+               alt="Out of Stock" class="out-of-stock-badge" />
+        </div>
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
-          <p class="text-white">MOQ: {{ product.moq }}</p>
+          <small class="text-white">MOQ: {{ product.moq }}</small>
+          <p class="text-white">MRP: <span
+            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
           <h6 class="text-white mt-2">
             {{ getDiscountedPrice(product) | currency:'INR' }}
             <small class="text-warning ms-2 h6">-{{ getDiscount(product) }}% Off</small>
           </h6>
-          <p class="text-white">Price: <span
-            class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Load More Button -->
+
+  <div class="row mt-3">
+    <div class="col-12 text-center">
+      <!-- Button should be visible only when more products are available to load -->
+      <button *ngIf="currentLoadedCount < totalProducts" (click)="onLoadMoreClick()" class=" load-more btn btn-secondary w-25">
+        Load More
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Top Selling Products Section -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3 class="text-center mb-4">Top Selling Products</h3>
+    </div>
+
+    <div class="col-lg-2 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let topProduct of topSellingProducts">
+      <div class="card h-100 product-card" [routerLink]="['/mechanic/category/sub-category/sub-sub-category/product-details', topProduct.id]">
+        <div class="">
+          <img [src]="topProduct.mainImage || noImage" class="card-img-top feature-img" alt="{{ topProduct.name }}">
+          <img *ngIf="isOutOfStock(topProduct)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/vector-design-out-stock-icon-style_822882-399019-removebg-preview.png"
+               alt="Out of Stock" class="out-of-stock-badge" />
+
+        </div>
+        <div class="card-body bg text-white">
+          <h5 class="card-title">{{ topProduct.name }}</h5>
+          <small class="text-white">MOQ: {{ topProduct.moq }}</small>
+          <p class="text-white">MRP: <span
+            class="text-decoration-line-through">{{ topProduct.price | currency:'INR' }}</span></p>
+          <h6 class="text-white mt-2">
+            {{ getDiscountedPrice(topProduct) | currency:'INR' }}
+            <small class="text-warning ms-2 h6">-{{ getDiscount(topProduct) }}% Off</small>
+          </h6>
         </div>
       </div>
     </div>

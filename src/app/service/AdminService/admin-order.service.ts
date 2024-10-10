@@ -63,4 +63,9 @@ export class AdminOrderService {
   getNewOrderCount() {
     return this._http.get<number>(`${baseURL}/api/admin/orders/new-order-count`)
   }
+
+  getVorOrders(page: number, size: number) {
+    return this._http.get<any[]>(`${baseURL}/api/admin/orders/by-pagination/is-vor?page=${page}&size=${size}`);
+  }
+
 }

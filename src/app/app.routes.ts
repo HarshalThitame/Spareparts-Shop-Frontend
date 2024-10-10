@@ -58,6 +58,7 @@ import {ProfileComponent} from "./pages/SharedComponent/profile/profile.componen
 import {AboutComponent} from "./components/about/about.component";
 import {ContactComponent} from "./components/contact/contact.component";
 import {AdminNewOrdersComponent} from "./pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component";
+import {AdminVorOrdersComponent} from "./pages/admin/admin-manage-orders/admin-vor-orders/admin-vor-orders.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
@@ -123,6 +124,10 @@ const routes: Routes = [
       {
         path: 'manage-new-orders',
         component: AdminNewOrdersComponent
+      },
+      {
+        path: 'manage-vor-orders',
+        component: AdminVorOrdersComponent
       },
       {
         path: 'manage-orders/view-order-details/:id',

@@ -189,4 +189,8 @@ export class RetailerAllProductsComponent  implements OnInit {
     this.isSidebarVisible = !this.isSidebarVisible;
   }
   protected readonly noImageURL = noImageURL;
+
+  isOutOfStock(product: Product) {
+    return product.stockQuantity==0;
+  }
 }

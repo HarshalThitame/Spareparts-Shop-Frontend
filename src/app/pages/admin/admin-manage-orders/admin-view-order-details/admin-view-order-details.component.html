@@ -75,6 +75,8 @@
               <p><strong>Delivery Address:</strong> {{order.shippingAddress.recipientName}}</p>
               <p>{{order.shippingAddress.addressLine1}}, {{order.shippingAddress.addressLine2}}, {{order.shippingAddress.city}}, {{order.shippingAddress.state}}. </p>
               <p>{{order.shippingAddress.postalCode}}</p>
+              <p><a href="mailto:{{order.shippingAddress.email}}" target="_blank">{{order.shippingAddress.email}}</a></p>
+              <p><a href="tel:{{order.shippingAddress.mobile}}">{{order.shippingAddress.mobile}}</a></p>
               <p><strong>Order Date: </strong> {{ order.createdAt | date:'dd-MMM-yyyy hh:mm a' }}</p>
 
 

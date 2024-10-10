@@ -116,6 +116,7 @@ import {NgxPrintModule} from "ngx-print";
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdminNewOrdersComponent } from './pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component';
+import { AdminVorOrdersComponent } from './pages/admin/admin-manage-orders/admin-vor-orders/admin-vor-orders.component';
 
 @NgModule({
   declarations: [
@@ -177,6 +178,7 @@ import { AdminNewOrdersComponent } from './pages/admin/admin-manage-orders/admin
     AboutComponent,
     ContactComponent,
     AdminNewOrdersComponent,
+    AdminVorOrdersComponent,
   ],
   imports: [
     MatPaginatorModule,

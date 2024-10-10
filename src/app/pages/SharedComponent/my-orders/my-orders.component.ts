@@ -67,17 +67,21 @@ export class MyOrdersComponent implements OnInit {
 
   private loadUser(): void {
     this.isLoggedIn = this._loginService.isLoggedIn();
-    this._loginService.getCurrentUser().subscribe(
-      (data: User) => {
-        this.user = data;
-        this.setServicesBasedOnUserRole();
-        this.getAllOrders();
-        this.isLoggedIn = true;
-      },
-      (error) => {
-        console.error('Error fetching user:', error);
-      }
-    );
+    if (this.isLoggedIn){
+      this._loginService.getCurrentUser().subscribe(
+        (data: User) => {
+          this.user = data;
+          this.setServicesBasedOnUserRole();
+          this.getAllOrders();
+          this.isLoggedIn = true;
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
+        }
+      );
+    }else{
+      this._router.navigate(['/'])
+    }
   }
 
   private setServicesBasedOnUserRole() {

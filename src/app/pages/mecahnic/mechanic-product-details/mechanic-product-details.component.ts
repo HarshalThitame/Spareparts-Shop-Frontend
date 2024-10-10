@@ -47,6 +47,7 @@ export class MechanicProductDetailsComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.id = this._route.snapshot.paramMap.get('id');
 
     this.loadUser();
@@ -65,6 +66,8 @@ export class MechanicProductDetailsComponent implements OnInit{
     this._productService.getProductByIdByGeneral(id).subscribe(data=>{
       this.product = data;
       this.selectedImageUrl = this.product.mainImage
+      this.quantity = this.product.moq
+      this.stock = this.product.stockQuantity;
       console.log(this.product)
     })
   }
@@ -74,6 +77,7 @@ export class MechanicProductDetailsComponent implements OnInit{
   increaseQuantity(): void {
     if(this.quantity >= this.stock){
       this.quantity = this.stock
+      this._snackBar.open("Insufficient stock!",'',{duration:3000})
     }
     else {
       this.quantity++;

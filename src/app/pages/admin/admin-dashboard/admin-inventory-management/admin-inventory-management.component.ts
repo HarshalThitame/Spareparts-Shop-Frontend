@@ -4,6 +4,8 @@ import {AdminOrderService} from "../../../../service/AdminService/admin-order.se
 import {OrderItem} from "../../../../model/OrderItem.model";
 import {AdminProductService} from "../../../../service/AdminService/admin-product.service";
 import {Product} from "../../../../model/Product.model";
+import Swal from "sweetalert2";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-admin-inventory-management',
@@ -19,10 +21,13 @@ export class AdminInventoryManagementComponent implements OnInit {
 
   constructor(
     private _adminProductService: AdminProductService,
-    private _adminOrderService: AdminOrderService
+    private _adminOrderService: AdminOrderService,
+    private _snackBar:MatSnackBar
+
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.getAllProducts();
     this.getAllOrderedItems();
   }
@@ -36,10 +41,19 @@ export class AdminInventoryManagementComponent implements OnInit {
   getAllOrderedItems() {
     this._adminOrderService.getAllOrderItems().subscribe(data => {
       this.orderItems = data;
-      this.calculateMostSellingProducts(); // Calculate most selling after getting order items
-      this.calculateDeadProducts()
+      console.log('Order Items:', this.orderItems); // Log the fetched order items
+
+      if (this.orderItems && this.orderItems.length > 0) {
+        this.calculateMostSellingProducts(); // Calculate most selling after getting order items
+        this.calculateDeadProducts(); // Calculate dead products
+      } else {
+        console.warn('No order items found, skipping calculations.');
+      }
+    }, error => {
+      console.error('Failed to fetch order items:', error);
     });
   }
+
 
   calculateMostSellingProducts() {
     const salesMap: { [key: string]: number } = {}; // key: product ID (as string), value: total sales quantity
@@ -123,5 +137,42 @@ export class AdminInventoryManagementComponent implements OnInit {
 
   manageStock(product: Product) {
 
+  }
+
+  refreshTopSellingAndDeadProducts() {
+    this.calculateMostSellingProducts()
+    this.calculateDeadProducts()
+  }
+
+  toggleBlocked(product: Product) {
+    const actionText = product.blocked ? 'block' : 'unblock';
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to ${actionText} this product.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, continue!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed to toggle the blocked status
+        // product.blocked = !product.blocked
+        this._adminProductService.updateProductBlockedStatus(product).subscribe(
+          response => {
+            // product.blocked = !product.blocked;
+            this._snackBar.open(`Product ${actionText}ed successfully!`, 'Close', { duration: 2000 });
+          },
+          error => {
+            this._snackBar.open('Failed to update product status!', 'Close', { duration: 2000 });
+            product.blocked = !product.blocked;
+          }
+        );
+      } else {
+        // Revert the switch toggle if canceled
+        product.blocked = !product.blocked;
+      }
+    });
   }
 }

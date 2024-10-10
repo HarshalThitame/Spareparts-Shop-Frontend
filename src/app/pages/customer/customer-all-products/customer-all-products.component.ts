@@ -82,7 +82,10 @@ export class CustomerAllProductsComponent implements OnInit {
     this.id = this._route.snapshot.paramMap.get('id');
     this.checkIfMobile(window.innerWidth)
     this.loadUser();
-    this.loadAllProductsOfSubCategory(this.id);
+    if(this.id.split('-').length < 1){
+      console.log('inside ')
+      this.loadAllProductsOfSubCategory(this.id);
+    }
     this.loadAllCategories();
     this._sharedDataService.loadProductBySearchDropdown(this.id);
     this._sharedDataService.filteredProducts$.subscribe(data => {
@@ -93,20 +96,20 @@ export class CustomerAllProductsComponent implements OnInit {
 
   loadUser() {
     this.isLoggedIn = this._loginService.isLoggedIn();
-    this._loginService.getCurrentUser().subscribe(data => {
-      this.user = data;
-      this.isLoggedIn = true;
-      const currentUrl = this._router.url;
-      if (this.user.userRole === "MECHANIC") {
-        this._router.navigateByUrl("/mechanic" + currentUrl)
-      } else if (this.user.userRole === "RETAILER") {
-        this._router.navigateByUrl("/retailer" + currentUrl)
-      } else if (this.user.userRole === "CUSTOMER") {
-        this._router.navigateByUrl(currentUrl)
-      }
-
-
-    })
+    if(this.isLoggedIn){
+      this._loginService.getCurrentUser().subscribe(data => {
+        this.user = data;
+        this.isLoggedIn = true;
+        const currentUrl = this._router.url;
+        if (this.user.userRole === "MECHANIC") {
+          this._router.navigateByUrl("/mechanic" + currentUrl)
+        } else if (this.user.userRole === "RETAILER") {
+          this._router.navigateByUrl("/retailer" + currentUrl)
+        } else if (this.user.userRole === "CUSTOMER") {
+          this._router.navigateByUrl(currentUrl)
+        }
+      })
+    }
   }
 
   loadAllProductsOfSubCategory(id: any) {
@@ -250,4 +253,8 @@ export class CustomerAllProductsComponent implements OnInit {
 
   }
   protected readonly noImageURL = noImageURL;
+
+  isOutOfStock(product: Product) {
+    return product.stockQuantity==0;
+  }
 }

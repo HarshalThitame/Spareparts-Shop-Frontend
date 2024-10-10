@@ -41,7 +41,7 @@ export class AdminManageOrdersComponent implements OnInit {
 
   // Pagination Variables
   totalOrders: number = 0; // Total number of orders
-  pageSize: number = 10; // Number of orders per page
+  pageSize: number = 5; // Number of orders per page
   currentPage: number = 0; // Current page index
 
   constructor(
@@ -73,15 +73,11 @@ export class AdminManageOrdersComponent implements OnInit {
 
   loadOrders() {
     this._adminOrderService.getAllOrdersByPagination(this.currentPage, this.pageSize).subscribe(data => {
-      this.orders = data.content; // Accessing orders from the page content
-      this.totalOrders = data.totalElements; // Total number of orders
+      console.log(data)
+      this.orders = data.content;
+      this.totalOrders = data.totalElements;
 
-      // Sort orders by createdAt (newest first)
-      this.orders.sort((a: Order, b: Order) => {
-        const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-        const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-        return dateB - dateA;
-      });
+      this.originalOrders = [...this.orders];
 
       this.filteredOrders = [...this.orders];
       this.dataSource = new MatTableDataSource<Order>(this.filteredOrders);

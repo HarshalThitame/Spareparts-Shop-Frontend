@@ -73,7 +73,7 @@ product:Product[] = []
   }
 
   toggleBlocked(product: Product) {
-    const actionText = product.isBlocked ? 'unblock' : 'block';
+    const actionText = product.blocked ? 'unblock' : 'block';
 
     Swal.fire({
       title: 'Are you sure?',
@@ -88,18 +88,22 @@ product:Product[] = []
         // Proceed to toggle the blocked status
         this._adminProductService.updateProductBlockedStatus(product).subscribe(
           response => {
-            product.isBlocked = !product.isBlocked;
+            product.blocked = !product.blocked;
             this._snackBar.open(`Product ${actionText}ed successfully!`, 'Close', { duration: 2000 });
           },
           error => {
             this._snackBar.open('Failed to update product status!', 'Close', { duration: 2000 });
-            product.isBlocked = !product.isBlocked;
+            product.blocked = !product.blocked;
           }
         );
       } else {
         // Revert the switch toggle if canceled
-        product.isBlocked = !product.isBlocked;
+        product.blocked = !product.blocked;
       }
     });
+  }
+
+  navigateToProduct(id:any) {
+
   }
 }

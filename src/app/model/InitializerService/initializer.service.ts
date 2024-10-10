@@ -47,7 +47,7 @@ export class InitializerService {
 
   initializeProduct(): Product {
     return {
-      isBlocked: false,
+      blocked: false,
       isPublishedForCustomer: false,
       isPublishedForMechanic: false,
       isPublishedForRetailer: false,

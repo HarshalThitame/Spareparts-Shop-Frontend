@@ -38,7 +38,6 @@
   <app-shared-categories></app-shared-categories>
 
   <!-- Product Display Section -->
-  <!-- Product Display Section -->
   <div #scrollTarget class="row mt-4">
     <div class="col-12">
       <h3 *ngIf="searchKeyword === ''" class="text-center mb-4">Featured Products</h3>
@@ -51,6 +50,9 @@
            [routerLink]="['/category/sub-category/sub-sub-category/product-details', product.id]">
         <div class="">
           <img [src]="product.mainImage || noImage" class="card-img-top feature-img" alt="{{ product.name }}">
+          <img *ngIf="isOutOfStock(product)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/vector-design-out-stock-icon-style_822882-399019-removebg-preview.png"
+               alt="Out of Stock" class="out-of-stock-badge" />
+
         </div>
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ product.name }}</h5>
@@ -87,6 +89,8 @@
       <div class="card h-100 product-card" [routerLink]="['/category/sub-category/sub-sub-category/product-details', topProduct.id]">
         <div class="">
           <img [src]="topProduct.mainImage || noImage" class="card-img-top feature-img" alt="{{ topProduct.name }}">
+          <img *ngIf="isOutOfStock(topProduct)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/vector-design-out-stock-icon-style_822882-399019-removebg-preview.png"
+               alt="Out of Stock" class="out-of-stock-badge" />
         </div>
         <div class="card-body bg text-white">
           <h5 class="card-title">{{ topProduct.name }}</h5>

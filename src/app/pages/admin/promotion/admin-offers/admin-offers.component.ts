@@ -271,11 +271,22 @@ offerForm: FormGroup|any;  // Form group for managing the offer form
   protected readonly NoImage = NoImage;
 
 
-  onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length) {
-      this.selectedFile = target.files[0];
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0]; // Get the selected file
+
+    if (file) {
+      // Check if the file size exceeds 5 MB
+      const maxSizeInMB = 5;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+      if (file.size > maxSizeInBytes) {
+        alert(`File size should be less than ${maxSizeInMB} MB.`);
+        this.selectedFile = null; // Reset the selected file
+      } else {
+        this.selectedFile = file; // File is valid
+      }
     }
   }
+
 
 }

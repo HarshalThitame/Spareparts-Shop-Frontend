@@ -27,33 +27,7 @@ export class CustomerProductDetailsComponent implements OnInit {
   selectedImageUrl: any;
 
 
-  stock = 10;
-  compatibilityData = [
-    {
-      model: 'CIAZ 1ST GEN 1.3L VDI',
-      year: '07.2014 - 07.2015',
-      engine: '1.3 L',
-      power: '88 h.p.',
-      fuelType: 'Diesel',
-      engineType: 'D13A'
-    },
-    {
-      model: 'CIAZ 1ST GEN 1.4L VXI',
-      year: '07.2014 - 07.2018',
-      engine: '1.4 L',
-      power: '91 h.p.',
-      fuelType: 'Petrol',
-      engineType: 'K14B'
-    },
-    {
-      model: 'CIAZ 1ST GEN 1.4L VXI AT',
-      year: '07.2014 - 07.2018',
-      engine: '1.4 L',
-      power: '91 h.p.',
-      fuelType: 'Petrol',
-      engineType: 'K14B'
-    },
-  ];
+  stock = 0;
 
   constructor(private _loginService: LoginService,
               private _router: Router,
@@ -71,8 +45,8 @@ export class CustomerProductDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.id = this._route.snapshot.paramMap.get('id');
-
     this.loadUser();
     this.loadProduct(this.id)
 
@@ -80,15 +54,18 @@ export class CustomerProductDetailsComponent implements OnInit {
 
   private loadUser() {
     this.isLoggedIn = this._loginService.isLoggedIn();
-    this._loginService.getCurrentUser().subscribe(data => {
-      this.user = data;
-       if(this.user.userRole ==="RETAILER"){
-        this._router.navigate(['/retailer/category/sub-category/sub-sub-category/product-details/',this.id])
-      }else if(this.user.userRole ==="MECHANIC"){
-         this._router.navigate(['/mechanic/category/sub-category/sub-sub-category/product-details/',this.id])
-      }
-       this.isLoggedIn =true
-    });
+    if(this.isLoggedIn)
+    {
+      this._loginService.getCurrentUser().subscribe(data => {
+        this.user = data;
+        if(this.user.userRole ==="RETAILER"){
+          this._router.navigate(['/retailer/category/sub-category/sub-sub-category/product-details/',this.id])
+        }else if(this.user.userRole ==="MECHANIC"){
+          this._router.navigate(['/mechanic/category/sub-category/sub-sub-category/product-details/',this.id])
+        }
+        this.isLoggedIn =true
+      });
+    }
   }
 
   loadProduct(id: any) {
@@ -96,6 +73,7 @@ export class CustomerProductDetailsComponent implements OnInit {
       this.product = data;
       this.selectedImageUrl = this.product.mainImage
       this.quantity = this.product.moq
+      this.stock = this.product.stockQuantity;
       console.log(this.product)
     })
   }
@@ -105,6 +83,7 @@ export class CustomerProductDetailsComponent implements OnInit {
   increaseQuantity(): void {
     if (this.quantity >= this.stock) {
       this.quantity = this.stock
+      this._snackBar.open("Insufficient stock!",'',{duration:3000})
     } else {
       this.quantity++;
     }
@@ -186,5 +165,9 @@ export class CustomerProductDetailsComponent implements OnInit {
 
   onImageHover(url: any) {
     this.selectedImageUrl = url
+  }
+
+  isOutOfStock(product: Product) {
+    return product.stockQuantity==0;
   }
 }

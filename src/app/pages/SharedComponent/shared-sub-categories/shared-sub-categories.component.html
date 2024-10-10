@@ -1,4 +1,6 @@
-<app-navbar></app-navbar>
+<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"/>
+<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"/>
+<app-navbar *ngIf="user.userRole!=='RETAILER' && user.userRole !== 'MECHANIC'"/>
 <div class="container-fluid mt-4">
   <div class="row">
     <!-- Filter Sidebar -->

@@ -1,6 +1,6 @@
 <div class="card h-100 p-2">
   <div class="card-header bg text-white">
-    <h5 class="card-title">Inventory Management</h5>
+    <h5 class="card-title">Inventory Management <small *ngIf="mostSellingProducts.length===0" (click)="refreshTopSellingAndDeadProducts()"><i class="fa fa-refresh"></i></small></h5>
     <small>Total inventory value {{calculateTotalInventoryValue()|currency:'INR'}}</small>
   </div>
 <div class="row">
@@ -58,6 +58,7 @@
               <th>Name</th>
               <th>Stock Quantity</th>
               <th>Last Sold Date</th>
+              <th>Block</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -69,8 +70,13 @@
               <td>
                 <span class="text-warning">Never sold</span>
               </td>
+              <td>
+                <mat-slide-toggle [(ngModel)]="deadProduct.blocked" (change)="toggleBlocked(deadProduct)">
+                  {{ deadProduct.blocked ? 'Blocked' : 'Active' }}
+                </mat-slide-toggle>
+              </td>
               <td style="width: 15%;">
-                <button class="btn btn-light btn-sm" (click)="viewDetails(deadProduct)">Manage Product</button>
+                <button class="btn btn-light btn-sm" [routerLink]="'/admin/manage-products/product-details/'+deadProduct.id">Manage Product</button>
               </td>
             </tr>
             </tbody>

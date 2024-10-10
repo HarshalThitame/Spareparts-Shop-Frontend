@@ -29,7 +29,7 @@
             <div class="col-md-2 col-12 text-md-end text-center">
               <div class="quantity-selector d-flex align-items-center justify-content-between">
                 <button class="btn btn-outline-secondary" (click)="decreaseQuantity(item)">-</button>
-                <input type="number" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 60px; text-align: center;">
+                <input type="number" (change)="checkQuantity(item)" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 60px; text-align: center;">
                 <button class="btn btn-outline-secondary" (click)="increaseQuantity(item)">+</button>
               </div>
               <p class="font-weight-bold mt-2">Total Price: {{ (getDiscountedPrice(item.product) * item.quantity) | currency:'INR' }}</p>

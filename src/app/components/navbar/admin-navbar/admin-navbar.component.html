@@ -11,17 +11,37 @@
             <i class="fas fa-home"></i>&nbsp;Home
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/admin/manage-orders" aria-current="page">
+
+        <!-- Orders Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-clipboard-list"></i>&nbsp;Orders
           </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/admin/manage-new-orders">
+                <i class="fas fa-eye-slash"></i>&nbsp;New Orders
+                <span *ngIf="newOrderCount || 0 > 0" class="position-absolute top-0 start-90 translate-middle badge rounded-circle stylish-badge">
+                  {{ newOrderCount || 0 }}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/admin/manage-vor-orders">
+                <i class="fas fa-check-circle"></i>&nbsp;VOR Orders
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/admin/manage-orders">
+                <i class="fas fa-list"></i>&nbsp;All Orders
+              </a>
+            </li>
+          </ul>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link active position-relative" routerLink="/admin/manage-new-orders" aria-current="page">
-            <i class="fas fa-eye-slash"></i>&nbsp;New Orders
-            <span *ngIf="newOrderCount||0 > 0" class="position-absolute top-0 start-90 translate-middle badge rounded-circle stylish-badge">
-              {{ newOrderCount||0 }}
-            </span>
+          <a class="nav-link active" routerLink="/admin/manage-customers" aria-current="page">
+            <i class="fas fa-users"></i>&nbsp;Customers
           </a>
         </li>
       </ul>

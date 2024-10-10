@@ -26,7 +26,7 @@ export interface Product {
   isPublishedForCustomer: boolean;        // Indicates if published for customer
   isPublishedForRetailer: boolean;        // Indicates if published for retailer
   isPublishedForMechanic: boolean;        // Indicates if published for mechanic
-  isBlocked: boolean;                     // Indicates if the product is blocked
+  blocked: boolean;                     // Indicates if the product is blocked
   images?: Image[];                       // Array of images associated with the product
   brands: Brand[];                        // Associated brands
   brandModels: BrandModel[];              // Compatible vehicle models

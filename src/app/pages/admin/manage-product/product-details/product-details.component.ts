@@ -62,6 +62,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.id = this._route.snapshot.paramMap.get('id');
 
     this.loadUser();
@@ -232,12 +233,23 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length) {
-      this.selectedFile = target.files[0];
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0]; // Get the selected file
+
+    if (file) {
+      // Check if the file size exceeds 5 MB
+      const maxSizeInMB = 5;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+      if (file.size > maxSizeInBytes) {
+        alert(`File size should be less than ${maxSizeInMB} MB.`);
+        this.selectedFile = null; // Reset the selected file
+      } else {
+        this.selectedFile = file; // File is valid
+      }
     }
   }
+
 
   uploadMainImage() {
     this.uploadImage('Main-Image')
@@ -369,5 +381,36 @@ export class ProductDetailsComponent implements OnInit {
   }
 
 
+  toggleBlocked(product: Product) {
+    const actionText = product.blocked ? 'block' : 'unblock';
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to ${actionText} this product.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, continue!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed to toggle the blocked status
+        // product.blocked = !product.blocked
+        this._adminProductService.updateProductBlockedStatus(product).subscribe(
+          response => {
+            // product.blocked = !product.blocked;
+            this._snackBar.open(`Product ${actionText}ed successfully!`, 'Close', { duration: 2000 });
+          },
+          error => {
+            this._snackBar.open('Failed to update product status!', 'Close', { duration: 2000 });
+            product.blocked = !product.blocked;
+          }
+        );
+      } else {
+        // Revert the switch toggle if canceled
+        product.blocked = !product.blocked;
+      }
+    });
+  }
 
 }

@@ -20,9 +20,10 @@ import {Product} from "../../../model/Product.model";
 export class CartComponent implements OnInit {
   user: User;
   isLoggedIn = false;
-  cart: Cart = { user: { id: 0 }, items: [], totalAmount: 0 };
+  cart: Cart = {user: {id: 0}, items: [], totalAmount: 0};
   isCheckoutOpen = false;
   private cartServiceTemp: any;
+  stock = 1;
 
   constructor(
     private _loginService: LoginService,
@@ -88,21 +89,20 @@ export class CartComponent implements OnInit {
   private saveTempCartToBackend(tempCart: Cart): void {
 
 
-
     // Save or update the temporary cart to the backend
     tempCart.user = this.user;
     this.cartServiceTemp.addOrUpdateToCart(tempCart).subscribe(
       (response: any) => {
         // Clear the local storage after successfully saving
         localStorage.removeItem('temporaryCart');
-        this._snackBar.open('Cart saved successfully!', 'Close', { duration: 3000 });
+        this._snackBar.open('Cart saved successfully!', 'Close', {duration: 3000});
 
         // Load the updated cart from the backend
         this.loadCartFromBackend();
       },
       (error: any) => {
         console.error('Error saving temporary cart to backend:', error);
-        this._snackBar.open('Error saving cart', 'Close', { duration: 3000 });
+        this._snackBar.open('Error saving cart', 'Close', {duration: 3000});
         this.loadCartFromBackend(); // Even if saving fails, load the backend cart
       }
     );
@@ -112,7 +112,6 @@ export class CartComponent implements OnInit {
     if (this.user.id) { // Ensure user ID is set before fetching the cart
 
 
-
       this.cartServiceTemp.getCartByUser(this.user.id).subscribe(
         (data: Cart) => {
           this.cart = data;
@@ -120,7 +119,7 @@ export class CartComponent implements OnInit {
         },
         (error: any) => {
           console.error('Error fetching cart from backend:', error);
-          this._snackBar.open('Error loading cart', 'Close', { duration: 3000 });
+          this._snackBar.open('Error loading cart', 'Close', {duration: 3000});
         }
       );
     }
@@ -135,13 +134,25 @@ export class CartComponent implements OnInit {
   }
 
   protected increaseQuantity(item: CartItem): void {
-    item.quantity++;
-    this.updateCart(item);
+    if (item.quantity >= item.product.stockQuantity) {
+      item.quantity = item.product.stockQuantity;
+      this._snackBar.open("Insufficient stock!", '', {duration: 3000})
+    } else {
+      item.quantity++;
+      this.updateCart(item);
+    }
+  }
+
+  checkQuantity(item:CartItem){
+    if (item.quantity > item.product.stockQuantity) {
+      item.quantity = item.product.stockQuantity;
+      this._snackBar.open("Insufficient stock!", '', {duration: 3000})
+    }
   }
 
   protected decreaseQuantity(item: CartItem): void {
-    if (item.quantity <= item.product.moq){
-      this._snackBar.open(`Minimum order quantity is ${item.product.moq}`, '', { duration: 3000 });
+    if (item.quantity <= item.product.moq) {
+      this._snackBar.open(`Minimum order quantity is ${item.product.moq}`, '', {duration: 3000});
       return
     }
     if (item.quantity > 1) {
@@ -154,14 +165,13 @@ export class CartComponent implements OnInit {
     this.cart.items = this.cart.items.filter(i => i !== item);
     this.updateCartTotal();
     this.updateCart(item); // Update the cart in local storage or backend
-    if (this.isLoggedIn)
-    {
-      this.cartServiceTemp.removeItem(this.user.id,item.product.id).subscribe(()=>{
-          this._snackBar.open("Product from cart has been removed.","",{duration:3000})
+    if (this.isLoggedIn) {
+      this.cartServiceTemp.removeItem(this.user.id, item.product.id).subscribe(() => {
+          this._snackBar.open("Product from cart has been removed.", "", {duration: 3000})
         },
-          (error: any) => {
-            console.log(error)
-          this._snackBar.open("Error while removing...!","",{duration:3000})
+        (error: any) => {
+          console.log(error)
+          this._snackBar.open("Error while removing...!", "", {duration: 3000})
         })
     }
 
@@ -219,17 +229,15 @@ export class CartComponent implements OnInit {
 
   openCheckOut() {
     this.ngOnInit();
-    if(this.user.userRole==="CUSTOMER"){
+    if (this.user.userRole === "CUSTOMER") {
       this._router.navigate(['/customer/checkout'])
-    }else
-    if(this.user.userRole==="RETAILER"){
+    } else if (this.user.userRole === "RETAILER") {
       this._router.navigate(['/retailer/checkout'])
-    }else
-
-    if(this.user.userRole==="MECHANIC"){
+    } else if (this.user.userRole === "MECHANIC") {
       this._router.navigate(['/mechanic/checkout'])
     }
   }
+
   calculateGst(product: Product, qty: number): number {
     // Ensure product.gst has a default value if undefined
     const gstRate = product.gst || 0; // Use 0 if product.gst is undefined
@@ -237,7 +245,7 @@ export class CartComponent implements OnInit {
     const discountedPrice = this.getDiscountedPrice(product);
     // Calculate the GST amount for the specified quantity
     const gstAmountPerItem = discountedPrice * (gstRate / 100);
-     // Total GST for the specified quantity
+    // Total GST for the specified quantity
     return gstAmountPerItem * qty; // Return the total GST
   }
 
@@ -247,7 +255,7 @@ export class CartComponent implements OnInit {
   }
 
   getTotal() {
-    return this.getTotalPriceAfterDiscounts()+this.getGst();
+    return this.getTotalPriceAfterDiscounts() + this.getGst();
   }
 
   getTotalAmount() {
