@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginService} from "../../service/login.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {UserSessionService} from "../../service/user-session.service";
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,8 @@ export class LoginComponent implements OnInit{
   isEmail: boolean = true; // To check if input is email or mobile number
   emailError: string = 'Please enter a valid email.';
   mobileError: string = 'Please enter a valid mobile number (10 digits).';
+  loginFailed = false;
+  loginErrorMessage: any;
   user:any = {
     email:null,
     phone:null,
@@ -26,7 +29,8 @@ export class LoginComponent implements OnInit{
               private _loginService: LoginService,
               private _router: Router,
               private _snackbar:MatSnackBar,
-              private _route:ActivatedRoute) {
+              private _route:ActivatedRoute,
+              private _userSessionService:UserSessionService) {
     this.loginForm = this.fb.group({
       identifier: ['', [Validators.required]], // Initially no validators
       password: ['', [Validators.required, Validators.minLength(3)]]
@@ -96,11 +100,13 @@ export class LoginComponent implements OnInit{
     if (this.loginForm.valid) {
       // console.log('Form Submitted', this.loginForm.value);
       this._loginService.generateToken(this.user).subscribe((data:any)=>{
+        this._userSessionService.startSession()
         console.log(data)
         console.log(this.returnUrl)
         this._loginService.loginUser(data.token)
         this._loginService.getCurrentUser().subscribe(
           (user: any) => {
+            this.loginFailed = false;
             this._loginService.setUser(user);
             if(this.returnUrl != '/')
             {
@@ -126,24 +132,31 @@ export class LoginComponent implements OnInit{
             }
           },
           error => {
-
+            this.loginErrorMessage='Something went wrong!'
+            this.loginFailed = true;
             console.log(error);
           })
 
       },error => {
         console.log(error.status)
         if (error.status === 500) {
+          this.loginErrorMessage='Bad Request - Invalid email address / Mobile.'
+          this.loginFailed = true;
           this._snackbar.open('Bad Request - Invalid email address / Mobile.', 'Close', {
             duration: 3000,  // Time in milliseconds
             panelClass: ['error-snackbar'],  // Optional: custom CSS class
           });
         }else if(error.status === 404){
+          this.loginErrorMessage='Bad Credentials - Invalid email address / mobile and password.'
+          this.loginFailed = true;
           this._snackbar.open('Bad Credentials - Invalid email address / mobile and password.', 'Close', {
             duration: 3000,  // Time in milliseconds
             panelClass: ['error-snackbar'],  // Optional: custom CSS class
           });
         }
         else if(error.status === 403){
+          this.loginErrorMessage='You are not active or you are blocked by admin.'
+          this.loginFailed = true;
           this._snackbar.open('You are not active or you are blocked by admin.', 'Close', {
             duration: 3000,  // Time in milliseconds
             panelClass: ['error-snackbar'],  // Optional: custom CSS class

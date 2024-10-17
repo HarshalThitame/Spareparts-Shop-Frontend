@@ -5,6 +5,7 @@ import baseURL from "../helper/helper";
 import {Product} from "../../model/Product.model";
 import {OrderItem} from "../../model/OrderItem.model";
 import {EmailData} from "../../model/EmailData.model";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -67,5 +68,11 @@ export class AdminOrderService {
   getVorOrders(page: number, size: number) {
     return this._http.get<any[]>(`${baseURL}/api/admin/orders/by-pagination/is-vor?page=${page}&size=${size}`);
   }
+  getCancelledOrders(page: number = 0, size: number = 10): Observable<any> {
+    return this._http.get(`${baseURL}/api/admin/orders/cancelled?page=${page}&size=${size}`);
+  }
 
+  getUnpaidOrders(page: number = 0, size: number = 10): Observable<any> {
+    return this._http.get(`${baseURL}/api/admin/orders/unpaid?page=${page}&size=${size}`);
+  }
 }

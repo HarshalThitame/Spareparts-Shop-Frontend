@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
   styleUrl: './admin-manage-customers.component.css'
 })
 export class AdminManageCustomersComponent implements  OnInit {
-  displayedColumns: string[] = ['username', 'fullName', 'email', 'mobile', 'role', 'status'];
+  displayedColumns: string[] = ['username', 'fullName', 'email', 'mobile', 'role', 'status','profile'];
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
   users: User[] = [];
   filterValue: string = '';

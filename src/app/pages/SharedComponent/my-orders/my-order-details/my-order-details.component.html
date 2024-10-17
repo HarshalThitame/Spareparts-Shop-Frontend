@@ -3,12 +3,21 @@
 <app-mechanic-navbar *ngIf="user.userRole === 'MECHANIC'"></app-mechanic-navbar>
 
 <div class="container-fluid mt-lg-5 px-3 px-md-5">
+
+
   <h5 class="text-start mb-4">Order Details</h5>
 
   <div class="card">
     <div class="card-header">
       <h6>Order ID: #{{ order.id }}</h6>
       <p>Status: <span class="badge badge-info text-dark">{{ order.status }}</span></p>
+      <div class="bg-danger-subtle p-2 rounded-2">
+        <p>Your order has been rejected due to unforeseen circumstances. We apologize for any inconvenience this may
+          cause. If you have any questions or need further assistance, please feel free to call the seller directly at
+          <a href="tel:1234567890">123-456-7890</a> or email them at <a href="mailto:seller@example.com">seller&#64;example
+            .com</a>. Thank you for your understanding.</p>
+
+      </div>
     </div>
 
     <div class="card-body">
@@ -16,14 +25,15 @@
       <div class="row mb-3">
         <div class="col-md-6 mb-3 mb-md-0">
           <p><strong>Name:</strong> {{ order.user.firstName }} {{ order.user.lastName }}</p>
-         <p><strong>Email:</strong> {{ order.user.email }}</p>
+          <p><strong>Email:</strong> {{ order.user.email }}</p>
           <p><strong>Phone:</strong> {{ order.user.mobile }}</p>
         </div>
         <div class="col-md-6">
           <h6 class="fw-bold">Shipping Address:</h6>
           <p class="fw-bold">{{ order.shippingAddress.recipientName }}</p>
           <p>{{ order.shippingAddress.addressLine1 }}, {{ order.shippingAddress.addressLine2 }}</p>
-          <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.postalCode }}</p>
+          <p>{{ order.shippingAddress.city }}
+            , {{ order.shippingAddress.state }} {{ order.shippingAddress.postalCode }}</p>
         </div>
       </div>
 
@@ -80,12 +90,13 @@
 </div>
 
 <div id="order-details-section" class="card">
-<!--  <div class="card-header">-->
-<!--    <h6>Order ID: #{{ order.id }}</h6>-->
-<!--    <p>Status: <span class="badge badge-info text-dark">{{ order.status }}</span></p>-->
-<!--  </div>-->
+  <!--  <div class="card-header">-->
+  <!--    <h6>Order ID: #{{ order.id }}</h6>-->
+  <!--    <p>Status: <span class="badge badge-info text-dark">{{ order.status }}</span></p>-->
+  <!--  </div>-->
   <div class="card-body tb">
-    <div id="invoice" class="invoice-container p-4" style="max-width: 800px; margin: auto; border: 1px solid #ddd; font-family: Arial, sans-serif;">
+    <div id="invoice" class="invoice-container p-4"
+         style="max-width: 800px; margin: auto; border: 1px solid #ddd; font-family: Arial, sans-serif;">
       <!-- Invoice Header -->
       <div class="row">
         <div class="col-md-6">
@@ -105,11 +116,14 @@
       <div class="row mt-4">
         <div class="col-md-6">
           <h5>Billing Information</h5>
-          <p><strong>{{ order.user.firstName }} {{ order.user.lastName }}</strong><br>{{ order.user.email }}<br>Phone: {{ order.user.mobile }}</p>
+          <p><strong>{{ order.user.firstName }} {{ order.user.lastName }}</strong><br>{{ order.user.email }}
+            <br>Phone: {{ order.user.mobile }}</p>
         </div>
         <div class="col-md-6 text-right">
           <h5>Shipping Address</h5>
-          <p><strong>{{ order.shippingAddress.recipientName }}</strong><br>{{ order.shippingAddress.addressLine1 }}, {{ order.shippingAddress.addressLine2 }}<br>{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.postalCode }}</p>
+          <p><strong>{{ order.shippingAddress.recipientName }}</strong><br>{{ order.shippingAddress.addressLine1 }}
+            , {{ order.shippingAddress.addressLine2 }}<br>{{ order.shippingAddress.city }}
+            , {{ order.shippingAddress.state }} {{ order.shippingAddress.postalCode }}</p>
         </div>
       </div>
 
@@ -176,7 +190,8 @@
       <div class="row mt-4">
         <div class="col-md-12 text-center">
           <p>Thank you for shopping with us!</p>
-          <p><strong>Terms and Conditions:</strong> All sales are final. Goods once sold cannot be returned unless there is a manufacturing defect. Shipping costs are non-refundable.</p>
+          <p><strong>Terms and Conditions:</strong> All sales are final. Goods once sold cannot be returned unless there
+            is a manufacturing defect. Shipping costs are non-refundable.</p>
         </div>
       </div>
     </div>

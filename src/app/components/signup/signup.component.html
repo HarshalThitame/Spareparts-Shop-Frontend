@@ -94,6 +94,9 @@
           <div class="d-flex justify-content-between mb-4">
             <a href="#" [routerLink]="['/login']" class="text-muted">Already have an account? Sign In</a>
           </div>
+          <div *ngIf="duplicateEmailMobile !=''" class="text-dark bg-danger-subtle mb-3 text-center">
+            {{ duplicateEmailMobile }}
+          </div>
           <button type="submit" class="btn btn-primary w-100" [disabled]="signupForm.invalid">SIGN UP</button>
         </form>
       </div>

@@ -61,7 +61,7 @@
               <div [routerLink]="'/mechanic/category/sub-category/sub-sub-category/product-details/'+product.id">
                 <h6 class="card-title text-dark">{{ product.name }}</h6>
                 <div *ngFor="let brand of product.brands">
-                  <span class="btn btn-outline-secondary disabled btn-sm">{{ brand.name }}</span>
+                  <small class="disabled">{{ brand.name }}, </small>
                 </div>
                 <h6 class="text-success mt-2">
                   {{ calculateDiscountedPrice(product.price, product.discountToMechanics) | currency:'INR' }}

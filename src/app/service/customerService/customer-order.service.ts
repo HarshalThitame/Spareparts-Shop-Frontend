@@ -26,4 +26,8 @@ export class CustomerOrderService {
   getOrderByOrderId(id:any){
     return this._http.get<Order>(`${baseURL}/api/customer/orders/${id}`)
   }
+
+  cancelOrder(id:any){
+    return this._http.delete(`${baseURL}/api/customer/orders/${id}/cancel`)
+  }
 }

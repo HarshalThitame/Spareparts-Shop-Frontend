@@ -55,7 +55,11 @@ h6 {
   transition: transform 0.3s ease;
 }
 
-.cat-img:hover {
+.cat-name{
+  transition: transform 0.5s ease;
+}
+
+.cat-name:hover {
   transform: scale(1.05);
 }
 

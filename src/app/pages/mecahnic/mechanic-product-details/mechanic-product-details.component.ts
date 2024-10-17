@@ -117,4 +117,8 @@ export class MechanicProductDetailsComponent implements OnInit{
   onImageHover(url: any) {
     this.selectedImageUrl = url;
   }
+
+  isOutOfStock(product: Product) {
+    return product.stockQuantity==0;
+  }
 }

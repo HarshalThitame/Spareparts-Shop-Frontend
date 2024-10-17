@@ -7,7 +7,10 @@
           <img [src]="'logo'" class="logo-image" alt="logo"/>
         </div>
         <h2 class="mb-4">Sign in</h2>
-
+        <!-- Show error message if login failed -->
+        <div *ngIf="loginFailed" class="text-dark bg-danger-subtle mb-3 text-center">
+          {{ loginErrorMessage }}
+        </div>
         <!-- Bind the form to Angular's form group -->
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">

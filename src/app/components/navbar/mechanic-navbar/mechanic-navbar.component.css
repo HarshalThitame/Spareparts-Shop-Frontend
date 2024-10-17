@@ -29,7 +29,7 @@ button {
   color: #fff;
   border-radius: 5px;
   padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
@@ -162,6 +162,8 @@ button {
   opacity: 0; /* Start invisible */
   transition: opacity 0.3s ease; /* Fade in/out effect */
   pointer-events: none; /* Disable pointer events when hidden */
+  right: 10px;
+
 }
 
 .dropdown-menu.show {

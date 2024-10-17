@@ -2,14 +2,7 @@
 <div class="container-fluid mt-4">
   <button (click)="toggleSidebar()" class="btn  btn-outline-secondary d-lg-none"><i class="fas fa-list"></i></button>
 
-  <!-- Search Bar -->
-  <header class="d-flex justify-content-between align-items-center mb-4">
-    <div class="input-group w-50 shadow-sm">
-      <input type="text" class="form-control rounded-start border-0" placeholder="Search for products..." [(ngModel)]="searchTerm"
-             (input)="filterProducts()">
-      <button class="btn btn-primary rounded-end" (click)="filterProducts()">Search</button>
-    </div>
-  </header>
+
 
   <div class="row">
     <!-- Filter Sidebar -->
@@ -50,6 +43,14 @@
     <!-- Product Grid -->
     <div class="col-md-9 mt-2">
       <div class="row">
+        <!-- Search Bar -->
+        <header class="d-flex justify-content-between align-items-center mb-4">
+          <div class="input-group w-50 shadow-sm">
+            <input type="text" class="form-control rounded-start border-0" placeholder="Search for products..." [(ngModel)]="searchTerm"
+                   (input)="filterProducts()">
+            <button class="btn btn-primary rounded-end" (click)="filterProducts()">Search</button>
+          </div>
+        </header>
         <div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-4" *ngFor="let product of filteredProducts">
           <div class="card shadow-sm h-100 border-0" [@bounceDrop]="bounceState">
             <img [src]="product.mainImage || noImageURL" class="prod-img card-img-top" alt="{{ product.name }}">
@@ -69,7 +70,9 @@
                 <p class="card-text"><small class="text-muted">MRP: <span class="text-decoration-line-through">{{ product.price | currency:'INR' }}</span></small></p>
               </div>
               <div class="text-center mt-3">
-                <button *ngIf="isOutOfStock(product)" class="btn btn-primary w-100" (click)="addToCart(product)">Add to Cart</button>
+                <button *ngIf="!isOutOfStock(product)" class="custom-btn btn-3" (click)="addToCart(product)"><span>Add to cart</span></button>
+                <img *ngIf="isOutOfStock(product)" src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/out-stock-stamp-red-rubber-stamp-white-background-out-stock-stamp-sign-out-stock-stamp_1089581-1027-removebg-preview.png"
+                     alt="Out of Stock" class="out-of-stock-img" />
               </div>
             </div>
           </div>

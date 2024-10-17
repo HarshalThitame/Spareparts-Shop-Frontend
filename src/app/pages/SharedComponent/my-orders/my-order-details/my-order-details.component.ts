@@ -25,7 +25,7 @@ import jsPDF from "jspdf";
   templateUrl: './my-order-details.component.html',
   styleUrl: './my-order-details.component.css'
 })
-export class MyOrderDetailsComponent implements OnInit{
+export class MyOrderDetailsComponent implements OnInit {
   user: User;
   order: Order;
   filteredOrders: Order[] = [];
@@ -53,7 +53,7 @@ export class MyOrderDetailsComponent implements OnInit{
     private _snackBar: MatSnackBar,
     private _initializerService: InitializerService,
     private _sharedDataService: SharedDataService,
-    private _route:ActivatedRoute
+    private _route: ActivatedRoute
   ) {
     this.user = _initializerService.initializeUser();
     this.order = _initializerService.initializeOrder()
@@ -78,6 +78,7 @@ export class MyOrderDetailsComponent implements OnInit{
       }
     );
   }
+
   private setServicesBasedOnUserRole() {
     if (this.user.userRole === 'CUSTOMER') {
       this.cartServiceTemp = this._customerCartService;
@@ -92,14 +93,28 @@ export class MyOrderDetailsComponent implements OnInit{
   }
 
   getOrderDetailsByOrderId() {
-        this._orderServiceTemp.getOrderByOrderId(this.id).subscribe((data: Order)=>{
-          this.order = data;
-          console.log(this.order)
-        })
-    }
+    this._orderServiceTemp.getOrderByOrderId(this.id).subscribe((data: Order) => {
+      this.order = data;
+      console.log(this.order)
+    })
+  }
 
   goBack() {
+    switch (this.user.userRole) {
+      case "CUSTOMER":
+        this._router.navigate(['/customer/my-order'])
+        break;
+      case "RETAILER":
+        this._router.navigate(['/retailer/my-order'])
+        break
+      case "MECHANIC":
+        this._router.navigate(['/mechanic/my-order'])
+        break;
+      default:
+        this._router.navigate(['/'])
+        break;
 
+    }
   }
 
   printInvoice() {
@@ -108,7 +123,7 @@ export class MyOrderDetailsComponent implements OnInit{
     // Temporarily add a class to prevent responsive behavior
     DATA.classList.add('print-mode');
 
-    html2canvas(DATA, { scale: 2 }).then(canvas => {
+    html2canvas(DATA, {scale: 2}).then(canvas => {
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
@@ -139,9 +154,8 @@ export class MyOrderDetailsComponent implements OnInit{
   }
 
 
-
   getDiscount(price: number, discountOnPurchase: number, quantity: number) {
-    return ((price*discountOnPurchase)/100)*quantity;
+    return ((price * discountOnPurchase) / 100) * quantity;
   }
 
   getOrderSubtotal(): number {
@@ -150,7 +164,7 @@ export class MyOrderDetailsComponent implements OnInit{
 
   getOrderGst() {
 
-    return this.order.orderItems.reduce((sum,item)=>sum + item.taxAmount,0)
+    return this.order.orderItems.reduce((sum, item) => sum + item.taxAmount, 0)
   }
 
   getOrderDiscount() {
@@ -158,7 +172,7 @@ export class MyOrderDetailsComponent implements OnInit{
       // console.log(this.order.orderItems[i].discountAmount)
 
     }
-    return this.order.orderItems.reduce((sum,item)=>sum+item.discountAmount,0);
+    return this.order.orderItems.reduce((sum, item) => sum + item.discountAmount, 0);
   }
 
   getGstPercentage(): number {

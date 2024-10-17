@@ -4,6 +4,8 @@ import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
 import {InitializerService} from "../../../model/InitializerService/initializer.service";
 import {AdminOrderService} from "../../../service/AdminService/admin-order.service";
+import {UserSessionService} from "../../../service/user-session.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-admin-navbar',
@@ -24,6 +26,8 @@ export class AdminNavbarComponent implements OnInit{
   constructor(private _loginService: LoginService,
               private _router: Router,
               private _adminOrderService: AdminOrderService,
+              private _snackBar:MatSnackBar,
+              private _userSessionService:UserSessionService,
               private _initializeService: InitializerService) {
     this.user = _initializeService.initializeUser();
   }
@@ -56,10 +60,18 @@ export class AdminNavbarComponent implements OnInit{
        })
     }
 
+  async logout() {
+    // Wait for the endSession method to complete
+    await this._userSessionService.endSession();
 
-  logout() {
+    // Proceed with the logout
     this._loginService.logout();
-    this._router.navigate(['/']);
+
+    // Reload the window
+    window.location.reload();
+
+    // Show the snack bar message
+    this._snackBar.open('Successfully logged out!', '', { duration: 3000, verticalPosition: 'top' });
   }
 
 

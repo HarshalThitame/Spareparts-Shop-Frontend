@@ -123,7 +123,7 @@ export class AdminEditOrderDetailsComponent implements OnInit {
   addNoteToOrder() {
     console.log(this.order.notes)
     this._adminOrderService.updateOrder(this.order).subscribe(data => {
-      console.log(data)
+      this._snackBar.open('Order note saved.')
     }, error => {
       console.log(error)
     })

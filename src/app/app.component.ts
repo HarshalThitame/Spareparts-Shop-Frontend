@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
+import {LoginService} from "./service/login.service";
+import {User} from "./model/User.model";
 
 @Component({
   selector: 'app-root',
@@ -9,11 +11,15 @@ import {Router, RouterOutlet} from '@angular/router';
 export class AppComponent {
   title = 'SpearPartsShop';
   showFooter: boolean = true;
+  user: User | any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private _loginService: LoginService) {
     // Check the route when the component is initialized
     this.router.events.subscribe(() => {
       this.showFooter = !this.router.url.includes('/admin');
     });
   }
+
+
 }

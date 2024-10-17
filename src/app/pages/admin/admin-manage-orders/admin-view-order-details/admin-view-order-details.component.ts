@@ -98,6 +98,8 @@ export class AdminViewOrderDetailsComponent implements OnInit {
           this.sendEmailConfirmation();
         } else if (this.order.status === OrderStatus.REJECTED) {
           this.sendEmailRejection();
+        } else if (this.order.status === OrderStatus.CANCELLED) {
+          this.sendEmailCancellation();
         }
       },
       error => {
@@ -114,6 +116,19 @@ export class AdminViewOrderDetailsComponent implements OnInit {
 
     this._adminOrderService.sendEmail(emailData).subscribe(response => {
       console.log('Order confirmation email sent:', response);
+    }, error => {
+      console.error('Error sending email:', error);
+    });
+  }
+
+  sendEmailCancellation() {
+    const emailData: EmailData = {
+      to: this.order.user.email,
+      subject: "Order Cancelled By Seller",
+      body: this.createOrderCancellationBody() // Implement this method to create email body
+    };
+
+    this._adminOrderService.sendEmail(emailData).subscribe(response => {
     }, error => {
       console.error('Error sending email:', error);
     });
@@ -140,6 +155,14 @@ export class AdminViewOrderDetailsComponent implements OnInit {
       <p>Dear ${this.order.user.firstName} ${this.order.user.lastName},</p>
       <p>Your order with ID: ${this.order.id} has been confirmed. Thank you for shopping with us!</p>
 
+    `;
+  }
+
+  createOrderCancellationBody(): string {
+    return `
+      <h1>Your order has cancelled by seller </h1>
+      <p>Dear ${this.order.user.firstName} ${this.order.user.lastName},</p>
+      <p>Your order with ID: ${this.order.id} has been Calncelled. Sorry for inconvenience!</p>
     `;
   }
 

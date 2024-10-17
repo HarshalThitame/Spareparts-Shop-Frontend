@@ -3,6 +3,8 @@ import {User} from "../../../model/User.model";
 import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
 import {InitializerService} from "../../../model/InitializerService/initializer.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserSessionService} from "../../../service/user-session.service";
 
 @Component({
   selector: 'app-mechanic-navbar',
@@ -21,6 +23,8 @@ export class MechanicNavbarComponent implements OnInit{
   }
   constructor(private _loginService: LoginService,
               private _router: Router,
+              private _snackBar:MatSnackBar,
+              private _userSessionService:UserSessionService,
               private _initializeService: InitializerService) {
     this.user = _initializeService.initializeUser();
   }
@@ -45,9 +49,18 @@ export class MechanicNavbarComponent implements OnInit{
   }
 
 
-  logout() {
+  async logout() {
+    // Wait for the endSession method to complete
+    await this._userSessionService.endSession();
+
+    // Proceed with the logout
     this._loginService.logout();
-    this._router.navigate(['/']);
+
+    // Reload the window
+    window.location.reload();
+
+    // Show the snack bar message
+    this._snackBar.open('Successfully logged out!', '', { duration: 3000, verticalPosition: 'top' });
   }
 
   openCart() {

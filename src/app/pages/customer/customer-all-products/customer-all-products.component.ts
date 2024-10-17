@@ -83,8 +83,11 @@ export class CustomerAllProductsComponent implements OnInit {
     this.checkIfMobile(window.innerWidth)
     this.loadUser();
     if(this.id.split('-').length < 1){
-      console.log('inside ')
+      // console.log('inside ')
       this.loadAllProductsOfSubCategory(this.id);
+    }
+    else{
+      this.loadAllProductsOfSubCategory(this.id)
     }
     this.loadAllCategories();
     this._sharedDataService.loadProductBySearchDropdown(this.id);

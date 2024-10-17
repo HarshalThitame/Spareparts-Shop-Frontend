@@ -26,4 +26,14 @@ export class AdminCustomerService {
   deleteUser(id: number) {
     return this._http.delete<User>(`${baseURL}/api/admin/user/delete/${id}`);
   }
+
+  getUserById(id: any) {
+    return this._http.get<User>(`${baseURL}/api/admin/user/user-details/${id}`);
+  }
+  getOrderHistory(id: any) {
+    return this._http.get<any>(`${baseURL}/api/admin/user/total/${id}`);
+  }
+  getMostPurchasedProducts(id: any) {
+    return this._http.get<any>(`${baseURL}/api/admin/user/most-purchased-products/${id}`);
+  }
 }

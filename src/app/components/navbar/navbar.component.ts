@@ -3,6 +3,8 @@ import {LoginService} from "../../service/login.service";
 import {Router} from "@angular/router";
 import {User} from "../../model/User.model";
 import {InitializerService} from "../../model/InitializerService/initializer.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserSessionService} from "../../service/user-session.service";
 
 @Component({
   selector: 'app-navbar',
@@ -21,7 +23,9 @@ export class NavbarComponent implements OnInit {
 
   constructor(private _loginService: LoginService,
               private _router: Router,
-              private _initializeService: InitializerService) {
+              private _snackBar:MatSnackBar,
+              private _initializeService: InitializerService,
+              private _userSessionService:UserSessionService) {
     this.user = _initializeService.initializeUser();
   }
 
@@ -35,17 +39,27 @@ export class NavbarComponent implements OnInit {
       this._loginService.getCurrentUser().subscribe(data => {
         this.user = data;
       }, error => {
-        this._loginService.logout();
+        // this._loginService.logout();
         this._router.navigate(['/']);
       })
     }
   }
 
 
-  logout() {
+  async logout() {
+    // Wait for the endSession method to complete
+    await this._userSessionService.endSession();
+
+    // Proceed with the logout
     this._loginService.logout();
-    this._router.navigate(['/'])
+
+    // Reload the window
+    window.location.reload();
+
+    // Show the snack bar message
+    this._snackBar.open('Successfully logged out!', '', { duration: 3000, verticalPosition: 'top' });
   }
+
 
   openCart() {
     if (this.user.userRole === 'CUSTOMER') {

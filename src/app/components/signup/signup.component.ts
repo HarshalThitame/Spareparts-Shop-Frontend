@@ -4,6 +4,7 @@ import {LoginService} from "../../service/login.service";
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {User} from "../../model/User.model";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-signup',
@@ -26,6 +27,8 @@ export class SignupComponent implements OnInit{
     createdAt: '',
     updatedAt: ''
   }
+
+  duplicateEmailMobile:string='';
 
   constructor(private fb: FormBuilder,
               private _loginService: LoginService,
@@ -53,11 +56,12 @@ export class SignupComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log(this.signupForm.value.userType)
+    console.log(this.signupForm.value.userType);
+
     if (this.signupForm.valid) {
       console.log('Form Submitted', this.signupForm.value);
 
-      this.user.id = Date.now()*2+Date.now()*2;
+      this.user.id = Date.now() * 2 + Date.now() * 2;
       this.user.email = this.signupForm.value.email;
       this.user.password = this.signupForm.value.confirmPassword;
       this.user.firstName = this.signupForm.value.firstName;
@@ -65,39 +69,42 @@ export class SignupComponent implements OnInit{
       this.user.mobile = this.signupForm.value.phone;
       this.user.username = "";
 
-      if(this.signupForm.value.userType === 'Customer'){
-        this.user.userRole="CUSTOMER"
+      if (this.signupForm.value.userType === 'Customer') {
+        this.user.userRole = "CUSTOMER";
         this.user.isActive = true;
-      }else
-      if(this.signupForm.value.userType === 'Retailer'){
-        this.user.userRole="RETAILER"
+      } else if (this.signupForm.value.userType === 'Retailer') {
+        this.user.userRole = "RETAILER";
         this.user.isActive = false;
-      }else
-      if(this.signupForm.value.userType === 'Mechanic'){
-        this.user.userRole="MECHANIC"
+      } else if (this.signupForm.value.userType === 'Mechanic') {
+        this.user.userRole = "MECHANIC";
         this.user.isActive = false;
       }
 
-      this._loginService.createUser(this.user).subscribe(()=>{
-        this._snackBar.open("Your account has been successfully created. Welcome aboard!","",{duration:3000});
-        this._router.navigate(['/login']);
-      },error => {
-        if(error.status === 409)
-        {
-          this._snackBar.open("Email or mobile number already exists; please use a different one.","",{duration:3000});
+      this._loginService.createUser(this.user).subscribe(() => {
+        Swal.fire({
+          title: 'Account Created!',
+          text: 'Your account has been successfully created. Welcome aboard!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          this._router.navigate(['/login']);
+        });
+      }, error => {
+        if (error.status === 409) {
+          this.duplicateEmailMobile ='Email or mobile number already exists; please use a different one.'
+          this._snackBar.open("Email or mobile number already exists; please use a different one.", "", { duration: 3000 });
           this.signupForm.get('email').reset();
           this.signupForm.get('phone').reset();
         }
         console.log(error);
-      })
+      });
 
-
-      console.log(this.user)
-      // Handle form submission logic here
+      console.log(this.user);
     } else {
       console.log('Form is invalid');
     }
   }
+
 
   // Method to get error messages
   getErrorMessage(field: string) {

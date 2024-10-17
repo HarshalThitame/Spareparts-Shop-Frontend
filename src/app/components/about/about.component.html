@@ -1,0 +1,70 @@
+<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"></app-retailer-navbar>
+<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"></app-mechanic-navbar>
+<app-navbar *ngIf="user.userRole!=='RETAILER' && user.userRole !== 'MECHANIC'"></app-navbar>
+
+<div class="container about-us">
+  <div class="row">
+    <div class="col-12 my-4">
+      <h3 class="tbk__title text-center">About Us</h3>
+      <hr class="title-underline">
+    </div>
+  </div>
+  <div class="d-flex justify-content-center about-image">
+    <img src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/pngegg.png" alt="Tractor Spare Parts">
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="about-section-title">Who We Are</h4>
+      <p>
+        At <strong>Your Shop Name</strong>, we specialize in providing high-quality tractor spare parts to meet the diverse needs of our customers. With years of experience in the industry, we have established ourselves as a trusted provider of parts for a wide range of tractor brands and models.
+      </p>
+      <p>
+        Our team consists of dedicated professionals who are passionate about helping our customers find the right parts for their equipment. We understand the importance of having reliable machinery for your farming operations, and we strive to deliver the best products and services possible.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 my-4">
+      <h4 class="about-section-title">Our Mission</h4>
+      <p>
+        Our mission is to empower farmers and equipment owners by providing them with easy access to high-quality spare parts. We aim to enhance productivity and efficiency in farming operations through our reliable products and exceptional customer service.
+      </p>
+      <p>
+        We are committed to sourcing only the best parts from reputable manufacturers to ensure that our customers receive durable and dependable solutions. Your success is our priority, and we are here to support you every step of the way.
+      </p>
+    </div>
+  </div>
+
+  <div class="row my-4">
+    <div class="col-12">
+      <h4 class="about-section-title">Why Choose Us?</h4>
+      <ul class="why-choose-us">
+        <li>Extensive Range of Parts: We offer a comprehensive selection of spare parts for various tractor brands.</li>
+        <li>Expert Knowledge: Our team has the expertise to help you find the right parts for your needs.</li>
+        <li>Competitive Pricing: We strive to provide the best prices without compromising on quality.</li>
+        <li>Fast Shipping: We understand the urgency of your needs and offer prompt shipping on all orders.</li>
+        <li>Customer-Centric Approach: We prioritize customer satisfaction and are dedicated to providing excellent service.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 my-4">
+      <h4 class="about-section-title">Our Values</h4>
+      <p>
+        We believe in integrity, quality, and reliability. Our values guide every aspect of our business, ensuring that we uphold the highest standards in product selection and customer interaction.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 my-4">
+      <h4 class="about-section-title">Join Us on Our Journey</h4>
+      <p>
+        As we continue to grow, we invite you to join us on this journey. Whether you're a farmer, equipment owner, or simply someone passionate about agriculture, we are here to support you. Together, we can enhance the farming experience and build a sustainable future.
+      </p>
+    </div>
+  </div>
+</div>

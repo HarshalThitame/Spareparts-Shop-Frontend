@@ -59,15 +59,28 @@ import {AboutComponent} from "./components/about/about.component";
 import {ContactComponent} from "./components/contact/contact.component";
 import {AdminNewOrdersComponent} from "./pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component";
 import {AdminVorOrdersComponent} from "./pages/admin/admin-manage-orders/admin-vor-orders/admin-vor-orders.component";
+import {
+  AdminCancelledOrdersComponent
+} from "./pages/admin/admin-manage-orders/admin-cancelled-orders/admin-cancelled-orders.component";
+import {
+  AdminUnpaidOrdersComponent
+} from "./pages/admin/admin-manage-orders/admin-unpaid-orders/admin-unpaid-orders.component";
+import {
+  AdminCustomerDetailsComponent
+} from "./pages/admin/admin-manage-customers/admin-customer-details/admin-customer-details.component";
+import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
+import {PrivacyPolicyComponent} from "./components/privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
   {path: '', component: HomeDashboardComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'signup', component: SignupComponent},
   {path :'cart', component:GeneralCartComponent},
   {path :'profile',component:ProfileComponent},
   {path : 'about', component : AboutComponent},
   {path : 'contact', component : ContactComponent},
+  {path : 'privacy-policy', component : PrivacyPolicyComponent},
   {
     path: 'category/sub-category/:id',
     component: SharedSubCategoriesComponent
@@ -114,6 +127,10 @@ const routes: Routes = [
         component: AdminManageCustomersComponent
       },
       {
+        path: 'manage-customers/customer-details/:id',
+        component: AdminCustomerDetailsComponent
+      },
+      {
         path: 'manage-brands',
         component: AdminManageBrandsComponent
       },
@@ -124,6 +141,14 @@ const routes: Routes = [
       {
         path: 'manage-new-orders',
         component: AdminNewOrdersComponent
+      },
+      {
+        path: 'manage-cancelled-orders',
+        component: AdminCancelledOrdersComponent
+      },
+      {
+        path: 'manage-unpaid-orders',
+        component: AdminUnpaidOrdersComponent
       },
       {
         path: 'manage-vor-orders',

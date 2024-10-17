@@ -48,7 +48,10 @@
               <td>{{ i + 1 }}</td>
               <td>{{ product.partNumber }}</td>
               <td>{{ product.binLocation }}</td>
-              <td>{{ product.name }}</td>
+              <td>{{ product.name }}
+              <small *ngIf="product.stockQuantity < 10 && product.stockQuantity>0" class="text-danger">Low stock</small>
+              <small *ngIf="product.stockQuantity == 0" class="text-danger">Out of stock</small>
+              </td>
               <td>{{ product.price | currency:'INR' }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>

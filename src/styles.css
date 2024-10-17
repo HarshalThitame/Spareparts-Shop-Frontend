@@ -1,12 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-
+*,.mat-display-medium, .mat-typography .mat-display-medium, .mat-typography h1, .mat-typography h2, .mat-typography h3, .mat-typography h4, .mat-typography h5,.mat-typography h6{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 html, body {
   height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .bg {
@@ -177,5 +180,13 @@ button {
 @media (max-width: 768px) {
   .out-of-stock-badge {
     width: 25px !important;
+  }
+  .out-of-stock-img {
+    height: 50px;
+    object-fit: contain;
+  }
+  .custom-btn,.custom-btn-signup{
+    height: 25px !important;
+    width: 80px !important;
   }
 }

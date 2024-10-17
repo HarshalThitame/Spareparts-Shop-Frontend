@@ -19,7 +19,9 @@ export interface User {
   postalCode?: string;
   isActive: boolean;
   createdAt: string;                // Use string if you're working with ISO date strings
-  updatedAt: string;                // Same as above
+  updatedAt: string;
+  totalTimeSpent?:number;
+  // Same as above
   // status?:string;
   cart?: Cart;                      // Assuming Cart is another interface
   wishlist?: Wishlist;              // Assuming Wishlist is another interface

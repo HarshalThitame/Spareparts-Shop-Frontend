@@ -41,7 +41,7 @@ export class AdminManageOrdersComponent implements OnInit {
 
   // Pagination Variables
   totalOrders: number = 0; // Total number of orders
-  pageSize: number = 5; // Number of orders per page
+  pageSize: number = 50; // Number of orders per page
   currentPage: number = 0; // Current page index
 
   constructor(

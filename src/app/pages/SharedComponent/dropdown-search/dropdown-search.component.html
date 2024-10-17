@@ -1,7 +1,7 @@
 <div class="menu-container">
   <h3>Search Parts</h3>
   <div class="search-form">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="m-lg-2">
       <mat-label>Brand</mat-label>
       <mat-select [(value)]="selectedBrand" (selectionChange)="onBrandSelect($event.value)">
         <mat-option [value]="null">Select</mat-option>
@@ -9,7 +9,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="m-lg-2">
       <mat-label>Model No</mat-label>
       <mat-select [(value)]="selectedModel" (selectionChange)="onModelSelect($event.value)">
         <mat-option [value]="null">Select</mat-option>
@@ -17,7 +17,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="m-lg-2">
       <mat-label>Category</mat-label>
       <mat-select [(value)]="selectedCategory" (selectionChange)="onCategorySelect($event.value)">
         <mat-option [value]="null">Select</mat-option>

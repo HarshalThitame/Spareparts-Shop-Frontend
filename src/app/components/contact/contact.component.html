@@ -1,91 +1,61 @@
-<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"/>
-<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"/>
-<app-navbar *ngIf="user.userRole!=='RETAILER' && user.userRole !== 'MECHANIC'"/>
-<div class="container-fluid">
-  <!-- Header Section -->
+<app-retailer-navbar *ngIf="user.userRole==='RETAILER'"></app-retailer-navbar>
+<app-mechanic-navbar *ngIf="user.userRole==='MECHANIC'"></app-mechanic-navbar>
+<app-navbar *ngIf="user.userRole!=='RETAILER' && user.userRole !== 'MECHANIC'"></app-navbar>
+
+<div class="container">
   <div class="row">
-    <div class="col-lg-6">
-        <div class="card shadow-lg">
-          <img src="https://harshal-ecom.s3.eu-north-1.amazonaws.com/SpareParts/Static+Images/DALL_E_2024-10-10_00.13.36_-_A_collection_of_detailed_tractor_spare_parts__including_gears__axles__wheels__bolts__and_hydraulic_components__arranged_neatly._The_parts_should_be_me-removebg-preview.png">
-
-        </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="contact-header">
-        <h1>Get in Touch</h1>
-        <p>We'd love to hear from you. Drop us a message!</p>
-      </div>
-
-      <!-- Contact Form Section -->
-      <div class="contact-form-container">
-        <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-          <!-- Name Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" placeholder="Enter your name">
-            <mat-error *ngIf="contactForm.get('name')?.hasError('required')">Name is required</mat-error>
-          </mat-form-field>
-
-          <!-- Email Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" placeholder="Enter your email">
-            <mat-error *ngIf="contactForm.get('email')?.hasError('email')">Please enter a valid email</mat-error>
-          </mat-form-field>
-
-          <!-- Phone Number Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phone" placeholder="Enter your phone number">
-          </mat-form-field>
-
-          <!-- Message Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>Message</mat-label>
-            <textarea matInput rows="5" formControlName="message" placeholder="Write your message here"></textarea>
-          </mat-form-field>
-
-          <!-- Submit Button -->
-          <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid">
-            Send Message
-          </button>
-        </form>
-      </div>
-
-      <!-- Contact Information Section -->
-      <div class="contact-info">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Our Location</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p>123 Spare Parts St., Industrial Area, City, Country</p>
-            <!-- Replace this iframe src with your actual Google Maps embed link -->
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.9645171028774!2d73.82726771594281!3d18.439920126044782!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2959c7378be9d%3A0x16e79e28cd8c6531!2sZolo%20Pinnacle%20-%20PG%20in%20Narhe%20%7C%20Ladies%20%26%20Gents%20PG!5e0!3m2!1sen!2sin!4v1728023142763!5m2!1sen!2sin"
-              width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen="">
-            </iframe>
-          </mat-card-content>
-        </mat-card>
-
-
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Contact Us</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p><mat-icon>phone</mat-icon> +1 234 567 890</p>
-            <p><mat-icon>email</mat-icon> support&#64;spareparts.com</p>
-          </mat-card-content>
-        </mat-card>
-
-        <!-- Social Media Links -->
-        <div class="social-icons">
-          <a href="#"><mat-icon>facebook</mat-icon></a>
-          <a href="#"><mat-icon>instagram</mat-icon></a>
-          <a href="#"><mat-icon>linkedin</mat-icon></a>
-        </div>
-      </div>
+    <div class="col-12  my-4">
+      <h3 class="tbk__title">CONTACT</h3>
     </div>
   </div>
+
+  <div class="row">
+    <!-- Left Column: Address, Email, Support -->
+    <div class="col-md-4">
+      <div class="kl-iconbox mb-4">
+        <h3 class="kl-iconbox__title">Spare Parts</h3>
+        <p>613 RIDGE ROAD, MONMOUTH JUNCTION, <br>NJ O8852 - U.S.A.</p>
+      </div>
+
+      <div class="kl-iconbox mb-4">
+        <h3 class="kl-iconbox__title">Email</h3>
+        <p>seller&#64;gmail.com</p>
+      </div>
+
+      <div class="kl-iconbox">
+        <h3 class="kl-iconbox__title">Customer Support</h3>
+        <p>1010101010</p>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Contact Form -->
+    <div class="col-md-8">
+      <form action="#" id="form_eluid9c8a304b" method="post" class="contact_form">
+        <div class="row">
+          <div class="col-sm-6 mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Name" required>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+          </div>
+          <div class="col-sm-12 mb-3">
+            <input type="text" name="phone" class="form-control" placeholder="Phone" required>
+          </div>
+          <div class="col-sm-12 mb-3">
+            <textarea name="message" class="form-control" rows="6" placeholder="Message" required></textarea>
+          </div>
+          <div class="col-sm-12 text-left">
+            <button class="btn btn-primary btn--rounded" type="submit">Send Message</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+<div class="shadow-lg mt-5">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.9645171028774!2d73.82726771594281!3d18.439920126044782!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2959c7378be9d%3A0x16e79e28cd8c6531!2sZolo%20Pinnacle%20-%20PG%20in%20Narhe%20%7C%20Ladies%20%26%20Gents%20PG!5e0!3m2!1sen!2sin!4v1728023142763!5m2!1sen!2sin"
+    width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="">
+  </iframe>
+</div>
 </div>

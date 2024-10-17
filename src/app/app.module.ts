@@ -117,6 +117,11 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdminNewOrdersComponent } from './pages/admin/admin-manage-orders/admin-new-orders/admin-new-orders.component';
 import { AdminVorOrdersComponent } from './pages/admin/admin-manage-orders/admin-vor-orders/admin-vor-orders.component';
+import { AdminCancelledOrdersComponent } from './pages/admin/admin-manage-orders/admin-cancelled-orders/admin-cancelled-orders.component';
+import { AdminUnpaidOrdersComponent } from './pages/admin/admin-manage-orders/admin-unpaid-orders/admin-unpaid-orders.component';
+import { AdminCustomerDetailsComponent } from './pages/admin/admin-manage-customers/admin-customer-details/admin-customer-details.component';
+import {DurationPipe} from "./pipe/duration.pipe";
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -179,6 +184,10 @@ import { AdminVorOrdersComponent } from './pages/admin/admin-manage-orders/admin
     ContactComponent,
     AdminNewOrdersComponent,
     AdminVorOrdersComponent,
+    AdminCancelledOrdersComponent,
+    AdminUnpaidOrdersComponent,
+    AdminCustomerDetailsComponent,
+    PrivacyPolicyComponent,
   ],
   imports: [
     MatPaginatorModule,
@@ -231,6 +240,7 @@ import { AdminVorOrdersComponent } from './pages/admin/admin-manage-orders/admin
     MatDatepickerToggle,
     MatDatepicker,
     MatSort,
+    DurationPipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Add this line
   providers: [provideClientHydration(),

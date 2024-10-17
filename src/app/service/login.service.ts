@@ -11,6 +11,7 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class LoginService {
 
+
   public loginStatusSubject = new Subject<boolean>();
 
   constructor(private http: HttpClient,
@@ -77,6 +78,7 @@ export class LoginService {
   }
 
   public logout() {
+
     // Ensure to match the 'path' and 'secure' options when deleting the cookie
     this.cookieService.delete('token', '/', '', false); // path='/', domain='', and secure=false (match your loginUser options)
 
@@ -114,5 +116,15 @@ export class LoginService {
 
   public getToken() {
     return this.cookieService.get('token');
+  }
+
+  sendTimeSpend(timeSpent: any) {
+    let user = this.getUser();
+
+    const timeSpentData = {
+      userId :user.id,
+      totalTimeSpent:timeSpent
+    }
+    return this.http.post(`${baseURL}/auth/update-time-spent`,timeSpentData)
   }
 }
