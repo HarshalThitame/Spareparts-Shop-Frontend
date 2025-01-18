@@ -1,0 +1,182 @@
+<app-admin-navbar />
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 col-12">
+      <app-admin-sidebar></app-admin-sidebar>
+    </div>
+    <div class="col-md-10 col-12">
+      <div class="analytics-dashboard container-fluid">
+
+        <!-- Customer Profile Section -->
+        <div class="customer-profile card mb-4">
+          <div class="card-body d-flex align-items-center">
+            <div class="profile-image">
+              <img src="{{ NoImage }}" alt="{{ customer.firstName }} {{ customer.lastName }}" class="img-fluid rounded-circle" />
+            </div>
+            <div class="profile-info ms-3">
+              <h4>{{ customer.firstName }} {{ customer.lastName }}</h4>
+              <p>Email: {{ customer.email }}</p>
+              <p>Phone: {{ customer.mobile }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Order History Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-primary text-white">
+                <h5>Order History</h5>
+              </div>
+              <div class="card-body">
+                <p>Total Orders: <strong>{{ totalOrders }}</strong></p>
+                <p>Total Spent: <strong>{{ totalSpent  }}</strong></p>
+                <div id="order-trends-chart"></div>
+                <!-- Chart placeholder -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Insights Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-info text-white">
+                <h5>Product Insights</h5>
+              </div>
+              <div class="card-body">
+                <p>Most Purchased Items:</p>
+                <ul>
+                  <li *ngFor="let item of mostPurchasedItems">{{ item.name }} - {{ item.quantity }} times</li>
+                </ul>
+                <p>Products Viewed but Not Purchased:</p>
+                <ul>
+                  <li *ngFor="let product of viewedProducts">{{ product.name }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Spending Analysis Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-success text-white">
+                <h5>Spending Analysis</h5>
+              </div>
+              <div class="card-body">
+                <p>Average Order Value: <strong>{{ averageOrderValue  }}</strong></p>
+                <div id="spending-chart"></div>
+                <!-- Chart placeholder -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Engagement Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-warning text-white">
+                <h5>Customer Engagement</h5>
+              </div>
+              <div class="card-body">
+                <p>Time Spent on Website: <strong>{{ timeSpent | duration }}</strong></p>
+                <p>Pages Visited per Session: <strong>{{ pagesVisited }}</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Feedback and Ratings Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-secondary text-white">
+                <h5>Feedback and Ratings</h5>
+              </div>
+              <div class="card-body">
+                <p>Average Rating: <strong>{{ averageRating }}</strong></p>
+                <p>Number of Reviews Submitted: <strong>{{ reviewCount }}</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loyalty and Rewards Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-dark text-white">
+                <h5>Loyalty and Rewards</h5>
+              </div>
+              <div class="card-body">
+                <p>Points Accumulated: <strong>{{ pointsAccumulated }}</strong></p>
+                <p>Redemption History:</p>
+                <ul>
+                  <li *ngFor="let redemption of redemptions">{{ redemption.date }} - {{ redemption.points }} points</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Support Interactions Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-info text-white">
+                <h5>Support Interactions</h5>
+              </div>
+              <div class="card-body">
+                <p>Support Tickets Raised: <strong>{{ supportTicketsRaised }}</strong></p>
+                <p>Average Response Time: <strong>{{ averageResponseTime }} mins</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Promotional Engagement Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-primary text-white">
+                <h5>Promotional Engagement</h5>
+              </div>
+              <div class="card-body">
+                <p>Email Campaign Engagement: <strong>{{ emailEngagementRate }}%</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Return and Cancellation Rates Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-danger text-white">
+                <h5>Return and Cancellation Rates</h5>
+              </div>
+              <div class="card-body">
+                <p>Returned Orders: <strong>{{ returnedOrders }}</strong></p>
+                <p>Cancellation Trends: <strong>{{ cancellationTrends }}</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personalized Recommendations Section -->
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card flex-fill">
+              <div class="card-header bg-success text-white">
+                <h5>Personalized Recommendations</h5>
+              </div>
+              <div class="card-body">
+                <p>Recommended Products:</p>
+                <ul>
+                  <li *ngFor="let recommendation of recommendations">{{ recommendation.name }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
