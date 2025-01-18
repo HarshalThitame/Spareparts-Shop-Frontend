@@ -40,6 +40,7 @@ export class AdminViewOrderDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.id = this._route.snapshot.paramMap.get('id');
     this.loadUser();
   }

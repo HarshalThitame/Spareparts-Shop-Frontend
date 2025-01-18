@@ -22,11 +22,11 @@
             <textarea formControlName="description" id="categoryDescription" class="form-control"
                       placeholder="Enter a brief description"></textarea>
           </div>
-          <div class="form-group">
-            <label for="categoryImage">Category Image URL</label>
-            <input type="text" formControlName="categoryImage" id="categoryImage" class="form-control"
-                   placeholder="Enter image URL">
-          </div>
+<!--          <div class="form-group">-->
+<!--            <label for="categoryImage">Category Image URL</label>-->
+<!--            <input type="text" formControlName="categoryImage" id="categoryImage" class="form-control"-->
+<!--                   placeholder="Enter image URL">-->
+<!--          </div>-->
 
           <div formArrayName="subcategories">
             <div *ngFor="let sub of subcategories.controls; let i = index" [formGroupName]="i" class="mb-3">
@@ -92,6 +92,7 @@
                 <li *ngFor="let sub of category.subCategories || []" class="subcategory-item">
                   <div class="d-flex justify-content-between">
                     <div class="">
+                      <img class="sub-cat-img" [src]='sub.subCategoryImage||NoImage' alt="">
                       {{ sub.name }} - {{ sub.description }}
                     </div>
                     <div class="">
@@ -100,6 +101,12 @@
                       </button>
                     </div>
                   </div>
+                  <div class="input-group w-25 mb-3">
+                    <input type="file" (change)="onFileSelected($event)" class="form-control" id="fileInput"/>
+                    <button type="button" class="btn btn-outline-dark" (click)="uploadSubCategoryImage(sub)">Upload</button>
+                  </div>
+
+
                   <hr>
                 </li>
               </ul>

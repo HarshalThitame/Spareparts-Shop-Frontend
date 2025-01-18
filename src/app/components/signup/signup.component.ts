@@ -40,8 +40,8 @@ export class SignupComponent implements OnInit{
       userType: this.fb.group({
         type: ['Customer'], // Default selected value
       }),
-      firstName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")]], // Only letters, max 50 chars
-      lastName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")]], // Only letters, max 50 chars
+      firstName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")],Validators.maxLength(50)], // Only letters, max 50 chars
+      lastName: ['', [Validators.required, Validators.pattern("^[A-Za-z]{1,50}$")],Validators.maxLength(50)], // Only letters, max 50 chars
       email: ['', [Validators.required, Validators.email]], // Valid email pattern
       phone: ['', [Validators.required, Validators.pattern("^[6789]\\d{9}$")]], // Indian 10-digit phone numbers starting with 6, 7, 8, or 9
       password: ['', [Validators.required, Validators.minLength(6)]], // Minimum 6 chars
@@ -58,7 +58,9 @@ export class SignupComponent implements OnInit{
   onSubmit(): void {
     console.log(this.signupForm.value.userType);
 
-    if (this.signupForm.valid) {
+    console.log(this.signupForm)
+
+    // if (this.signupForm.valid) {
       console.log('Form Submitted', this.signupForm.value);
 
       this.user.id = Date.now() * 2 + Date.now() * 2;
@@ -100,9 +102,9 @@ export class SignupComponent implements OnInit{
       });
 
       console.log(this.user);
-    } else {
-      console.log('Form is invalid');
-    }
+    // } else {
+    //   console.log('Form is invalid');
+    // }
   }
 
 

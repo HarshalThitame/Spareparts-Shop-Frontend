@@ -11,8 +11,10 @@ import { Brand } from "../../../model/Brand.model";
 import { AdminBrandService } from "../../../service/AdminService/admin-brand.service";
 import { BrandModel } from "../../../model/BrandModel.model";
 import {SubCategory} from "../../../model/SubCategory.model";
-import {HttpEventType, HttpHeaders} from "@angular/common/http";
+import {HttpBackend, HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
 import {AdminProductService} from "../../../service/AdminService/admin-product.service";
+import baseURL from "../../../service/helper/helper";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-add-product',
@@ -44,6 +46,8 @@ export class AddProductComponent implements OnInit {
     mechanics: 0,
     retailer: 0,
   };
+  private httpWithoutInterceptor: HttpClient;
+  private uploadedImageUrl: any;
 
   constructor(
     private fb: FormBuilder,
@@ -51,8 +55,10 @@ export class AddProductComponent implements OnInit {
     private _productService: ProductService,
     private _loginService: LoginService,
     private _router: Router,
+    private _http: HttpClient,
     private _snackBar: MatSnackBar,
     private _adminBrandService: AdminBrandService,
+    private httpBackend: HttpBackend,
     private _adminProductService:AdminProductService
   ) {
     this.productForm = this.fb.group({
@@ -66,10 +72,13 @@ export class AddProductComponent implements OnInit {
       discountToCounter: [0],
       discountToMechanics: [0, Validators.required],
       discountToRetailer: [0, Validators.required],
+      mainImage:[],
       gst:[0],
       selectedCheckboxes: this.fb.array([]),
 
     });
+    this.httpWithoutInterceptor = new HttpClient(httpBackend);
+
   }
 
   ngOnInit(): void {
@@ -155,11 +164,73 @@ export class AddProductComponent implements OnInit {
     this.selectedSubCategories = this.selectedSubCategories.filter(sc => sc.id !== categoryId);
   }
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length) {
-      this.selectedFile = input.files[0];
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0]; // Get the selected file
+
+    if (file) {
+      // Check if the file size exceeds 5 MB
+      const maxSizeInMB = 5;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+      if (file.size > maxSizeInBytes) {
+        alert(`File size should be less than ${maxSizeInMB} MB.`);
+        this.selectedFile = null; // Reset the selected file
+      } else {
+        this.selectedFile = file; // File is valid
+        this.uploadMainImage();
+      }
     }
+  }
+  uploadMainImage() {
+    this.uploadImage('Main-Image')
+  }
+  uploadImage(folderName: string) {
+    if (!this.selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    // Step 1: Get the pre-signed URL from Spring Boot
+    this._http.get<any>(`${baseURL}/auth/presigned-url/${folderName}`).subscribe(response => {
+      const uploadUrl = response.url;
+      const objectKey = response.key;  // Assuming backend returns the S3 key
+
+      // Define the Content-Type
+      const contentType = this.selectedFile?.type || 'application/octet-stream';
+
+      // Step 2: Upload the image to S3 using the pre-signed URL
+      this.httpWithoutInterceptor.put(uploadUrl, this.selectedFile, {
+        headers: {
+          'Content-Type': contentType
+        },
+        reportProgress: true,
+        observe: 'events'
+      }).subscribe(
+        event => {
+          if (event.type === 4) { // HttpEventType.Response
+            console.log('Image successfully uploaded');
+
+
+
+            // Step 3: Construct the image URL (replace with your actual bucket's URL)
+            const bucketBaseUrl = 'https://harshal-ecom.s3.amazonaws.com/';
+            this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
+            console.log('Uploaded Image URL:', this.uploadedImageUrl);
+
+            if (folderName === 'Main-Image') {
+              console.log("inside MAin -image")
+
+              this.productForm.value.mainImage = this.uploadedImageUrl;
+            }
+
+            this.selectedFile = null;
+          }
+        },
+        error => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    });
   }
 
   onBrandChange(event: Event, brand: Brand): void {
@@ -194,40 +265,51 @@ export class AddProductComponent implements OnInit {
     return this.selectedBrandModels.some(m => m.id === modelId);
   }
 
-  onSubmit(): void {
-    if(this.productForm.valid){
-      const productData = {
-        id:(Date.now()+(Date.length*Date.length))*2,
-        name: this.productForm.value.name,
-        description: this.productForm.value.description,
-        price: this.productForm.value.price,
-        brands: this.selectedBrands.map(b => ({ id: b.id })),
-        brandModels: this.selectedBrandModels.map(m => ({ id: m.id })),
-        partNumber: this.productForm.value.partNumber,
-        stockQuantity: this.productForm.value.stockQuantity,
-        binLocation: this.productForm.value.binLocation,
-        discountOnPurchase: this.productForm.value.discountOnPurchase,
-        discountToCounter: this.productForm.value.discountToCounter,
-        discountToMechanics: this.productForm.value.discountToMechanics,
-        discountToRetailer: this.productForm.value.discountToRetailer,
-        gst:this.productForm.value.gst,
-        categories: this.selectedCategories.length > 0 ? this.selectedCategories.map(c => ({ id: c.id })) : [],
-        subCategories: this.selectedSubCategories.length > 0 ? this.selectedSubCategories.map(sc => ({ id: sc.id })) : [],
-      };
+  onSubmit() {
+    if (this.productForm.valid) {
+      try {
+        // Await the image upload to finish
 
-      console.log(productData);
-      this._productService.addProduct(productData).subscribe(data => {
+        const productData = {
+          id: (Date.now() + (Date.length * Date.length)) * 2,
+          name: this.productForm.value.name,
+          description: this.productForm.value.description,
+          price: this.productForm.value.price,
+          brands: this.selectedBrands.map(b => ({ id: b.id })),
+          brandModels: this.selectedBrandModels.map(m => ({ id: m.id })),
+          partNumber: this.productForm.value.partNumber,
+          stockQuantity: this.productForm.value.stockQuantity,
+          binLocation: this.productForm.value.binLocation,
+          discountOnPurchase: this.productForm.value.discountOnPurchase,
+          discountToCounter: this.productForm.value.discountToCounter,
+          discountToMechanics: this.productForm.value.discountToMechanics,
+          discountToRetailer: this.productForm.value.discountToRetailer,
+          mainImage: this.productForm.value.mainImage,
+          gst: this.productForm.value.gst,
+          categories: this.selectedCategories.length > 0 ? this.selectedCategories.map(c => ({ id: c.id })) : [],
+          subCategories: this.selectedSubCategories.length > 0 ? this.selectedSubCategories.map(sc => ({ id: sc.id })) : [],
+        };
+
+        console.log(productData);
+
+        // Add product to the server
+        const data = this._productService.addProduct(productData).toPromise();
         console.log(data);
-        this._snackBar.open("Product successfully created", "", { duration: 3000 });
-      }, error => {
+        Swal.fire({
+          title: 'Product Created!',
+          text: 'Product successfully created.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          timer: 3000
+        });      } catch (error) {
         console.log(error);
         this._snackBar.open("Error while creating product.", "", { duration: 3000 });
-      });
-    }
-    else{
-      this._snackBar.open("Please ensure all product information is accurately filled.","",{duration:3000})
+      }
+    } else {
+      this._snackBar.open("Please ensure all product information is accurately filled.", "", { duration: 3000 });
     }
   }
+
 
 
   onProductFileChange(event: any): void {

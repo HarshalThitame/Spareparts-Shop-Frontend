@@ -79,6 +79,14 @@ strong {
 
 
 /* Adjustments for tablet screens and smaller */
+
+@media (max-width: 1300px) {
+  .custom-btn, .custom-btn-signup {
+    width: 130px!important;
+    height: 40px!important;
+  }
+}
+
 @media (max-width: 768px) {
   .img-home {
     height: 150px; /* Reduce image height */
@@ -95,8 +103,8 @@ strong {
     border-spacing: 10px;
   }
 
-  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,a{
-    font-size: 80%!important; /* Keep reduced font size */
+  h1, h2, h3, h6, h4, h5, p, button, span, small, strong, input, label, td, tr, th, .mat-mdc-select, .mdc-floating-label, a {
+    font-size: 80% !important; /* Keep reduced font size */
     line-height: 1.25rem !important;
   }
 
@@ -126,9 +134,9 @@ strong {
     font-size: 0.9rem; /* Adjust pricing font */
   }
 
-  .return-card{
-    padding: 20px!important;
-    margin: 0!important;
+  .return-card {
+    padding: 20px !important;
+    margin: 0 !important;
   }
 }
 

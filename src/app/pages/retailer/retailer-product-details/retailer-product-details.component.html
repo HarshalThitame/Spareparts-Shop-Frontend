@@ -61,17 +61,17 @@
                 <!-- Original MRP -->
                 <p class="text-muted">
                   <small>
-                    <del>MRP: {{ product.price | currency :'INR' }}</del>
+                    <del>MRP: {{ product.price  }}</del>
                   </small>
                 </p>
                 <!-- Discounted Price -->
                 <h4 class="text-success">
-                  Price: {{ calculateDiscountedPrice(product.price, product.discountToRetailer || 0) | currency:'INR' }}
+                  Price: {{ calculateDiscountedPrice(product.price, product.discountToRetailer || 0)  }}
                 </h4>
                 <!-- Discount Percentage -->
                 <p class="text-danger">
                   You
-                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToRetailer)| currency:'INR' }}
+                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToRetailer) }}
                   ) {{ product.discountToRetailer }}% off
                 </p>
               </div>

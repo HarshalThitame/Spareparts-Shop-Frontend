@@ -52,7 +52,7 @@
               <small *ngIf="product.stockQuantity < 10 && product.stockQuantity>0" class="text-danger">Low stock</small>
               <small *ngIf="product.stockQuantity == 0" class="text-danger">Out of stock</small>
               </td>
-              <td>{{ product.price | currency:'INR' }}</td>
+              <td>{{ product.price  }}</td>
               <td>{{ product.stockQuantity }}</td>
               <td>
                 <a [routerLink]="['/admin/manage-products/product-details', product.id]"

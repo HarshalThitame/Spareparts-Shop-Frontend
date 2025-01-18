@@ -6,11 +6,13 @@ import NoImage from "../../../service/helper/noImage";
 import {HttpBackend, HttpClient} from "@angular/common/http";
 import {Offer} from "../../../model/Offer.model";
 import baseURL from "../../../service/helper/helper";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
  interface SubCategory {
   id?: number; // Optional, only set when editing
   name: string;
   description?: string;
+   subCategoryImage?: string;
 }
 
  interface Category {
@@ -38,6 +40,7 @@ export class AdminManageCategoriesComponent implements OnInit {
   constructor(
     private _categoryService: CategoryService,
     private _httpBackend: HttpBackend,
+    private _snackBar:MatSnackBar,
     private _fb: FormBuilder,
     private _http:HttpClient
   ) {
@@ -314,5 +317,72 @@ export class AdminManageCategoriesComponent implements OnInit {
       console.error('Unable to extract key from URL');
     }
   }
+
+  uploadSubCategoryImage(sub: any) {
+    this.uploadSubCatImage('SubCategory-Image',sub)
+  }
+  uploadSubCatImage(folderName: string,subCategory:any) {
+    if (!this.selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    // Step 1: Get the pre-signed URL from Spring Boot
+    this._http.get<any>(`${baseURL}/auth/presigned-url/${folderName}`).subscribe(response => {
+      const uploadUrl = response.url;
+      const objectKey = response.key;  // Assuming backend returns the S3 key
+
+      // Define the Content-Type
+      const contentType = this.selectedFile?.type || 'application/octet-stream';
+
+      // Step 2: Upload the image to S3 using the pre-signed URL
+      this.httpWithoutInterceptor.put(uploadUrl, this.selectedFile, {
+        headers: {
+          'Content-Type': contentType
+        },
+        reportProgress: true,
+        observe: 'events'
+      }).subscribe(
+        event => {
+          if (event.type === 4) { // HttpEventType.Response
+            console.log('Image successfully uploaded');
+
+
+
+            // Step 3: Construct the image URL (replace with your actual bucket's URL)
+            const bucketBaseUrl = 'https://harshal-ecom.s3.amazonaws.com/';
+            this.uploadedImageUrl = `${bucketBaseUrl}${objectKey}`;
+            console.log('Uploaded Image URL:', this.uploadedImageUrl);
+
+            if(subCategory.subCategoryImage!= null) {
+              this.deleteImage(subCategory.subCategoryImage);
+            }
+
+
+            let subCategoryData ={
+              id:subCategory.id,
+              subCategoryImage:this.uploadedImageUrl,
+            };
+
+            this._categoryService.updateSubCategoryImage(subCategoryData).subscribe(data=>{
+              console.log(data)
+              this._snackBar.open("Image Updated Successfully",'',{duration:5000});
+
+            },error => {
+              this._snackBar.open("Error while updating image",'',{duration:5000});
+              console.log(error)
+            })
+
+            this.selectedFile = null;
+            // Display image in the UI
+          }
+        },
+        error => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    });
+  }
+
 
 }

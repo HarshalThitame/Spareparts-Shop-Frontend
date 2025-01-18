@@ -33,9 +33,9 @@
                     </div>
                     <button class="btn bg mb-2 text-white" (click)="updateSubtotal(item)">Update Order</button>
 
-                    <p><strong>Price:</strong> {{ item.price | currency : 'INR' }}</p>
-                    <p><strong>Subtotal:</strong> {{ item.subtotal | currency : 'INR' }}</p>
-                    <p><strong>GST ({{ item.product.gst }}%): </strong> {{ item.taxAmount | currency : 'INR' }}</p>
+                    <p><strong>Price:</strong> {{ item.price  }}</p>
+                    <p><strong>Subtotal:</strong> {{ item.subtotal  }}</p>
+                    <p><strong>GST ({{ item.product.gst }}%): </strong> {{ item.taxAmount  }}</p>
                     <p>
                       <strong *ngIf="order.user.userRole=='RETAILER'">Discount ({{ item.product.discountToRetailer }}
                         %):</strong>
@@ -44,8 +44,8 @@
                       <strong *ngIf="order.user.userRole=='MECHANIC'">Discount ({{ item.product.discountToMechanics }}
                         %):</strong>
 
-                      -{{ item.discountAmount | currency : 'INR' }}</p>
-                    <p><strong>Total Price:</strong> {{ item.totalPrice | currency : 'INR' }}</p>
+                      -{{ item.discountAmount  }}</p>
+                    <p><strong>Total Price:</strong> {{ item.totalPrice  }}</p>
                   </div>
                   <div class="col-md-4">
                     <img [src]="item.product.mainImage || NoImage" alt="{{ item.product.name }}"
@@ -56,7 +56,7 @@
               </div>
               <h6>Order Summary:</h6>
               <p><strong>Total Items:</strong> {{ order.orderItems.length }}</p>
-              <p><strong>Total Amount:</strong> {{ order.totalAmount | currency : 'INR' }}</p>
+              <p><strong>Total Amount:</strong> {{ order.totalAmount  }}</p>
             </div>
           </div>
         </div>

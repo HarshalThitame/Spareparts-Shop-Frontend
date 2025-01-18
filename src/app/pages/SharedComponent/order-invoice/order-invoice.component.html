@@ -37,16 +37,16 @@
         <td>{{item.product.partNumber}}</td>
         <td>{{ item.product.name }}</td>
         <td>{{ item.quantity }}</td>
-        <td>{{ item.price | currency:'INR' }}</td>
+        <td>{{ item.price  }}</td>
         <td>{{ item.gst }} %</td>
-        <td>{{ item.subtotal | currency:'INR' }}</td>
+        <td>{{ item.subtotal  }}</td>
         <td>{{ item.discountAmount}} </td>
-        <td>{{ item.totalPrice | currency:'INR' }}</td>
+        <td>{{ item.totalPrice  }}</td>
       </tr>
       <tr>
         <td colspan="3">Total</td>
         <td>{{order.orderItems.length}}</td>
-        <td class="text-end" colspan="5">{{order.totalAmount | currency:'INR'}}</td>
+        <td class="text-end" colspan="5">{{order.totalAmount }}</td>
 
       </tr>
       </tbody>
@@ -56,11 +56,11 @@
   <!-- Summary -->
   <div class="order-summary text-end">
     <h5>Order Summary</h5>
-    <p>Subtotal: {{ getOrderSubtotal() | currency:'INR' }}</p>
-    <p>GST: {{ getOrderGst() | currency:'INR' }}</p>
-    <p>Shipping: {{ order.shippingCost | currency:'INR' }}</p>
-    <p>Discount: {{ order.discountAmount | currency:'INR' }}</p>
-    <p><strong>Total: {{ order.totalAmount | currency:'INR' }}</strong></p>
+    <p>Subtotal: {{ getOrderSubtotal()  }}</p>
+    <p>GST: {{ getOrderGst()  }}</p>
+    <p>Shipping: {{ order.shippingCost  }}</p>
+    <p>Discount: {{ order.discountAmount  }}</p>
+    <p><strong>Total: {{ order.totalAmount  }}</strong></p>
     <p><strong>{{ order.status }}</strong></p>
   </div>
 

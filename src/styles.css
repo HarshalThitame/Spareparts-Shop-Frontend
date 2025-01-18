@@ -176,6 +176,20 @@ button {
   line-height: 1.5em; /* Adjust based on your design */
 }
 
+@media (max-width: 1300px) {
+  .custom-btn,.custom-btn-signup{
+    height: 32px !important;
+    width: 80px !important;
+    padding: 5px!important;
+  }
+  h1, h2, h3, h6, h4, h5, p, button,span,small,strong,input,label,td,tr,th,.mat-mdc-select,.mdc-floating-label,a{
+    font-size: 90%!important; /* Keep reduced font size */
+    line-height: 1.25rem !important;
+  }
+  .customer-dashboard-padding{
+    padding-left: 80px!important;
+  }
+}
 
 @media (max-width: 768px) {
   .out-of-stock-badge {
@@ -188,5 +202,8 @@ button {
   .custom-btn,.custom-btn-signup{
     height: 25px !important;
     width: 80px !important;
+  }
+  .customer-dashboard-padding{
+    padding-left: 0!important;
   }
 }

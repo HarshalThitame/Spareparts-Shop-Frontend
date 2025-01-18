@@ -1,7 +1,7 @@
 <div class="card h-100 p-2">
   <div class="card-header bg text-white">
     <h5 class="card-title">Inventory Management <small *ngIf="mostSellingProducts.length===0" (click)="refreshTopSellingAndDeadProducts()"><i class="fa fa-refresh"></i></small></h5>
-    <small>Total inventory value {{calculateTotalInventoryValue()|currency:'INR'}}</small>
+    <small>Total inventory value {{calculateTotalInventoryValue()}}</small>
   </div>
 <div class="row">
   <div class="col-md-12">

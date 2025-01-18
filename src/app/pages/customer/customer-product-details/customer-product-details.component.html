@@ -55,15 +55,15 @@
                 <p class="text-muted">Minimum order quantity : <strong>{{ product.moq }}</strong></p>
                 <!-- Original MRP -->
                 <p class="text-muted">
-                  <small><del>MRP: {{ product.price | currency :'INR' }}</del></small>
+                  <small><del>MRP: {{ product.price  }}</del></small>
                 </p>
                 <!-- Discounted Price -->
                 <h4 class="text-success">
-                  Price: {{ calculateDiscountedPrice(product.price, product.discountOnPurchase || 0) | currency:'INR' }}
+                  Price: {{ calculateDiscountedPrice(product.price, product.discountOnPurchase || 0)  }}
                 </h4>
                 <!-- Discount Percentage -->
                 <p class="text-danger">
-                  You save:(-{{product.price - calculateDiscountedPrice(product.price,product.discountOnPurchase)| currency:'INR'}}) {{ product.discountOnPurchase }}% off
+                  You save:(-{{product.price - calculateDiscountedPrice(product.price,product.discountOnPurchase)}}) {{ product.discountOnPurchase }}% off
                 </p>
                 <small>InStock: {{product.stockQuantity}}</small>
               </div>

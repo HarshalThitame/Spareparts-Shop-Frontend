@@ -34,12 +34,12 @@
         <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="shadow p-4 bg-light rounded">
           <div class="form-group mb-3">
             <label for="name">Product Name</label>
-            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Enter product name" required>
+            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Enter product name" maxlength="200" required>
           </div>
 
           <div class="form-group mb-3">
             <label for="description">Description</label>
-            <textarea id="description" formControlName="description" class="form-control" placeholder="Enter product description" rows="3" required></textarea>
+            <textarea id="description" formControlName="description" class="form-control" placeholder="Enter product description" rows="3" maxlength="500" required></textarea>
           </div>
 
           <div class="form-group mb-3">
@@ -49,7 +49,7 @@
 
           <div class="form-group mb-3">
             <label for="partNumber">Part Number</label>
-            <input type="text" id="partNumber" formControlName="partNumber" class="form-control" placeholder="Enter unique part number" required>
+            <input type="text" id="partNumber" formControlName="partNumber" class="form-control" placeholder="Enter unique part number" maxlength="20" required>
           </div>
 
           <div class="form-group mb-3">
@@ -59,7 +59,7 @@
 
           <div class="form-group mb-3">
             <label for="binLocation">Bin Location</label>
-            <input type="text" id="binLocation" formControlName="binLocation" class="form-control" placeholder="Enter bin location" required>
+            <input type="text" id="binLocation" formControlName="binLocation" class="form-control" placeholder="Enter bin location" maxlength="20" required>
           </div>
 
           <div class="form-group mb-3">
@@ -143,7 +143,7 @@
 
           <div class="form-group mb-3">
             <label>Main Image</label>
-            <input type="file" (change)="onFileChange($event)" class="form-control-file" required>
+            <input type="file" (change)="onFileSelected($event)" class="form-control-file" required>
           </div>
 
           <!-- Brands Section -->

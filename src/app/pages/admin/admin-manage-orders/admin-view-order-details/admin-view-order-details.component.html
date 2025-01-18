@@ -24,15 +24,15 @@
                     <div class="d-flex justify-content-between">
                     <h6>{{ item.product.name }}</h6>
                       <div class="text-center">
-                        <p><strong>MRP:</strong> {{ item.price | currency : 'INR' }} (-{{item.discountOnPurchase}}% Off)</p>
-                        <p><strong>Price:</strong> {{ getDiscountedPrice(item.product) | currency : 'INR' }}</p>
+                        <p><strong>MRP:</strong> {{ item.price  }} (-{{item.discountOnPurchase}}% Off)</p>
+                        <p><strong>Price:</strong> {{ getDiscountedPrice(item.product)  }}</p>
                         <p><strong>Quantity:</strong> {{ item.quantity }}</p>
                       </div>
                     </div>
-                    <p><strong>Subtotal:</strong> {{ item.subtotal | currency : 'INR' }}</p>
-                    <p><strong>Discount:</strong> {{ item.discountAmount | currency : 'INR' }}</p>
+                    <p><strong>Subtotal:</strong> {{ item.subtotal  }}</p>
+                    <p><strong>Discount:</strong> {{ item.discountAmount  }}</p>
                     <p><strong>GST:</strong> ({{ item.gst}}%)  {{item.taxAmount}}</p>
-                    <p><strong>Total Price:</strong> {{ item.totalPrice | currency : 'INR' }}</p>
+                    <p><strong>Total Price:</strong> {{ item.totalPrice  }}</p>
                   </div>
                   <div class="col-4 text-center">
                     <img [src]="item.product.mainImage || NoImage" alt="{{ item.product.name }}"
@@ -51,8 +51,8 @@
             <p><strong>Total Items:</strong> {{ order.orderItems.length }}</p>
             <p><strong>Discount:</strong> {{ getTotalSavings() }}</p>
             <p><strong>GST:</strong> {{ getGst() }}</p>
-            <p><strong>Subtotal:</strong> {{ getSubtotal() | currency : 'INR' }}</p>
-            <p><strong>Total Amount:</strong> {{ order.totalAmount | currency : 'INR' }}</p>
+            <p><strong>Subtotal:</strong> {{ getSubtotal()  }}</p>
+            <p><strong>Total Amount:</strong> {{ order.totalAmount  }}</p>
 
           </div>
           <!-- User Details Card -->

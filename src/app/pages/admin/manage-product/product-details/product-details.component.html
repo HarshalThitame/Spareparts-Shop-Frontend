@@ -77,17 +77,17 @@
                 <!-- Original MRP -->
                 <p class="text-muted">
                   <small>
-                    <del>MRP: {{ product.price | currency :'INR' }}</del>
+                    <del>MRP: {{ product.price ' }}</del>
                   </small>
                 </p>
                 <!-- Discounted Price -->
                 <h4 class="text-success">
-                  Price: {{ calculateDiscountedPrice(product.price, product.discountOnPurchase || 0) | currency:'INR' }}
+                  Price: {{ calculateDiscountedPrice(product.price, product.discountOnPurchase || 0)  }}
                 </h4>
                 <!-- Discount Percentage -->
                 <p class="text-danger">
                   You
-                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountOnPurchase)| currency:'INR' }}
+                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountOnPurchase) }}
                   ) {{ product.discountOnPurchase }}% off
                 </p>
 
@@ -115,17 +115,17 @@
                 <!-- Original MRP -->
                 <p class="text-muted">
                   <small>
-                    <del>MRP: {{ product.price | currency :'INR' }}</del>
+                    <del>MRP: {{ product.price ' }}</del>
                   </small>
                 </p>
                 <!-- Discounted Price -->
                 <h4 class="text-success">
-                  Price: {{ calculateDiscountedPrice(product.price, product.discountToRetailer || 0) | currency:'INR' }}
+                  Price: {{ calculateDiscountedPrice(product.price, product.discountToRetailer || 0)  }}
                 </h4>
                 <!-- Discount Percentage -->
                 <p class="text-danger">
                   You
-                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToRetailer)| currency:'INR' }}
+                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToRetailer) }}
                   ) {{ product.discountToRetailer }}% off
                 </p>
                 <div class="mb-3">
@@ -153,17 +153,17 @@
                 <!-- Original MRP -->
                 <p class="text-muted">
                   <small>
-                    <del>MRP: {{ product.price | currency :'INR' }}</del>
+                    <del>MRP: {{ product.price ' }}</del>
                   </small>
                 </p>
                 <!-- Discounted Price -->
                 <h4 class="text-success">
-                  Price: {{ calculateDiscountedPrice(product.price, product.discountToMechanics || 0) | currency:'INR' }}
+                  Price: {{ calculateDiscountedPrice(product.price, product.discountToMechanics || 0)  }}
                 </h4>
                 <!-- Discount Percentage -->
                 <p class="text-danger">
                   You
-                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToMechanics)| currency:'INR' }}
+                  save:(-{{ product.price - calculateDiscountedPrice(product.price, product.discountToMechanics) }}
                   ) {{ product.discountToMechanics }}% off
                 </p>
                 <div class="mb-3">
@@ -243,7 +243,7 @@
             <div class="card text-dark bg-primary-subtle mb-3">
               <div class="card-body">
                 <p class="card-title text-dark">Total Revenue</p>
-                <h5 class="card-text text-dark">{{ productMetrics.totalRevenue | currency:'INR' }}</h5>
+                <h5 class="card-text text-dark">{{ productMetrics.totalRevenue  }}</h5>
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@
             <div class="card text-dark bg-warning-subtle mb-3">
               <div class="card-body">
                 <p class="card-title text-dark">Total Discount Given</p>
-                <h5 class="card-text text-dark">{{ productMetrics.totalDiscountGiven | currency:'INR' }}</h5>
+                <h5 class="card-text text-dark">{{ productMetrics.totalDiscountGiven  }}</h5>
               </div>
             </div>
           </div>
@@ -259,7 +259,7 @@
             <div class="card text-dark bg-danger-subtle mb-3">
               <div class="card-body">
                 <p class="card-title text-dark">Total GST Collected</p>
-                <h5 class="card-text text-dark">{{ productMetrics.totalGSTCollected | currency:'INR' }}</h5>
+                <h5 class="card-text text-dark">{{ productMetrics.totalGSTCollected  }}</h5>
               </div>
             </div>
           </div>
@@ -312,7 +312,7 @@
             <ng-container matColumnDef="totalPrice">
               <th mat-header-cell *matHeaderCellDef> Total Price</th>
               <td mat-cell *matCellDef="let order">
-                {{ getTotalPrice(order) | currency: 'INR' }}
+                {{ getTotalPrice(order) }}
               </td>
             </ng-container>
 

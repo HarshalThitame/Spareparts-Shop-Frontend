@@ -139,7 +139,7 @@
               <th mat-header-cell *matHeaderCellDef> Products Included</th>
               <td mat-cell *matCellDef="let offer">
                 <ul class="list-unstyled mb-0">
-                  <li *ngFor="let product of offer.products">{{ product.name }}- {{ product.price | currency:'INR' }}
+                  <li *ngFor="let product of offer.products">{{ product.name }}- {{ product.price  }}
                   </li>
                 </ul>
               </td>

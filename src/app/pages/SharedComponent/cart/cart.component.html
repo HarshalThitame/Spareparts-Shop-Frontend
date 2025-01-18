@@ -21,10 +21,10 @@
               <h5 class="font-weight-bold text-dark">{{ item.product.name }}</h5>
               <p class="text-muted">Minimum order quantity: {{ item.product.moq }}</p>
               <h4 class="text-success mt-2">
-                {{ getDiscountedPrice(item.product) | currency:'INR' }}
+                {{ getDiscountedPrice(item.product)  }}
                 <small class="text-danger ms-2 h6">-{{ getDiscount(item.product) }}% Off</small>
               </h4>
-              <p class="text-muted">Price: <span class="text-decoration-line-through">{{ item.product.price | currency:'INR' }}</span></p>
+              <p class="text-muted">Price: <span class="text-decoration-line-through">{{ item.product.price  }}</span></p>
             </div>
             <div class="col-md-2 col-12 text-md-end text-center">
               <div class="quantity-selector d-flex align-items-center justify-content-between">
@@ -32,7 +32,7 @@
                 <input type="number" (change)="checkQuantity(item)" [(ngModel)]="item.quantity" min="1" class="form-control mx-2" style="width: 60px; text-align: center;">
                 <button class="btn btn-outline-secondary" (click)="increaseQuantity(item)">+</button>
               </div>
-              <p class="font-weight-bold mt-2">Total Price: {{ (getDiscountedPrice(item.product) * item.quantity) | currency:'INR' }}</p>
+              <p class="font-weight-bold mt-2">Total Price: {{ (getDiscountedPrice(item.product) * item.quantity)  }}</p>
               <button class="btn btn-danger mt-2" (click)="removeItem(item)">Remove</button>
             </div>
           </div>
@@ -48,11 +48,11 @@
         <h5 class="card-title font-weight-bold text-dark">Cart Summary</h5>
         <p>({{ getTotalItems() }} items)</p>
         <hr>
-        <p>Subtotal: <span class="font-weight-bold">{{ getTotalAmount() | currency:'INR' }}</span></p>
-        <p>GST: <span class="font-weight-bold">{{ getGst() | currency:'INR' }}</span></p>
-        <p class="text-success font-weight-bold">Total Discount: <span id="savings">-{{ getTotalSavings() | currency:'INR' }}</span></p>
-        <p class="font-weight-bold text-success">Total Price After Discounts: <span class="font-weight-bold">{{ getTotalPriceAfterDiscounts() | currency:'INR' }}</span></p>
-        <p class="font-weight-bold text-success">Total : <span class="font-weight-bold">{{ getTotal() | currency:'INR' }}</span></p>
+        <p>Subtotal: <span class="font-weight-bold">{{ getTotalAmount()  }}</span></p>
+        <p>GST: <span class="font-weight-bold">{{ getGst()  }}</span></p>
+        <p class="text-success font-weight-bold">Total Discount: <span id="savings">-{{ getTotalSavings()  }}</span></p>
+        <p class="font-weight-bold text-success">Total Price After Discounts: <span class="font-weight-bold">{{ getTotalPriceAfterDiscounts()  }}</span></p>
+        <p class="font-weight-bold text-success">Total : <span class="font-weight-bold">{{ getTotal()  }}</span></p>
         <button (click)="openCheckOut()" class="btn btn-success btn-block animated-button">Proceed to Checkout</button>
         <button [routerLink]="'/'" class="btn btn-info btn-block mt-3 animated-button">Continue Shopping</button>
       </div>

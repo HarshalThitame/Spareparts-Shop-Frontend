@@ -158,72 +158,72 @@ export class CustomerAllProductsComponent implements OnInit {
     );
   }
 
-  addToCart(product: any) {
-    if (!this.isLoggedIn) {
-      // If the user is not logged in, add the product to local storage
-      const storedCart = localStorage.getItem('temporaryCart');
-      let tempCart: Cart = {user: {id: 0}, items: [], totalAmount: 0};
+  // addToCart(product: any) {
+  //   if (!this.isLoggedIn) {
+  //     // If the user is not logged in, add the product to local storage
+  //     const storedCart = localStorage.getItem('temporaryCart');
+  //     let tempCart: Cart = {user: {id: 0}, items: [], totalAmount: 0};
+  //
+  //     if (storedCart) {
+  //       tempCart = JSON.parse(storedCart);
+  //     }
+  //
+  //     // Check if the product already exists in the temporary cart
+  //     const existingItemIndex = tempCart.items.findIndex(item => item.product.id === product.id);
+  //
+  //     if (existingItemIndex !== -1) {
+  //       // If the product exists, increase its quantity and update totalPrice
+  //       tempCart.items[existingItemIndex].quantity += product.moq;
+  //       tempCart.items[existingItemIndex].totalPrice =
+  //         tempCart.items[existingItemIndex].product.price * tempCart.items[existingItemIndex].quantity;
+  //     } else {
+  //       // If the product does not exist, add it with totalPrice
+  //       const totalPrice = product.price * product.moq; // Calculate totalPrice
+  //       tempCart.items.push({
+  //         unitPrice: product.price,
+  //         product: product,
+  //         quantity: product.moq,
+  //         totalPrice: totalPrice
+  //       });
+  //     }
+  //
+  //     // Update total amount
+  //     this.updateTemporaryCartTotal(tempCart);
+  //
+  //     // Save the updated cart to local storage
+  //     localStorage.setItem('temporaryCart', JSON.stringify(tempCart));
+  //
+  //     Swal.fire({
+  //       title: 'Success!',
+  //       text: 'The product has been successfully added to your temporary cart.',
+  //       icon: 'success',
+  //       timer: 4000, // 4 seconds
+  //       showConfirmButton: false,
+  //       footer: '<a href="/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
+  //     });
+  //   } else {
+  //     // User is logged in, add product to the main cart
+  //     const result = this._sharedDataService.checkLoginAndAddToCart(this.user, product, product.moq);
+  //
+  //     if (result) {
+  //       console.log("Product successfully added to the cart.");
+  //
+  //       Swal.fire({
+  //         title: 'Success!',
+  //         text: 'The product has been successfully added to your cart. You can proceed to checkout or continue shopping to explore more items.',
+  //         icon: 'success',
+  //         timer: 4000, // 4 seconds
+  //         showConfirmButton: false,
+  //         footer: '<a href="/customer/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
+  //       });
+  //     }
+  //   }
+  // }
 
-      if (storedCart) {
-        tempCart = JSON.parse(storedCart);
-      }
-
-      // Check if the product already exists in the temporary cart
-      const existingItemIndex = tempCart.items.findIndex(item => item.product.id === product.id);
-
-      if (existingItemIndex !== -1) {
-        // If the product exists, increase its quantity and update totalPrice
-        tempCart.items[existingItemIndex].quantity += product.moq;
-        tempCart.items[existingItemIndex].totalPrice =
-          tempCart.items[existingItemIndex].product.price * tempCart.items[existingItemIndex].quantity;
-      } else {
-        // If the product does not exist, add it with totalPrice
-        const totalPrice = product.price * product.moq; // Calculate totalPrice
-        tempCart.items.push({
-          unitPrice: product.price,
-          product: product,
-          quantity: product.moq,
-          totalPrice: totalPrice
-        });
-      }
-
-      // Update total amount
-      this.updateTemporaryCartTotal(tempCart);
-
-      // Save the updated cart to local storage
-      localStorage.setItem('temporaryCart', JSON.stringify(tempCart));
-
-      Swal.fire({
-        title: 'Success!',
-        text: 'The product has been successfully added to your temporary cart.',
-        icon: 'success',
-        timer: 4000, // 4 seconds
-        showConfirmButton: false,
-        footer: '<a href="/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
-      });
-    } else {
-      // User is logged in, add product to the main cart
-      const result = this._sharedDataService.checkLoginAndAddToCart(this.user, product, product.moq);
-
-      if (result) {
-        console.log("Product successfully added to the cart.");
-
-        Swal.fire({
-          title: 'Success!',
-          text: 'The product has been successfully added to your cart. You can proceed to checkout or continue shopping to explore more items.',
-          icon: 'success',
-          timer: 4000, // 4 seconds
-          showConfirmButton: false,
-          footer: '<a href="/customer/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
-        });
-      }
-    }
-  }
-
-  private updateTemporaryCartTotal(cart: Cart): void {
-    cart.totalAmount = cart.items.reduce((total, item) =>
-      total + (item.product.price * item.quantity), 0);
-  }
+  // private updateTemporaryCartTotal(cart: Cart): void {
+  //   cart.totalAmount = cart.items.reduce((total, item) =>
+  //     total + (item.product.price * item.quantity), 0);
+  // }
 
   selectCategory(category: any): void {
     this.selectedCategory = this.selectedCategory === category ? null : category;

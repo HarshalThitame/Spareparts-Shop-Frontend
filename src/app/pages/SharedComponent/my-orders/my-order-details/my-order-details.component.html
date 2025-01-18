@@ -55,11 +55,11 @@
           <tr *ngFor="let item of order.orderItems">
             <td>{{ item.product.name }}</td>
             <td>{{ item.quantity }}</td>
-            <td>{{ item.price | currency: 'INR' }}</td>
+            <td>{{ item.price  }}</td>
             <td>{{ item.gst }}</td>
-            <td>{{ item.subtotal | currency: 'INR' }}</td>
-            <td>{{ getDiscount(item.price, item.discountOnPurchase, item.quantity) | currency: 'INR' }}</td>
-            <td>{{ item.totalPrice | currency: 'INR' }}</td>
+            <td>{{ item.subtotal  }}</td>
+            <td>{{ getDiscount(item.price, item.discountOnPurchase, item.quantity)  }}</td>
+            <td>{{ item.totalPrice  }}</td>
           </tr>
           </tbody>
         </table>
@@ -69,15 +69,15 @@
       <div class="row">
         <div class="col-md-6">
           <div class="order-summary">
-            <p>Subtotal: {{ getOrderSubtotal() | currency: 'INR' }}</p>
-            <p>GST: {{ getOrderGst() | currency: 'INR' }}</p>
-            <p>Shipping: {{ order.shippingCost | currency: 'INR' }}</p>
-            <p>Discount: {{ getOrderDiscount() | currency: 'INR' }}</p>
-            <p><strong>Total: {{ order.totalAmount | currency: 'INR' }}</strong></p>
+            <p>Subtotal: {{ getOrderSubtotal()  }}</p>
+            <p>GST: {{ getOrderGst()  }}</p>
+            <p>Shipping: {{ order.shippingCost  }}</p>
+            <p>Discount: {{ getOrderDiscount()  }}</p>
+            <p><strong>Total: {{ order.totalAmount  }}</strong></p>
           </div>
         </div>
         <div class="col-md-6 text-md-right">
-          <strong>Total:</strong> <h4 class="text-success">{{ order.totalAmount | currency: 'INR' }}</h4>
+          <strong>Total:</strong> <h4 class="text-success">{{ order.totalAmount  }}</h4>
         </div>
       </div>
 
@@ -145,10 +145,10 @@
             <tr *ngFor="let item of order.orderItems">
               <td>{{ item.product.name }}</td>
               <td>{{ item.quantity }}</td>
-              <td>{{ item.price | currency: 'INR' }}</td>
+              <td>{{ item.price  }}</td>
               <td>{{ item.gst }}</td>
               <td>{{ item.discountOnPurchase }}%</td>
-              <td>{{ item.subtotal | currency: 'INR' }}</td>
+              <td>{{ item.subtotal  }}</td>
             </tr>
             </tbody>
           </table>
@@ -162,23 +162,23 @@
             <tbody>
             <tr>
               <td class="font-weight-bold">Subtotal:</td>
-              <td class="text-right">{{ getOrderSubtotal() | currency: 'INR' }}</td>
+              <td class="text-right">{{ getOrderSubtotal()  }}</td>
             </tr>
             <tr>
               <td class="font-weight-bold">GST ({{ getGstPercentage() }}%):</td>
-              <td class="text-right">{{ getOrderGst() | currency: 'INR' }}</td>
+              <td class="text-right">{{ getOrderGst()  }}</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Discount:</td>
-              <td class="text-right">{{ getOrderDiscount() | currency: 'INR' }}</td>
+              <td class="text-right">{{ getOrderDiscount()  }}</td>
             </tr>
             <tr>
               <td class="font-weight-bold">Shipping Cost:</td>
-              <td class="text-right">{{ order.shippingCost | currency: 'INR' }}</td>
+              <td class="text-right">{{ order.shippingCost  }}</td>
             </tr>
             <tr class="table-info">
               <td class="font-weight-bold">Total Amount:</td>
-              <td class="text-right font-weight-bold">{{ order.totalAmount | currency: 'INR' }}</td>
+              <td class="text-right font-weight-bold">{{ order.totalAmount  }}</td>
             </tr>
             </tbody>
           </table>

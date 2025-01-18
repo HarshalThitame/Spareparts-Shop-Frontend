@@ -108,6 +108,11 @@ h4:hover, h5:hover {
   border-color: #80bdff; /* Change border color on hover */
 }
 
+.sub-cat-img{
+  height: 150px;
+  object-fit: contain;
+}
+
 @media (max-width: 768px) {
   .category-img {
     height: 80px; /* Adjust image height for smaller screens */

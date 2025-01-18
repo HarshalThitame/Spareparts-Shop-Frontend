@@ -139,25 +139,25 @@ export class RetailerAllProductsComponent  implements OnInit {
     );
   }
 
-  addToCart(product: Product) {
-    const result = this._sharedDataService.checkLoginAndAddToCart(this.user, product, product.moq);
-
-    if (result) {
-      console.log("Product successfully added to the cart.");
-
-      Swal.fire({
-        title: 'Success!',
-        text: 'The product has been successfully added to your cart. You can proceed to checkout or continue shopping to explore more items.',
-        icon: 'success',
-        timer: 4000, // 2 seconds
-        showConfirmButton: false,
-        footer: '<a href="/retailer/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
-        willClose: () => {
-          // Optional: do something when alert closes
-        }
-      })
-    }
-  }
+  // addToCart(product: Product) {
+  //   const result = this._sharedDataService.checkLoginAndAddToCart(this.user, product, product.moq);
+  //
+  //   if (result) {
+  //     console.log("Product successfully added to the cart.");
+  //
+  //     Swal.fire({
+  //       title: 'Success!',
+  //       text: 'The product has been successfully added to your cart. You can proceed to checkout or continue shopping to explore more items.',
+  //       icon: 'success',
+  //       timer: 4000, // 2 seconds
+  //       showConfirmButton: false,
+  //       footer: '<a href="/retailer/cart" class="swal2-footer-link btn btn-success border-0">Go to Cart</a>',
+  //       willClose: () => {
+  //         // Optional: do something when alert closes
+  //       }
+  //     })
+  //   }
+  // }
   selectCategory(category: any): void {
     this.selectedCategory = this.selectedCategory === category ? null : category;
   }
